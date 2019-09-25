@@ -9,8 +9,6 @@ while True:
     print('Got msg ' + msg.decode())
 
 
-with open('myfile.txt', 'wb') as f:
-    f.write(msg)
 
 
 

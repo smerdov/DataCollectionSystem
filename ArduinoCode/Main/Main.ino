@@ -34,13 +34,14 @@ const int ArduinoTypeID = 0;
 const int playerID = 0;
 
 const int udpPortOut = 10000 + ArduinoTypeID * 10 + playerID;
-char * udpAddress = "192.168.31.216"; // your pc ip
+//char * udpAddress = "192.168.31.216"; // your pc ip
+char udpAddress[20] = "192.168.31.216"; // your pc ip
 
-char ftp_server[] = "192.168.31.216";
-char ftp_user[]   = "test";
-char ftp_pass[]   = "test";
+char ftpAddress[20] = "192.168.31.216";
+char ftp_user[20]   = "test";
+char ftp_pass[20]   = "test";
 
-ESP32_FTPClient ftp (ftp_server,ftp_user,ftp_pass, 5000, 2);
+//ESP32_FTPClient ftp (ftpAddress,ftp_user,ftp_pass, 5000, 2);
 
 //IPAddress local_IP(192, 168, 31, 100);
 //IPAddress gateway(192, 168, 31, 254);
@@ -406,13 +407,15 @@ void Task_GettingCommands(void *pvParameters){
     if (currentLine != "") {
       Serial.print("Got command: ");
       Serial.println(currentLine);
-      Serial.println("Sending back...");
+//      Serial.println("Sending back...");
       
 
       if (currentLine == "start") {
         measurementsStart();
+        sendMessage("Starting measurements...");
       } else if (currentLine == "end") {
         measurementsEnd();
+        sendMessage("Ending measurements...");
       } else if (currentLine == "status") {
         String current_status = getStatus();
         Serial.println(current_status);
@@ -430,11 +433,25 @@ void Task_GettingCommands(void *pvParameters){
         timeSynchronization();
         String current_time = dateTime(TIME_FORMAT);
         sendMessage("current_time: " + current_time);
-      } else {
+      } else if (currentLine.startsWith("set udp")) {
+        String udpAddressNew = currentLine.substring(8);
+        char udpAddressNewChars[udpAddressNew.length() + 1];
+        strcpy(udpAddressNewChars, udpAddressNew.c_str());
+        setUdpAddress(udpAddressNewChars);
+//        delay(10);
+        sendMessage("Done command " + currentLine);
+      } else if (currentLine.startsWith("set ftp")) {
+        String ftpAddressNew = currentLine.substring(8);
+        char ftpAddressNewChars[ftpAddressNew.length() + 1];
+        strcpy(ftpAddressNewChars, ftpAddressNew.c_str());
+        setFtpAddress(ftpAddressNewChars);
+//        delay(10);
+        sendMessage("Done command " + currentLine);
+      }
+      else {
         Serial.print("I dont know command ");
         Serial.println(currentLine);
       }
-      
       currentLine = "";
     } else {
       delay(100);
@@ -452,6 +469,12 @@ String getStatus(){
 
 
 void sendMessage(String msg){
+  Serial.print("Sending msg \"");
+  Serial.print(msg);
+  Serial.print(" to ");
+  Serial.print(udpAddress);
+  Serial.println("\"");
+  
   udp.beginPacket(udpAddress, udpPortOut);
   for (int i = 0; i < msg.length(); i++) {
     udp.write(msg[i]);
@@ -563,6 +586,13 @@ void timezoneSet() {
 }
 
 
+//char* string2Chars(String string2convert, char* chars) {
+////  char chars[string2convert.length() + 1];
+////  Serial.println("before strcpy");
+//  strcpy(chars, string2convert.c_str());
+////  Serial.println("after strcpy");
+////  return chars;
+//}
 
 
 void sendFileFTP(String filename) {
@@ -572,7 +602,8 @@ void sendFileFTP(String filename) {
 //  filename.copy(filenameChars, filename.length() + 1);
   strcpy(filenameChars, filename.c_str());
 //  filenameChars[filename.length()] = '\0';
-  
+
+  ESP32_FTPClient ftp (ftpAddress,ftp_user,ftp_pass, 5000, 2);
   ftp.OpenConnection();
   ftp.ChangeWorkDir("my_new_dir");
   ftp.InitFile("Type I");
@@ -591,5 +622,21 @@ void sendFileFTP(String filename) {
   myFile.close();
 
   ftp.CloseConnection();
-  
+}
+
+void setUdpAddress(char* udpAddressNew) {
+  Serial.print("Setting the new udpAddress to ");
+  Serial.println(udpAddressNew);
+  memset(udpAddress, '\0', sizeof(udpAddress));
+  strcpy(udpAddress, udpAddressNew);
+//  udpAddress = udpAddressNew;
+}
+
+
+void setFtpAddress(char* ftpAddressNew) {
+  Serial.print("Setting the new ftpAddress to ");
+  Serial.println(ftpAddressNew);
+  memset(ftpAddress, '\0', sizeof(ftpAddress));
+  strcpy(ftpAddress, ftpAddressNew);
+//  udpAddress = udpAddressNew;
 }
