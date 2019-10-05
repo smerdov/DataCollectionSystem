@@ -7,44 +7,43 @@ TIME_FORMAT4FILES = '%Y-%m-%d-%H-%M-%S'
 
 datetime_start = datetime.now().strftime(TIME_FORMAT4FILES)
 
-time.sleep(2)
+time.sleep(3)
 
 # msg = bytes('end'.encode())
 # new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 new_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 new_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-new_socket.bind(('', 4000))
+new_socket.bind(('', 5000))
 
 msg = bytes('set udp 192.168.85.67'.encode())
-new_socket.sendto(msg, ('192.168.85.255', 3000))
+# new_socket.sendto(msg, ('192.168.85.255', 3000))
+new_socket.sendto(msg, ('255.255.255.255', 3000))
 
 msg = bytes('set ftp 192.168.85.67'.encode())
-new_socket.sendto(msg, ('192.168.85.255', 3000))
+new_socket.sendto(msg, ('255.255.255.255', 3000))
 
 msg = bytes('start'.encode())
 # new_socket.sendto(msg, ('192.168.85.255', 3000))
 new_socket.sendto(msg, ('255.255.255.255', 3000))
 
-time.sleep(10)
+time.sleep(600)
 
 msg = bytes('end'.encode())
-new_socket.sendto(msg, ('192.168.85.24', 3000))
+new_socket.sendto(msg, ('255.255.255.255', 3000))
+new_socket.sendto(msg, ('255.255.255.255', 3000))
 
 time.sleep(2)
 
-# datetime_start = '2019-09-24-14-30-00'
-datetime_end = '2019-10-01-00-00-00'
+# datetime_start = '2019-10-02-14-00-20'
+datetime_end = '2019-11-01-00-00-00'
 msg = bytes(f'upload {datetime_start} {datetime_end}'.encode())
-new_socket.sendto(msg, ('192.168.85.255', 3000))
+new_socket.sendto(msg, ('255.255.255.255', 3000))
+# new_socket.sendto(msg, ('192.168.255.255', 3000))
 
 
 
-# msg = bytes('status'.encode())
-# new_socket.sendto(msg, ('192.168.31.255', 3000))
-
-
-
-
+msg = bytes('status'.encode())
+new_socket.sendto(msg, ('255.255.255.255', 3000))
 
 
 
