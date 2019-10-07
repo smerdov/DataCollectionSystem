@@ -20,8 +20,9 @@ const int udpPortOut = 10000 + ArduinoTypeID * 10 + playerID;
 
 char udpAddress[20] = "192.168.31.215"; // your pc ip
 char ftpAddress[20] = "192.168.31.215";
-char ftp_user[20]   = "test";
-char ftp_pass[20]   = "test";
+char ftp_pass[20]   = "thepassword";
+char ftp_user[20]   = "player_X_arduino_X";
+
 
 const char DELIMITER = ',';
 const int N_DIGITS_PRECISION = 4;
@@ -49,11 +50,6 @@ const int ftpBufferSize = 5000;
 //char **P_receive_filename_ftp;
 
 std::queue<String> queue_ftp;
-
-
-void hello() {
-    Serial.print("Hello, World!");
-}
 
 void setUdpAddress(char* udpAddressNew) {
     Serial.print("Setting the new udpAddress to ");
@@ -485,11 +481,18 @@ void initQueue(){
                             0);
 }
 
+void ftpInit(){
+    ftp_user[7] = (char)(playerID+48);
+    ftp_user[17] = (char)(ArduinoTypeID+48);
+}
+
+
 
 void generalInit(){
     serialInit();
     wifiInit();
     udpInit();
+    ftpInit();
     pinMode(LED_BUILTIN, OUTPUT);
     timeInit();
     sdInit();

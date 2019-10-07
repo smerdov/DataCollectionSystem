@@ -12,13 +12,22 @@ import os
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
+import itertools
 
 authorizer = DummyAuthorizer()
 
 # Define a new user having full r/w permissions and a read-only
 # anonymous user
-authorizer.add_user('test', 'test', '.', perm='elradfmwMT')
-authorizer.add_anonymous(os.getcwd())
+
+N_PLAYERS = 5
+N_ARDUINOS = 3
+
+for n_player, n_arduino in itertools.product(range(N_PLAYERS), range(N_ARDUINOS)):
+    username = f'player_{n_player}_arduino_{n_arduino}'
+    password = 'thepassword'
+    authorizer.add_user(username, password, homedir='/Users/asm/Projects/AffectiveComputingDKFI/Data', perm='elradfmwMT')
+
+# authorizer.add_anonymous(os.getcwd())
 
 # Instantiate FTP handler class
 handler = FTPHandler
