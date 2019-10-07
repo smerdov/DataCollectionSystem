@@ -5,22 +5,6 @@ from queue import Queue
 import time
 import select
 
-# server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-# server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-# server_socket.bind(('', 10000))
-
-# while True:
-#     msg = server_socket.recv(1024)
-#     print('Got msg ' + msg.decode())
-
-#
-# class UDPListener:
-#
-#     def __init__(self, port=10000):
-#         server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-#         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-#         server_socket.bind(('', port))
-
 SLEEP_TIME = 0.001
 
 class PlayerArduinoPortConverter:
@@ -45,7 +29,6 @@ class PlayerArduinoPortConverter:
         return port2player_arduino
 
 
-
 class SocketThread(Thread):
 
     def __init__(self, port, name=None):
@@ -66,6 +49,7 @@ class SocketThread(Thread):
         else:
             self.name = name
 
+
 class ListeningThread(SocketThread):
 
     def __init__(self, queue, *args, verbose=False, **kwargs):
@@ -79,24 +63,13 @@ class ListeningThread(SocketThread):
     def run(self):
         print('Thread ' + self.name + ' are listening...')
         while not self.closed:
-            # ready = select.select([self.socket], [], [], SLEEP_TIME)
-            # print(self.name, 'Checking for msg')
-
             ready, _, _ = select.select([self.socket], [], [], SLEEP_TIME)
-            # print(ready)
+
             if not ready:
                 time.sleep(SLEEP_TIME)
                 continue
-            # try:
-            # print(self.name, 'got msg')
-            msg, addr = self.socket.recvfrom(1024)  # buffer size is 1024 bytes
-            # except socket.error:
-            #     continue
 
-            # import socket
-            # my_socket = socket.socket()
-            # my_socket.listen(1)
-            # my_socket.accept()
+            msg, addr = self.socket.recvfrom(1024)  # buffer size is 1024 bytes
 
             if self.verbose:
                 print("received message:", msg)
@@ -129,17 +102,9 @@ class SendingThread(SocketThread):
         super().__init__(*args, **kwargs)
 
         self.address = address
-        # self.queue = queue  # Do you really need a queue?
 
     def send(self, msg):
         self.socket.sendto(msg.encode(), self.address)
-
-    # def run(self):
-    #     while True:
-    #         msg2send = self.queue.get()
-    #
-    #         self.send(msg2send)
-
 
 
 class PeriodicSendingThread(SendingThread):
