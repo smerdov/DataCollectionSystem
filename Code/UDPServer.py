@@ -144,7 +144,7 @@ class SendingThread(SocketThread):
 
 class PeriodicSendingThread(SendingThread):
 
-    def __init__(self, *args, msg, period=0.1, **kwargs):
+    def __init__(self, *args, msg, period=0.2, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.period = period
