@@ -134,7 +134,7 @@ void Task_ReadingData(void *pvParameters){
       xQueueSend(queue, &P_send, portMAX_DELAY);
       delay(5);
     } else {
-      delay(5);  // THAT'S JUST IN CASE do_measurements == false
+      delay(100);  // THAT'S JUST IN CASE do_measurements == false
     }
   }
 }
