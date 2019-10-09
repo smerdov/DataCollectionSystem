@@ -21,6 +21,7 @@ extern const int TIME_FORMAT4FILES_LEN; //  = 19;
 extern const char *ssid, *password;
 extern const int udpPortIn;
 extern char udpAddress[20], ftpAddress[20], ftp_pass[20], ftp_user[20];
+extern const int IDLE_DELAY;
 
 extern const char DELIMITER;
 extern const int N_DIGITS_PRECISION;

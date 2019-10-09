@@ -27,6 +27,7 @@ char ftp_user[20]   = "player_X_arduino_X";
 const char DELIMITER = ',';
 const int N_DIGITS_PRECISION = 4;
 bool do_measurements = false, ftp_sending = false, file_error = false;
+const int IDLE_DELAY = 100;
 
 
 //Timezone timezone;
@@ -343,7 +344,7 @@ void Task_GettingCommands(void *pvParameters){
             }
             currentLine = "";
         } else {
-            delay(10);
+            delay(IDLE_DELAY);
         }
     }
 }
@@ -431,7 +432,7 @@ void Task_UploadViaFTP(void *pvParameters){
             sendFileFTP(filename);
         } else {
             ftp_sending = false;
-            delay(20);
+            delay(IDLE_DELAY);
         }
     }
 }
@@ -469,7 +470,7 @@ void initQueue(){
                             NULL,
                             2,
                             &GettingCommands,
-                            1);
+                            0);
     
     xTaskCreatePinnedToCore(
                             Task_UploadViaFTP,

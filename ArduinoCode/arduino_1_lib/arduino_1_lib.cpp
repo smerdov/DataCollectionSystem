@@ -4,7 +4,7 @@ const int ArduinoTypeID = 1;
 
 Adafruit_BNO055 bno_0 = Adafruit_BNO055(55, BNO055_ADDRESS_A);
 Adafruit_BNO055 bno_1 = Adafruit_BNO055(56, BNO055_ADDRESS_B);
-Adafruit_BNO055 bno = bno_0;
+//Adafruit_BNO055 bno = bno_0;
 
 struct measurementsStruct{
     String current_time;
@@ -79,7 +79,7 @@ std::vector<String> columns = {
 };
 
 int incr = 0;
-const int QUEUE_SIZE = 100;
+const int QUEUE_SIZE = 500;
 struct measurementsStruct dataArray[QUEUE_SIZE];
 struct measurementsStruct *P_send = dataArray;
 struct measurementsStruct *P_receive = NULL;
@@ -180,9 +180,9 @@ void Task_ReadingData(void *pvParameters){
             incr = (incr + 1) % QUEUE_SIZE;
             
             xQueueSend(queue, &P_send, portMAX_DELAY);
-            delay(10);
+//            delay(1);
         } else {
-            delay(10);  // THAT'S JUST IN CASE do_measurements == false
+            delay(IDLE_DELAY);  // THAT'S JUST IN CASE do_measurements == false
         }
     }
 }

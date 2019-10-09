@@ -45,8 +45,12 @@ class StatusWidget(QWidget):
         self.square.setFixedSize(square_size, square_size)
         # self.square.setMaximumHeight(25)
         self.timeout = timeout
-        self.status = 'NA'
+        self.default_color = self.STATUS_COLORS['NA']
 
+        self.status = 'NA'
+        self.outdated = False
+        self.update_timestamp = datetime.now().timestamp()
+        self.status_color = self.STATUS_COLORS['NA']
 
         self.label = QLabel(text=self.status, parent=self)
         # self.label.setMaximumHeight(100)
@@ -54,10 +58,6 @@ class StatusWidget(QWidget):
         self.label.setMinimumSize(22, 22)
         self.label.setAlignment(Qt.AlignTop)
         # self.label.Preferred
-
-        self.default_color = self.STATUS_COLORS['NA']
-        self.update_timestamp = datetime.now().timestamp()
-        self.status_color = self.STATUS_COLORS['NA']
 
         self.layout = QHBoxLayout(self)
         self.layout.addWidget(self.square, Qt.AlignLeft)
@@ -70,26 +70,40 @@ class StatusWidget(QWidget):
     def updateStatus(self, new_status, update_timestamp=True):
         if update_timestamp:
             self.update_timestamp = datetime.now().timestamp()
+            self.outdated = False  # It's not outdated anymore
 
         if new_status == self.status:
             return
+
+        # print(f"changing status from {self.status} to {new_status}")
 
         new_status_first_part = new_status.split(',')[0]
         new_status_color = self.STATUS_COLORS.get(new_status_first_part, self.default_color)
         if new_status_color != self.status_color:
             self.square.setStyleSheet("QWidget { background-color: %s }" % new_status_color)
 
+        self.status_color = new_status_color
+        self.status = new_status
         self.label.setText(new_status)
 
 
     def isOutdated(self, timeout=None, current_timestamp=None):
+        if self.outdated:
+            return self.outdated
+
+        # If it's not outdated we need to check if it's outdated now
+
         if timeout is None:
             timeout = self.timeout
 
         if current_timestamp is None:
             current_timestamp = datetime.now().timestamp()
 
-        return (current_timestamp - self.update_timestamp > timeout)
+        self.outdated = (current_timestamp - self.update_timestamp > timeout)
+        # if self.outdated:
+        #     print("OUTDATED")
+
+        return self.outdated
 
     # def sizeHint(self):
     #     return QSize(20, 35)
@@ -127,7 +141,7 @@ class Example(QWidget):
                 verbose=False)
             self.listener_threads_dict[(n_player, n_arduino)].start()
 
-        self.periodic_sending_thread = PeriodicSendingThread(port=4000, address=address, msg='status;')
+        self.periodic_sending_thread = PeriodicSendingThread(port=4000, address=address, msg='status;', period=1)
         self.peridoc_send = True
         self.periodic_sending_thread.start_periodic_send()
         self.periodic_sending_thread.start()
@@ -261,25 +275,28 @@ class Example(QWidget):
                 status = item['msg_content']
                 n_player, n_arduino = port2player_arduino(item['receiving_port'])
 
-                self.status_widgets_dict[(n_player, n_arduino)].updateStatus(new_status=status)
+                # if self.status_widgets_dict[(n_player, n_arduino)].status == status:
+                #     continue  # The same status, no need to update  # Sorry, already implemented in the class
 
-            time.sleep(0.001)
+                # print(f"updating n_arduino {n_arduino}")
+                self.status_widgets_dict[(n_player, n_arduino)].updateStatus(new_status=status, update_timestamp=True)
 
 
-    def relevance_updater(self, period=0.01, timeout=2):
+
+    def relevance_updater(self, period=1, timeout=5):
         while not self.closed:
             current_timestamp = datetime.now().timestamp()
             for n_player, n_arduino in itertools.product(range(self.n_players), range(self.n_arduinos)):
-                status_widget = self.status_widgets_dict[(n_player, n_arduino)]
-
-                if status_widget.isOutdated(timeout=timeout, current_timestamp=current_timestamp):
-                    status_widget.updateStatus('NA')
+                if self.status_widgets_dict[(n_player, n_arduino)].isOutdated(timeout=timeout, current_timestamp=current_timestamp):
+                    # print("OUTDATED")
+                    self.status_widgets_dict[(n_player, n_arduino)].updateStatus('NA', update_timestamp=False)
 
             time.sleep(period)
 
     def getIP(self):
-        hostname = socket.gethostname()
-        ip = socket.gethostbyname(hostname)
+        # hostname = socket.gethostname()
+        # ip = socket.gethostbyname(hostname)
+        ip = socket.gethostbyname_ex(socket.gethostname())[-1][-1]
 
         return ip
 

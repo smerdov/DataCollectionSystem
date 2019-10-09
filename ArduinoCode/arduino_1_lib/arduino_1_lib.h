@@ -8,6 +8,7 @@
 #include <utility/imumaths.h>
 
 extern const int ArduinoTypeID;
+extern const int IDLE_DELAY;
 
 //extern Adafruit_BME280 bme; //I2C
 extern Adafruit_BNO055 bno;
