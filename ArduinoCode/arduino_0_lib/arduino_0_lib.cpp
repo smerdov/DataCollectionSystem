@@ -2,76 +2,103 @@
 
 const int ArduinoTypeID = 0;
 
-Adafruit_BME280 bme;
-Adafruit_BNO055 bno = Adafruit_BNO055(55);
+Adafruit_BNO055 bno_0 = Adafruit_BNO055(55, BNO055_ADDRESS_A);
+Adafruit_BNO055 bno_1 = Adafruit_BNO055(56, BNO055_ADDRESS_B);
 
 struct measurementsStruct{
-  String current_time;
-  float temperature;
-  float pressure;
-  float altitude;
-  float humidity;
-  float linaccel_x;
-  float linaccel_y;
-  float linaccel_z;
-  float gravity_x;
-  float gravity_y;
-  float gravity_z;
-  float gyro_x;
-  float gyro_y;
-  float gyro_z;
-  float euler_x;
-  float euler_y;
-  float euler_z;
-  float quaternion_w;
-  float quaternion_y;
-  float quaternion_x;
-  float quaternion_z;
+    String current_time;
+    int gsr;
+    int emg_0;
+    int emg_1;
+    float linaccel_x_0;
+    float linaccel_y_0;
+    float linaccel_z_0;
+    float gravity_x_0;
+    float gravity_y_0;
+    float gravity_z_0;
+    float gyro_x_0;
+    float gyro_y_0;
+    float gyro_z_0;
+    float euler_x_0;
+    float euler_y_0;
+    float euler_z_0;
+    float quaternion_w_0;
+    float quaternion_y_0;
+    float quaternion_x_0;
+    float quaternion_z_0;
+    float linaccel_x_1;
+    float linaccel_y_1;
+    float linaccel_z_1;
+    float gravity_x_1;
+    float gravity_y_1;
+    float gravity_z_1;
+    float gyro_x_1;
+    float gyro_y_1;
+    float gyro_z_1;
+    float euler_x_1;
+    float euler_y_1;
+    float euler_z_1;
+    float quaternion_w_1;
+    float quaternion_y_1;
+    float quaternion_x_1;
+    float quaternion_z_1;
 };
 
 std::vector<String> columns = {
-  "Timestamp",
-  "Temperature",
-  "Pressure",
-  "Altitude",
-  "Humidity",
-  "linaccel_x",
-  "linaccel_y",
-  "linaccel_z",
-  "gravity_x",
-  "gravity_y",
-  "gravity_z",
-  "gyro_x",
-  "gyro_y",
-  "gyro_z",
-  "euler_x",
-  "euler_y",
-  "euler_z",
-  "quaternion_w",
-  "quaternion_y",
-  "quaternion_x",
-  "quaternion_z",
+    "Timestamp",
+    "gsr",
+    "emg_0",
+    "emg_1",
+    "linaccel_x_0",
+    "linaccel_y_0",
+    "linaccel_z_0",
+    "gravity_x_0",
+    "gravity_y_0",
+    "gravity_z_0",
+    "gyro_x_0",
+    "gyro_y_0",
+    "gyro_z_0",
+    "euler_x_0",
+    "euler_y_0",
+    "euler_z_0",
+    "quaternion_w_0",
+    "quaternion_y_0",
+    "quaternion_x_0",
+    "quaternion_z_0",
+    "linaccel_x_1",
+    "linaccel_y_1",
+    "linaccel_z_1",
+    "gravity_x_1",
+    "gravity_y_1",
+    "gravity_z_1",
+    "gyro_x_1",
+    "gyro_y_1",
+    "gyro_z_1",
+    "euler_x_1",
+    "euler_y_1",
+    "euler_z_1",
+    "quaternion_w_1",
+    "quaternion_y_1",
+    "quaternion_x_1",
+    "quaternion_z_1",
 };
 
 int incr = 0;
-const int QUEUE_SIZE = 100;
+const int QUEUE_SIZE = 500;
 struct measurementsStruct dataArray[QUEUE_SIZE];
 struct measurementsStruct *P_send = dataArray;
 struct measurementsStruct *P_receive = NULL;
 
-void bmeInit(){
-    if (!bme.begin(0x76)) { //Alternative I2C address
-      Serial.println("BME280 Sensor was not detected, check wiring!");
-      while(1);
-    }
-}
+const int GSRPin = A2;
+const int EMG0Pin = A3;
+const int EMG1Pin = A4;
 
 
-void bnoInit(){
+void bnoInit(Adafruit_BNO055 bno, String bno_name){
     if(!bno.begin())
     {
-      Serial.println("BNO055 Sensor was not detected, check wiring!");
-      while(1);
+        Serial.println("BNO055 Sensor " + bno_name + " was not detected, check wiring!");
+        while(1);
     }
 
     bno.setExtCrystalUse(true);
@@ -81,8 +108,8 @@ void bnoInit(){
 }
 
 void arduinoInit(){
-    bmeInit();
-    bnoInit();
+    bnoInit(bno_0, "bno_0");
+    bnoInit(bno_1, "bno_1");
 }
 
 void Task_ReadingData(void *pvParameters){
@@ -91,39 +118,65 @@ void Task_ReadingData(void *pvParameters){
 //      sensors_event_t event;
 //      bno.getEvent(&event);
       struct measurementsStruct measurements;
-      
+
       measurements.current_time = dateTime(TIME_FORMAT);
-      measurements.temperature = bme.readTemperature();
-      measurements.pressure = (bme.readPressure() / 100.0F);
-      measurements.altitude = bme.readAltitude(SEALEVELPRESSURE_HPA);
-      measurements.humidity = bme.readHumidity();
+      measurements.gsr = analogRead(GSRPin);
+      measurements.emg_0 = analogRead(EMG0Pin);
+      measurements.emg_1 = analogRead(EMG1Pin);
 
-      imu::Vector<3> linaccel = bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-      imu::Vector<3> gravity = bno.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
-      imu::Vector<3> gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
-      imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
-      imu::Quaternion quaternion = bno.getQuat();
+      imu::Vector<3> linaccel_0 = bno_0.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+            imu::Vector<3> gravity_0 = bno_0.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
+            imu::Vector<3> gyro_0 = bno_0.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+            imu::Vector<3> euler_0 = bno_0.getVector(Adafruit_BNO055::VECTOR_EULER);
+            imu::Quaternion quaternion_0 = bno_0.getQuat();
 
-      measurements.linaccel_x = linaccel.x();
-      measurements.linaccel_y = linaccel.y();
-      measurements.linaccel_z = linaccel.z();
-      
-      measurements.gravity_x = gravity.x();
-      measurements.gravity_y = gravity.y();
-      measurements.gravity_z = gravity.z();
+            imu::Vector<3> linaccel_1 = bno_1.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+            imu::Vector<3> gravity_1 = bno_1.getVector(Adafruit_BNO055::VECTOR_GRAVITY);
+            imu::Vector<3> gyro_1 = bno_1.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
+            imu::Vector<3> euler_1 = bno_1.getVector(Adafruit_BNO055::VECTOR_EULER);
+            imu::Quaternion quaternion_1 = bno_1.getQuat();
 
-      measurements.gyro_x = gyro.x();
-      measurements.gyro_y = gyro.y();
-      measurements.gyro_z = gyro.z();
-      
-      measurements.euler_x = euler.x();
-      measurements.euler_y = euler.y();
-      measurements.euler_z = euler.z();
+            measurements.linaccel_x_0 = linaccel_0.x();
+            measurements.linaccel_y_0 = linaccel_0.y();
+            measurements.linaccel_z_0 = linaccel_0.z();
 
-      measurements.quaternion_w = quaternion.w();
-      measurements.quaternion_y = quaternion.y();
-      measurements.quaternion_x = quaternion.x();
-      measurements.quaternion_z = quaternion.z();
+            measurements.gravity_x_0 = gravity_0.x();
+            measurements.gravity_y_0 = gravity_0.y();
+            measurements.gravity_z_0 = gravity_0.z();
+
+            measurements.gyro_x_0 = gyro_0.x();
+            measurements.gyro_y_0 = gyro_0.y();
+            measurements.gyro_z_0 = gyro_0.z();
+
+            measurements.euler_x_0 = euler_0.x();
+            measurements.euler_y_0 = euler_0.y();
+            measurements.euler_z_0 = euler_0.z();
+
+            measurements.quaternion_w_0 = quaternion_0.w();
+            measurements.quaternion_y_0 = quaternion_0.y();
+            measurements.quaternion_x_0 = quaternion_0.x();
+            measurements.quaternion_z_0 = quaternion_0.z();
+
+            measurements.linaccel_x_1 = linaccel_1.x();
+            measurements.linaccel_y_1 = linaccel_1.y();
+            measurements.linaccel_z_1 = linaccel_1.z();
+
+            measurements.gravity_x_1 = gravity_1.x();
+            measurements.gravity_y_1 = gravity_1.y();
+            measurements.gravity_z_1 = gravity_1.z();
+
+            measurements.gyro_x_1 = gyro_1.x();
+            measurements.gyro_y_1 = gyro_1.y();
+            measurements.gyro_z_1 = gyro_1.z();
+
+            measurements.euler_x_1 = euler_1.x();
+            measurements.euler_y_1 = euler_1.y();
+            measurements.euler_z_1 = euler_1.z();
+
+            measurements.quaternion_w_1 = quaternion_1.w();
+            measurements.quaternion_y_1 = quaternion_1.y();
+            measurements.quaternion_x_1 = quaternion_1.x();
+            measurements.quaternion_z_1 = quaternion_1.z();
         
       dataArray[incr] = measurements;
   
@@ -132,9 +185,9 @@ void Task_ReadingData(void *pvParameters){
       incr = (incr + 1) % QUEUE_SIZE;
     
       xQueueSend(queue, &P_send, portMAX_DELAY);
-      delay(5);
+//      delay(10);
     } else {
-      delay(100);  // THAT'S JUST IN CASE do_measurements == false
+      delay(IDLE_DELAY);  // THAT'S JUST IN CASE do_measurements == false
     }
   }
 }
@@ -145,66 +198,110 @@ void Task_WritingData(void *pvParameters){
     
     myFile.print(P_receive -> current_time);
     myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> temperature);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> pressure);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> altitude);
+
+    myFile.print(P_receive -> gsr);
     myFile.print(DELIMITER);
 
-    myFile.print(P_receive -> humidity);
+    myFile.print(P_receive -> emg_0);
     myFile.print(DELIMITER);
 
-    myFile.print(P_receive -> linaccel_x);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> linaccel_y);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> linaccel_z);
+    myFile.print(P_receive -> emg_1);
     myFile.print(DELIMITER);
 
-    myFile.print(P_receive -> gravity_x);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> gravity_y);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> gravity_z);
-    myFile.print(DELIMITER);
+    myFile.print(P_receive -> linaccel_x_0);
+        myFile.print(DELIMITER);
 
-    myFile.print(P_receive -> gyro_x, N_DIGITS_PRECISION);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> gyro_y, N_DIGITS_PRECISION);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> gyro_z, N_DIGITS_PRECISION);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> euler_x, N_DIGITS_PRECISION);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> euler_y, N_DIGITS_PRECISION);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> euler_z, N_DIGITS_PRECISION);
-    myFile.print(DELIMITER);
+        myFile.print(P_receive -> linaccel_y_0);
+        myFile.print(DELIMITER);
 
-    myFile.print(P_receive -> quaternion_w, 2 * N_DIGITS_PRECISION);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> quaternion_y, 2 * N_DIGITS_PRECISION);
-    myFile.print(DELIMITER);
-    
-    myFile.print(P_receive -> quaternion_x, 2 * N_DIGITS_PRECISION);
-    myFile.print(DELIMITER);
+        myFile.print(P_receive -> linaccel_z_0);
+        myFile.print(DELIMITER);
 
-    myFile.print(P_receive -> quaternion_z, 2 * N_DIGITS_PRECISION);
-//    myFile.print(DELIMITER);
+        myFile.print(P_receive -> gravity_x_0);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> gravity_y_0);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> gravity_z_0);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> gyro_x_0, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> gyro_y_0, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> gyro_z_0, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> euler_x_0, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> euler_y_0, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> euler_z_0, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> quaternion_w_0, 2 * N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> quaternion_y_0, 2 * N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> quaternion_x_0, 2 * N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> quaternion_z_0, 2 * N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> linaccel_x_1);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> linaccel_y_1);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> linaccel_z_1);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> gravity_x_1);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> gravity_y_1);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> gravity_z_1);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> gyro_x_1, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> gyro_y_1, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> gyro_z_1, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> euler_x_1, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> euler_y_1, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> euler_z_1, N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> quaternion_w_1, 2 * N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> quaternion_y_1, 2 * N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> quaternion_x_1, 2 * N_DIGITS_PRECISION);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> quaternion_z_1, 2 * N_DIGITS_PRECISION);
     
     myFile.print('\n');
     myFile.flush();
