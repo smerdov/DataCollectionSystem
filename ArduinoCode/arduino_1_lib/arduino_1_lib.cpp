@@ -104,12 +104,6 @@ void arduinoInit(){
 }
 
 
-void readBmoData(Adafruit_BNO055 bno) {
-    
-}
-
-
-
 void Task_ReadingData(void *pvParameters){
     while (true) {
         if (do_measurements) {

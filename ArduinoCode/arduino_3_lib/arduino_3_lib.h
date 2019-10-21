@@ -1,17 +1,16 @@
-#ifndef arduino_0_lib
-#define arduino_0_lib
+#ifndef arduino_3_lib
+#define arduino_3_lib
 
 #include "../eSportsLibrary/eSportsLibrary.h"
-#include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-#include <Adafruit_BNO055.h>
-#include <max30102.h>
-#include <utility/imumaths.h>
+#include <SparkFun_GridEYE_Arduino_Library.h>
+#include <Wire.h>
+
 
 extern const int ArduinoTypeID;
 extern const int IDLE_DELAY;
 
-extern Adafruit_BME280 bme; //I2C
+//extern Adafruit_BME280 bme; //I2C
 extern Adafruit_BNO055 bno;
 
 extern std::vector<String> columns;

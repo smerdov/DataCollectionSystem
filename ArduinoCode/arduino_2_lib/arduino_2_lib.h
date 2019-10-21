@@ -1,23 +1,20 @@
-#ifndef arduino_0_lib
-#define arduino_0_lib
+#ifndef arduino_2_lib
+#define arduino_2_lib
 
 #include "../eSportsLibrary/eSportsLibrary.h"
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
-#include <Adafruit_BNO055.h>
-#include <max30102.h>
-#include <utility/imumaths.h>
+#include <Wire.h>
+#include "MAX30105.h"
+#include "heartRate.h"
+
 
 extern const int ArduinoTypeID;
 extern const int IDLE_DELAY;
 
-extern Adafruit_BME280 bme; //I2C
-extern Adafruit_BNO055 bno;
+//extern Adafruit_BME280 bme; //I2C
+//extern Adafruit_BNO055 bno;
 
 extern std::vector<String> columns;
 
-void bmeInit();
-void bnoInit();
 void arduinoInit();
 void Task_WritingData(void *pvParameters);
 void Task_ReadingData(void *pvParameters);

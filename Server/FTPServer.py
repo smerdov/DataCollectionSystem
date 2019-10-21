@@ -23,9 +23,10 @@ for n_player, n_arduino in itertools.product(range(N_PLAYERS), range(N_ARDUINOS)
 # Instantiate FTP handler class
 handler = FTPHandler
 handler.authorizer = authorizer
+handler.auth_failed_timeout = 30
 
 # Define a customized banner (string returned when client connects)
-handler.banner = "pyftpdlib based ftpd ready."
+# handler.banner = "pyftpdlib based ftpd ready."
 
 # Specify a masquerade address and the range of ports to use for
 # passive connections.  Decomment in case you're behind a NAT.

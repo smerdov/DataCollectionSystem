@@ -93,6 +93,7 @@ const int GSRPin = A2;
 const int EMG0Pin = A3;
 const int EMG1Pin = A4;
 
+uint8_t uch_dummy;
 
 void bnoInit(Adafruit_BNO055 bno, String bno_name){
     if(!bno.begin())
@@ -106,6 +107,50 @@ void bnoInit(Adafruit_BNO055 bno, String bno_name){
     pinMode(33, OUTPUT);
     digitalWrite(33, HIGH);
 }
+
+//void maxInit(){
+//    maxim_max30102_reset();
+//
+//    maxim_max30102_read_reg(REG_INTR_STATUS_1, &uch_dummy); //Reads/clears the interrupt status register
+//    delay(100);
+//    uch_dummy = Serial.read();
+//
+//    maxim_max30102_init();
+//}
+
+
+///* MAX30102 */
+//  //maxim_max30102_init();  //initialize the MAX30102
+//
+//  //for(i=0;i<2;i++)
+//  //{
+//  while (digitalRead(13) == 1); //wait until the interrupt pin asserts
+//  maxim_max30102_read_fifo(&aun_red_buffer, &aun_ir_buffer);  //read from MAX30102 FIFO
+//  //}
+//
+//  //maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length, aun_red_buffer, &n_spo2, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid);
+//
+//  if (aun_ir_buffer == 0x00000000 || aun_red_buffer == 0x00000000) {
+//    aun_ir_buffer = 0x00000001;
+//    aun_red_buffer = 0x00000001;
+//  }
+//
+//  BT_data.s_aun_ir_buffer[0] = ((aun_ir_buffer & 0xFF000000) >> 24);
+//  BT_data.s_aun_ir_buffer[1] = ((aun_ir_buffer & 0x00FF0000) >> 16);
+//  BT_data.s_aun_ir_buffer[2] = ((aun_ir_buffer & 0x0000FF00) >> 8);
+//  BT_data.s_aun_ir_buffer[3] = aun_ir_buffer & 0x000000FF;
+//
+//  BT_data.s_aun_red_buffer[0] = ((aun_red_buffer & 0xFF000000) >> 24);
+//  BT_data.s_aun_red_buffer[1] = ((aun_red_buffer & 0x00FF0000) >> 16);
+//  BT_data.s_aun_red_buffer[2] = ((aun_red_buffer & 0x0000FF00) >> 8);
+//  BT_data.s_aun_red_buffer[3] = aun_red_buffer & 0x000000FF;
+//
+//  Serial.print(F("red="));
+//  Serial.print(aun_red_buffer, DEC);
+//  Serial.print(F(", ir="));
+//  Serial.println(aun_ir_buffer, DEC);
+
+
 
 void arduinoInit(){
     bnoInit(bno_0, "bno_0");
@@ -185,7 +230,7 @@ void Task_ReadingData(void *pvParameters){
       incr = (incr + 1) % QUEUE_SIZE;
     
       xQueueSend(queue, &P_send, portMAX_DELAY);
-//      delay(10);
+      delay(10);
     } else {
       delay(IDLE_DELAY);  // THAT'S JUST IN CASE do_measurements == false
     }

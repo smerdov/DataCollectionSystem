@@ -18,8 +18,8 @@ const char* password = "GG-FB-EI-p!";
 const int udpPortIn = 3000;
 const int udpPortOut = 10000 + ArduinoTypeID * 10 + playerID;
 
-char udpAddress[20] = "192.168.31.215"; // your pc ip
-char ftpAddress[20] = "192.168.31.215";
+char udpAddress[20] = "192.168.31.210"; // your pc ip
+char ftpAddress[20] = "192.168.31.210";
 char ftp_pass[20]   = "thepassword";
 char ftp_user[20]   = "player_X_arduino_X";
 
@@ -355,9 +355,9 @@ void loop() {}
 void serialInit(){
     Serial.begin(115200);
     //    delay(1000);  // Why?
-    while (!Serial) {
-        ; // wait for serial port to connect. Needed for native USB port only
-    }
+//    while (!Serial) {
+//        ; // wait for serial port to connect. Needed for native USB port only
+//    }
 }
 
 
