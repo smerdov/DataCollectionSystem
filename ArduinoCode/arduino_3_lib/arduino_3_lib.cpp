@@ -43,9 +43,14 @@ void bmeInit(){
     }
 }
 
+void mhz19Init(){
+    Serial1.begin(BAUDRATE);
+    myMHZ19.begin(Serial1);
+}
 
 void arduinoInit(){
     bmeInit();
+    mhz19Init();
 }
 
 
