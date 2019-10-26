@@ -1,19 +1,29 @@
 #include "arduino_3_lib.h"
 
-const int ArduinoTypeID = 1;
+#define BAUDRATE 9600 // For the CO2 sensor
+const int ArduinoTypeID = 3;
 
-Adafruit_BNO055 bno_0 = Adafruit_BNO055(55, BNO055_ADDRESS_A);
-Adafruit_BNO055 bno_1 = Adafruit_BNO055(56, BNO055_ADDRESS_B);
-//Adafruit_BNO055 bno = bno_0;
+//Adafruit_BNO055 bno_0 = Adafruit_BNO055(55, BNO055_ADDRESS_A);
+//Adafruit_BNO055 bno_1 = Adafruit_BNO055(56, BNO055_ADDRESS_B);
+Adafruit_BME280 bme;
+MHZ19 myMHZ19;
 
 struct measurementsStruct{
     String current_time;
-    float face_temparature_hottest;
+    float temperature;
+    float pressure;
+    float altitude;
+    float humidity;
+    int co2;
 };
 
 std::vector<String> columns = {
     "Timestamp",
-    "FaceTemperatureHottest",
+    "Temperature",
+    "Pressure",
+    "Altitude",
+    "Humidity",
+    "CO2",
 };
 
 int incr = 0;
@@ -21,22 +31,21 @@ const int QUEUE_SIZE = 500;
 struct measurementsStruct dataArray[QUEUE_SIZE];
 struct measurementsStruct *P_send = dataArray;
 struct measurementsStruct *P_receive = NULL;
-int pixelTable[64];
-
-float testPixelValue = 0;
-
-
+int last_co2_level = -1;
+unsigned long last_co2_measurement_time = 0;
+int co2_measurement_period = 30 * 1000;
 
 
-void grideyeInit(){
-    // Start your preferred I2C object
-    Wire.begin();
-    // Library assumes "Wire" for I2C but you can pass something else with begin() if you like
-    grideye.begin();
+void bmeInit(){
+    if (!bme.begin(0x76)) { //Alternative I2C address
+      Serial.println("BME280 Sensor was not detected, check wiring!");
+      while(1);
+    }
 }
 
+
 void arduinoInit(){
-    grideyeInit();
+    bmeInit();
 }
 
 
@@ -48,19 +57,17 @@ void Task_ReadingData(void *pvParameters){
             struct measurementsStruct measurements;
 
             measurements.current_time = dateTime(TIME_FORMAT);
-            
-            float hotPixelValue = 0;
-            int hotPixelIndex = 0;
+            measurements.temperature = bme.readTemperature();
+            measurements.pressure = (bme.readPressure() / 100.0F);
+            measurements.altitude = bme.readAltitude(SEALEVELPRESSURE_HPA);
+            measurements.humidity = bme.readHumidity();
 
-            for(unsigned char i = 0; i < 64; i++){
-                testPixelValue = grideye.getPixelTemperature(i);
-                if (testPixelValue > hotPixelValue){
-                    hotPixelValue = testPixelValue;
-                    hotPixelIndex = i;
-                }
+            if (millis() - last_co2_measurement_time > co2_measurement_period) {
+                last_co2_measurement_time = millis();
+                last_co2_level = myMHZ19.getCO2();
             }
 
-            measurements.face_temparature_hottest = hotPixelValue;
+            measurements.co2 = last_co2_level;
 
             dataArray[incr] = measurements;
             
@@ -69,7 +76,7 @@ void Task_ReadingData(void *pvParameters){
             incr = (incr + 1) % QUEUE_SIZE;
             
             xQueueSend(queue, &P_send, portMAX_DELAY);
-//            delay(1);
+            delay(993);
         } else {
             delay(IDLE_DELAY);  // THAT'S JUST IN CASE do_measurements == false
         }
@@ -82,9 +89,20 @@ void Task_WritingData(void *pvParameters){
         
         myFile.print(P_receive -> current_time);
         myFile.print(DELIMITER);
-        
 
-        
+        myFile.print(P_receive -> temperature);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> pressure);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> altitude);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> humidity);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> co2);
 
         myFile.print('\n');
         myFile.flush();
