@@ -110,7 +110,7 @@ class StatusWidget(QWidget):
 
 
 
-class Example(QWidget):
+class ControlCenter(QWidget):
 
     # STATUS_COLORS = {
     #     'Idle': '#0000AA',
@@ -128,7 +128,14 @@ class Example(QWidget):
         self.listener_threads_dict = {}
         self.ip = self.getIP()
 
-        for n_player, n_arduino in itertools.product(range(self.n_players), range(self.n_arduinos)):
+        self.enviromental_arduino_id = 3
+        self.enviromental_player_id = 9
+
+        self.players_arduinos_pairs = list(itertools.product(range(self.n_players), range(self.n_arduinos))) + \
+                                 [(self.enviromental_player_id, self.enviromental_arduino_id)]  # Enviromental arduino
+        ### Important warning: currently I'm using player_id == 9 for a general non player-specific sensors (such as enviroment)
+
+        for n_player, n_arduino in self.players_arduinos_pairs:
             self.status_widgets_dict[(n_player, n_arduino)] = StatusWidget()
             self.status_widgets_dict[(n_player, n_arduino)].setMaximumHeight(28)
             # self.status_widgets_dict[(n_player, n_arduino)].label.update()
@@ -140,6 +147,22 @@ class Example(QWidget):
                 # name=f'arduino_{n_player}_{n_arduino}',
                 verbose=False)
             self.listener_threads_dict[(n_player, n_arduino)].start()
+
+        # for n_player, n_arduino in itertools.product([-1], [3]):  # Enviromental arduino
+        #     self.status_widgets_dict[(n_player, n_arduino)] = StatusWidget()
+        #     self.status_widgets_dict[(n_player, n_arduino)].setMaximumHeight(28)
+        #     # self.status_widgets_dict[(n_player, n_arduino)].label.update()
+        #
+        #     port = player_arduino2port(player_id=n_player, arduino_id=n_arduino)
+        #     self.listener_threads_dict[(n_player, n_arduino)] = ListeningThread(
+        #         queue=self.input_queue,
+        #         port=port,
+        #         # name=f'arduino_{n_player}_{n_arduino}',
+        #         verbose=False)
+        #     self.listener_threads_dict[(n_player, n_arduino)].start()
+
+
+
 
         self.periodic_sending_thread = PeriodicSendingThread(port=4000, address=address, msg='status;', period=1)
         self.peridoc_send = True
@@ -170,7 +193,7 @@ class Example(QWidget):
         for n_player in range(self.n_players):
             player_label = QLabel(f'Player_{n_player}')
             player_label.setContentsMargins(0, 0, 0, 0)
-            print(type(player_label.layout()))
+            # print(type(player_label.layout()))
                 # .setContentsMargins(0, -10, 0, 0)
             # player_label.setAlignment(Qt.AlignBottom)
             grid.addWidget(player_label, 1 + n_player, 0, alignment=Qt.AlignBottom)
@@ -213,7 +236,7 @@ class Example(QWidget):
         self.text_ftpline_0 = QLabel("Upload data from ", self)
         self.line_upload_date_min = QLineEdit(current_datetime, self)
         self.text_ftpline_1 = QLabel(" to ", self)
-        self.line_upload_date_max = QLineEdit('2019-12-31-00-00-00', self)
+        self.line_upload_date_max = QLineEdit('2020-12-31-00-00-00', self)
         self.button_upload_via_ftp = QPushButton('Upload', self)
 
         self.line_upload_date_min.setFixedWidth(160)
@@ -221,34 +244,46 @@ class Example(QWidget):
         self.button_upload_via_ftp.clicked.connect(lambda : self.sendUploadViaFTP(
             self.line_upload_date_min.text(), self.line_upload_date_max.text()))
 
+        # layout_horizontal_enviromental = QHBoxLayout()
+        # layout_horizontal_enviromental.addWidget(self.button_start)
+        # layout_horizontal_enviromental.addWidget(self.button_stop)
 
-        layout_horizontal_0 = QHBoxLayout()
-        layout_horizontal_0.addWidget(self.button_start)
-        layout_horizontal_0.addWidget(self.button_stop)
+        grid_enviromental = QGridLayout()
+        grid_enviromental.setVerticalSpacing(0)
+        enviromental_label = QLabel('Enviromental arduino: ')
+        enviromental_label.setContentsMargins(0, 0, 0, 0)
+        grid_enviromental.addWidget(enviromental_label, 0, 0, alignment=Qt.AlignBottom)
+        grid_enviromental.addWidget(self.status_widgets_dict[(self.enviromental_player_id, self.enviromental_arduino_id)], 0, 1)
 
-        layout_horizontal_1 = QHBoxLayout()
-        layout_horizontal_1.addWidget(self.button_time_sync)
-        layout_horizontal_1.addWidget(self.button_status)
-        layout_horizontal_1.addWidget(self.button_periodic_sending)
 
-        layout_horizontal_2 = QHBoxLayout()
-        layout_horizontal_2.addWidget(self.line_my_ip)
-        layout_horizontal_2.addWidget(self.button_set_udp)
-        layout_horizontal_2.addWidget(self.button_set_ftp)
+        layout_horizontal_start_stop = QHBoxLayout()
+        layout_horizontal_start_stop.addWidget(self.button_start)
+        layout_horizontal_start_stop.addWidget(self.button_stop)
 
-        layout_horizontal_3 = QHBoxLayout()
-        layout_horizontal_3.addWidget(self.text_ftpline_0)
-        layout_horizontal_3.addWidget(self.line_upload_date_min)
-        layout_horizontal_3.addWidget(self.text_ftpline_1)
-        layout_horizontal_3.addWidget(self.line_upload_date_max)
-        layout_horizontal_3.addWidget(self.button_upload_via_ftp)
+        layout_horizontal_status_sync = QHBoxLayout()
+        layout_horizontal_status_sync.addWidget(self.button_time_sync)
+        layout_horizontal_status_sync.addWidget(self.button_status)
+        layout_horizontal_status_sync.addWidget(self.button_periodic_sending)
+
+        layout_horizontal_ip = QHBoxLayout()
+        layout_horizontal_ip.addWidget(self.line_my_ip)
+        layout_horizontal_ip.addWidget(self.button_set_udp)
+        layout_horizontal_ip.addWidget(self.button_set_ftp)
+
+        layout_horizontal_ftp = QHBoxLayout()
+        layout_horizontal_ftp.addWidget(self.text_ftpline_0)
+        layout_horizontal_ftp.addWidget(self.line_upload_date_min)
+        layout_horizontal_ftp.addWidget(self.text_ftpline_1)
+        layout_horizontal_ftp.addWidget(self.line_upload_date_max)
+        layout_horizontal_ftp.addWidget(self.button_upload_via_ftp)
 
         layout_vertical = QVBoxLayout()
         layout_vertical.addLayout(grid)
-        layout_vertical.addLayout(layout_horizontal_0)
-        layout_vertical.addLayout(layout_horizontal_1)
-        layout_vertical.addLayout(layout_horizontal_2)
-        layout_vertical.addLayout(layout_horizontal_3)
+        layout_vertical.addLayout(grid_enviromental)
+        layout_vertical.addLayout(layout_horizontal_start_stop)
+        layout_vertical.addLayout(layout_horizontal_status_sync)
+        layout_vertical.addLayout(layout_horizontal_ip)
+        layout_vertical.addLayout(layout_horizontal_ftp)
         # layout_vertical.setSpacing(1)
 
         self.setLayout(layout_vertical)
@@ -286,7 +321,8 @@ class Example(QWidget):
     def relevance_updater(self, period=1, timeout=5):
         while not self.closed:
             current_timestamp = datetime.now().timestamp()
-            for n_player, n_arduino in itertools.product(range(self.n_players), range(self.n_arduinos)):
+            # for n_player, n_arduino in itertools.product(range(self.n_players), range(self.n_arduinos)):
+            for n_player, n_arduino in self.players_arduinos_pairs:
                 if self.status_widgets_dict[(n_player, n_arduino)].isOutdated(timeout=timeout, current_timestamp=current_timestamp):
                     # print("OUTDATED")
                     self.status_widgets_dict[(n_player, n_arduino)].updateStatus('NA', update_timestamp=False)
@@ -377,6 +413,6 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     path = os.path.join(os.path.dirname(sys.modules[__name__].__file__), 'Icons/Icon_0.ico')
     app.setWindowIcon(QIcon(QPixmap(path)))
-    ex = Example()
+    ex = ControlCenter()
     print(ex.size())
     sys.exit(app.exec_())
