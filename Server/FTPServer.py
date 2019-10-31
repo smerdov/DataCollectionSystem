@@ -5,7 +5,7 @@ from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
 import itertools
 
-N_PLAYERS = 5
+N_PLAYERS = 10
 N_ARDUINOS = 4
 
 authorizer = DummyAuthorizer()
