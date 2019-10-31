@@ -32,7 +32,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
-        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
 
 
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
@@ -159,15 +160,6 @@
                     android:dividerHeight="0dp" />
             </LinearLayout>
 
-            <ImageButton style="?metaButtonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton"
-                android:layout_weight="0.33"
-                android:onClick="onCaptureImageClicked"
-                android:src="@android:drawable/ic_menu_camera"
-                android:layout_gravity="center_horizontal|bottom" />
-
             <ToggleButton android:id="@+id/change_view_button" style="?metaButtonBarButtonStyle"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_weight="0.33" android:textOff="@string/change_view"
@@ -182,6 +174,30 @@
                 android:id="@+id/connect_sim_button"
                 android:onClick="onConnectSimClicked"
                 android:layout_gravity="center_horizontal|bottom|right" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                style="?metaButtonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="380px"
+                android:layout_marginBottom="0px"
+                android:adjustViewBounds="false"
+                android:baselineAlignBottom="false"
+                android:cropToPadding="false"
+                android:onClick="onCaptureImageClicked"
+                android:src="@mipmap/record_button_picture" />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                style="?metaButtonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="600px"
+                android:layout_marginBottom="0px"
+                android:layout_weight="0.33"
+                android:onClick="onCaptureImageClicked"
+                android:src="@mipmap/stop_button_picture" />
 
 
         </FrameLayout>

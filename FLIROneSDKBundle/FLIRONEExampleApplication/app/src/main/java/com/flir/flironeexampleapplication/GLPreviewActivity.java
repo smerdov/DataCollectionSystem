@@ -305,6 +305,9 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
                 public void run() {
                     String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault());
+
+
+
                     String formatedDate = sdf.format(new Date());
                     String fileName = "thermal_data_" + formatedDate + ".csv";
 

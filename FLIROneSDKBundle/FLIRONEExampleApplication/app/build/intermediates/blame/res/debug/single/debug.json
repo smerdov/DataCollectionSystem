@@ -16,6 +16,10 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_textfield_default_mtrl_alpha.9.png"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xhdpi_stop_button_picture_round.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xhdpi/stop_button_picture_round.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_text_select_handle_middle_mtrl_light.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-hdpi-v4/abc_text_select_handle_middle_mtrl_light.png"
     },
@@ -104,6 +108,10 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-ldrtl-xxxhdpi-v17/abc_spinner_mtrl_am_alpha.9.png"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_record_button_picture_foreground.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxxhdpi/record_button_picture_foreground.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png"
     },
@@ -112,16 +120,16 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable/tooltip_frame_dark.xml"
     },
     {
-        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/layout_abc_action_mode_bar.xml.flat",
-        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/layout/abc_action_mode_bar.xml"
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
+        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_switch_track_mtrl_alpha.9.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/layout_abc_action_bar_title_item.xml.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/layout/abc_action_bar_title_item.xml"
     },
     {
-        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
-        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_switch_track_mtrl_alpha.9.png"
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/layout_abc_action_mode_bar.xml.flat",
+        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/layout/abc_action_mode_bar.xml"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_ab_share_pack_mtrl_alpha.9.png.flat",
@@ -184,6 +192,10 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/color/abc_tint_spinner.xml"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-mdpi_stop_button_picture_round.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-mdpi/stop_button_picture_round.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-mdpi-v4/abc_textfield_search_activated_mtrl_alpha.9.png"
     },
@@ -244,6 +256,10 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxhdpi-v4/abc_text_select_handle_left_mtrl_light.png"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_record_button_picture_round.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxxhdpi/record_button_picture_round.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png"
     },
@@ -262,6 +278,10 @@
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxhdpi-v4/abc_btn_switch_to_on_mtrl_00012.9.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-mdpi_record_button_picture_round.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-mdpi/record_button_picture_round.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/color_abc_primary_text_disable_only_material_light.xml.flat",
@@ -324,12 +344,20 @@
         "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/raw/sampleframes.zip"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable_stop_button_picture_background.xml.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/drawable/stop_button_picture_background.xml"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable_abc_btn_check_material.xml.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable/abc_btn_check_material.xml"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_star_half_black_16dp.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_ic_star_half_black_16dp.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-hdpi_record_button_picture.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-hdpi/record_button_picture.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_list_selector_disabled_holo_dark.9.png.flat",
@@ -344,8 +372,20 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-mdpi-v4/abc_textfield_search_default_mtrl_alpha.9.png"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-hdpi_stop_button_picture.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-hdpi/stop_button_picture.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_record_button_picture_round.xml.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-anydpi-v26/record_button_picture_round.xml"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxhdpi-v4/abc_btn_switch_to_on_mtrl_00001.9.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_stop_button_picture_round.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxxhdpi/stop_button_picture_round.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_notification_bg_normal_pressed.9.png.flat",
@@ -372,12 +412,16 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/flironesdk.aar/2be744c23d1a303444901c81a0970a84/res/raw/default_camera_files.zip"
     },
     {
-        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_notification_bg_low_normal.9.png.flat",
-        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/3320b3f8d2549afd46e5027cf180b5c9/res/drawable-xhdpi-v4/notification_bg_low_normal.9.png"
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_stop_button_picture.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxxhdpi/stop_button_picture.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_control_off_mtrl_alpha.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_scrubber_control_off_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/3320b3f8d2549afd46e5027cf180b5c9/res/drawable-xhdpi-v4/notification_bg_low_normal.9.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable_tooltip_frame_light.xml.flat",
@@ -444,12 +488,20 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/3320b3f8d2549afd46e5027cf180b5c9/res/drawable/notification_bg_low.xml"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-hdpi_record_button_picture_round.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-hdpi/record_button_picture_round.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/raw_arctic.pal.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/flironesdk.aar/2be744c23d1a303444901c81a0970a84/res/raw/arctic.pal"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_text_select_handle_middle_mtrl_light.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-mdpi-v4/abc_text_select_handle_middle_mtrl_light.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xhdpi_stop_button_picture.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xhdpi/stop_button_picture.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_scrubber_track_mtrl_alpha.9.png.flat",
@@ -500,6 +552,10 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/color/abc_tint_btn_checkable.xml"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-mdpi_record_button_picture.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-mdpi/record_button_picture.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/layout_abc_screen_simple_overlay_action_mode.xml.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/layout/abc_screen_simple_overlay_action_mode.xml"
     },
@@ -546,6 +602,10 @@
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_ic_star_half_black_36dp.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-mdpi-v4/abc_ic_star_half_black_36dp.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-mdpi_stop_button_picture.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-mdpi/stop_button_picture.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
@@ -596,12 +656,12 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/color/abc_secondary_text_material_light.xml"
     },
     {
-        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",
-        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-mdpi-v4/abc_btn_switch_to_on_mtrl_00001.9.png"
-    },
-    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-ldrtl-xxhdpi-v17_abc_spinner_mtrl_am_alpha.9.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-ldrtl-xxhdpi-v17/abc_spinner_mtrl_am_alpha.9.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",
+        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-mdpi-v4/abc_btn_switch_to_on_mtrl_00001.9.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_text_select_handle_left_mtrl_light.png.flat",
@@ -632,6 +692,10 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxhdpi-v4/abc_ic_star_half_black_48dp.png"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_record_button_picture.xml.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-anydpi-v26/record_button_picture.xml"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_text_select_handle_right_mtrl_dark.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxxhdpi-v4/abc_text_select_handle_right_mtrl_dark.png"
     },
@@ -648,12 +712,12 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/color/abc_primary_text_material_dark.xml"
     },
     {
-        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/layout_abc_alert_dialog_button_bar_material.xml.flat",
-        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/layout/abc_alert_dialog_button_bar_material.xml"
-    },
-    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/layout-v21_notification_template_custom_big.xml.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/3320b3f8d2549afd46e5027cf180b5c9/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/layout_abc_alert_dialog_button_bar_material.xml.flat",
+        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/layout/abc_alert_dialog_button_bar_material.xml"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_scrubber_control_off_mtrl_alpha.png.flat",
@@ -666,6 +730,10 @@
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_notification_bg_normal.9.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/3320b3f8d2549afd46e5027cf180b5c9/res/drawable-hdpi-v4/notification_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_record_button_picture_round.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxhdpi/record_button_picture_round.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-v21_notification_action_background.xml.flat",
@@ -708,12 +776,12 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxhdpi-v4/abc_ic_menu_share_mtrl_alpha.png"
     },
     {
-        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_scrubber_primary_mtrl_alpha.9.png.flat",
-        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxhdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png"
-    },
-    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_list_selector_disabled_holo_light.9.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-hdpi-v4/abc_list_selector_disabled_holo_light.9.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_scrubber_primary_mtrl_alpha.9.png.flat",
+        "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxhdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat",
@@ -722,6 +790,10 @@
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_ic_star_black_36dp.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-hdpi-v4/abc_ic_star_black_36dp.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_stop_button_picture_round.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxhdpi/stop_button_picture_round.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_star_black_48dp.png.flat",
@@ -772,12 +844,20 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxhdpi-v4/abc_text_select_handle_middle_mtrl_light.png"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xhdpi_record_button_picture_foreground.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xhdpi/record_button_picture_foreground.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxhdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/anim_abc_slide_in_bottom.xml.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/anim/abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_stop_button_picture.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxhdpi/stop_button_picture.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/color_abc_tint_edittext.xml.flat",
@@ -832,6 +912,10 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_ic_star_black_36dp.png"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-mdpi_record_button_picture_foreground.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-mdpi/record_button_picture_foreground.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png"
     },
@@ -850,6 +934,10 @@
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_btn_check_to_on_mtrl_015.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_015.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_record_button_picture.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxhdpi/record_button_picture.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/color_abc_hint_foreground_material_dark.xml.flat",
@@ -884,8 +972,28 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xhdpi_stop_button_picture_foreground.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xhdpi/stop_button_picture_foreground.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_stop_button_picture_foreground.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxhdpi/stop_button_picture_foreground.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_record_button_picture.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxxhdpi/record_button_picture.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable_record_button_picture_background.xml.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/drawable/record_button_picture_background.xml"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable_abc_ratingbar_indicator_material.xml.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable/abc_ratingbar_indicator_material.xml"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-hdpi_record_button_picture_foreground.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-hdpi/record_button_picture_foreground.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
@@ -932,6 +1040,10 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/layout/abc_screen_content_include.xml"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-hdpi_stop_button_picture_foreground.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-hdpi/stop_button_picture_foreground.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_text_select_handle_left_mtrl_dark.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxhdpi-v4/abc_text_select_handle_left_mtrl_dark.png"
     },
@@ -970,6 +1082,10 @@
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xxxhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xhdpi_record_button_picture_round.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xhdpi/record_button_picture_round.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_star_black_16dp.png.flat",
@@ -1060,6 +1176,10 @@
         "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/layout/activity_preview.xml"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-mdpi_stop_button_picture_foreground.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-mdpi/stop_button_picture_foreground.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_menu_hardkey_panel_mtrl_mult.9.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-hdpi-v4/abc_menu_hardkey_panel_mtrl_mult.9.png"
     },
@@ -1110,6 +1230,10 @@
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_ic_star_black_16dp.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-hdpi-v4/abc_ic_star_black_16dp.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_stop_button_picture_round.xml.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-anydpi-v26/stop_button_picture_round.xml"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_popup_background_mtrl_mult.9.png.flat",
@@ -1186,6 +1310,10 @@
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_star_half_black_48dp.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_ic_star_half_black_48dp.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_stop_button_picture.xml.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-anydpi-v26/stop_button_picture.xml"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
@@ -1364,6 +1492,10 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-mdpi-v4/abc_ic_star_half_black_16dp.png"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_record_button_picture_foreground.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxhdpi/record_button_picture_foreground.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/layout_select_dialog_singlechoice_material.xml.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/layout/select_dialog_singlechoice_material.xml"
     },
@@ -1382,6 +1514,10 @@
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/layout-v21_notification_template_icon_group.xml.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/3320b3f8d2549afd46e5027cf180b5c9/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-hdpi_stop_button_picture_round.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-hdpi/stop_button_picture_round.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable_abc_ic_go_search_api_material.xml.flat",
@@ -1528,6 +1664,10 @@
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_ab_share_pack_mtrl_alpha.9.png"
     },
     {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_stop_button_picture_foreground.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xxxhdpi/stop_button_picture_foreground.png"
+    },
+    {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/layout_abc_popup_menu_header_item_layout.xml.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/layout/abc_popup_menu_header_item_layout.xml"
     },
@@ -1562,6 +1702,10 @@
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_spinner_mtrl_am_alpha.9.png.flat",
         "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/drawable-xhdpi-v4/abc_spinner_mtrl_am_alpha.9.png"
+    },
+    {
+        "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/mipmap-xhdpi_record_button_picture.png.flat",
+        "source": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/src/main/res/mipmap-xhdpi/record_button_picture.png"
     },
     {
         "merged": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/anim_abc_slide_in_top.xml.flat",
