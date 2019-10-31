@@ -26,6 +26,7 @@ import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -60,6 +61,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.lang.*;
 
 /**
  * An example activity and delegate for FLIR One image streaming and device interaction.
@@ -72,9 +74,12 @@ import java.util.Map;
  * @see Device.StreamDelegate
  * @see Device.PowerUpdateDelegate
  */
+
+
 public class GLPreviewActivity extends Activity implements Device.Delegate, FrameProcessor.Delegate, Device.StreamDelegate, Device.PowerUpdateDelegate{
     GLSurfaceView thermalSurfaceView;
-    private volatile boolean imageCaptureRequested = false;
+//    private volatile boolean imageCaptureRequested = false;
+//    public volatile boolean recordingOn = false;
     private volatile Socket streamSocket = null;
     private boolean chargeCableIsConnected = true;
 
@@ -85,9 +90,14 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
     private volatile Device flirOneDevice;
     private FrameProcessor frameProcessor;
 
-    private String lastSavedPath;
+//    private String lastSavedPath;
 
     private Device.TuningState currentTuningState = Device.TuningState.Unknown;
+
+    Server background_server = new Server();
+    Thread recording_thread = new Thread(background_server);
+
+
     // Device Delegate methods
 
     // Called during device discovery, when a device is connected
@@ -131,6 +141,7 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
         }
 
         orientationEventListener.enable();
+        recording_thread.start();
     }
 
     /**
@@ -255,6 +266,8 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
 
     // Frame Processor Delegate method, will be called each time a rendered frame is produced
     public void onFrameProcessed(final RenderedImage renderedImage){
+        background_server.setUpImage(renderedImage);
+
         if (renderedImage.imageType() == RenderedImage.ImageType.ThermalRadiometricKelvinImage){
             // Note: this code is not optimized
 
@@ -286,7 +299,7 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
             NumberFormat numberFormat = NumberFormat.getInstance();
             numberFormat.setMaximumFractionDigits(2);
             numberFormat.setMinimumFractionDigits(2);
-            final String spotMeterValue = numberFormat.format(averageC) + "ºCQWE";
+            final String spotMeterValue = numberFormat.format(averageC) + "ºC";
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -298,87 +311,13 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
         /*
         Capture this image if requested.
         */
-        if (this.imageCaptureRequested) {
-            imageCaptureRequested = false;
-            final Context context = this;
-            new Thread(new Runnable() {
-                public void run() {
-                    String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault());
-
-
-
-                    String formatedDate = sdf.format(new Date());
-                    String fileName = "thermal_data_" + formatedDate + ".csv";
-
-
-//                    public static void write (String fileName, int[]x) throws IOException{
-                    try {
-                        int[] thermalPixels = renderedImage.thermalPixelValues();
-                        lastSavedPath = path + "/" + fileName;
-                        BufferedWriter outputWriter = null;
-                        outputWriter = new BufferedWriter(new FileWriter(lastSavedPath));
-                        NumberFormat numberFormat = NumberFormat.getInstance();
-                        numberFormat.setMaximumFractionDigits(2);
-                        numberFormat.setMinimumFractionDigits(2);
-
-//                        for (int i = 0; i < thermalPixels.length; i++) {
-                        int step_size = 10;
-                        int width = renderedImage.width();
-                        int height = renderedImage.height();
-
-                        int n_horizontal_steps = width / step_size;
-                        int n_vertical_steps = height / step_size;
-                        char end_of_line_character;
-
-                        for (int i = 0; i < thermalPixels.length / (step_size * step_size); i++) {
-                            // Maybe:
-                            int horizontal_coordinate = (i % n_horizontal_steps) * step_size + step_size / 2;
-                            int vertical_coordinate = (i / n_horizontal_steps) * step_size + step_size / 2;
-                            int array_index = vertical_coordinate * width + horizontal_coordinate;
-
-                            double valueCelcius = ((double)thermalPixels[array_index] / 100) - 273.15;
-                            final String valueCelciusString = numberFormat.format(valueCelcius);
-                            if (i % n_horizontal_steps == n_horizontal_steps - 1) {
-                                end_of_line_character = '\n';
-                            } else {
-                                end_of_line_character = ',';
-                            }
-
-                            outputWriter.write(valueCelciusString + end_of_line_character);
-//                            outputWriter.write(valueCelciusString + ",");
-                            // Or:
-//                            outputWriter.write(Integer.toString(thermalPixels[i]));
-//                            outputWriter.newLine();
-                        }
-                        outputWriter.flush();
-                        outputWriter.close();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-//                    }
-
-//                    try{
-//                        lastSavedPath = path+ "/" + fileName;
-//                        renderedImage.getFrame().save(new File(lastSavedPath), frameProcessor);
+//        if (this.imageCaptureRequested) {
 //
-//                        MediaScannerConnection.scanFile(context,
-//                                new String[]{path + "/" + fileName}, null,
-//                                new MediaScannerConnection.OnScanCompletedListener() {
-//                                    @Override
-//                                    public void onScanCompleted(String path, Uri uri) {
-//                                        Log.i("ExternalStorage", "Scanned " + path + ":");
-//                                        Log.i("ExternalStorage", "-> uri=" + uri);
-//                                    }
+////            imageCaptureRequested = false;
+////            final Context context = this;
 //
-//                                });
-//
-//                    }catch (Exception e){
-//                        e.printStackTrace();
-//                    }
-                }
-            }).start();
-        }
+//            background_server.start_recording();
+//        }
     }
 
 
@@ -417,11 +356,31 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
         }
 
     }
-    public void onCaptureImageClicked(View v){
+    public void onCaptureRecordingStart(View v){
+//        Toast.makeText(this, "Trying to start recording...", Toast.LENGTH_LONG).show();
         if(flirOneDevice != null) {
-            this.imageCaptureRequested = true;
+//            this.imageCaptureRequested = true;
+//            this.recordingOn = true;
+            if (background_server.recording_on) {
+                Toast.makeText(this, "Already recording", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Starting recording...", Toast.LENGTH_LONG).show();
+            }
+            background_server.start_recording();
         }
     }
+    public void onCaptureRecordingStop(View v){
+//        if(flirOneDevice != null) {
+//            this.recordingOn = false;
+        if (background_server.recording_on) {
+            Toast.makeText(this, "Stopping recording...", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Already stopped", Toast.LENGTH_LONG).show();
+        }
+        background_server.stop_recording();
+//        }
+    }
+
     public void onConnectSimClicked(View v){
         if(flirOneDevice == null){
             try {
@@ -525,6 +484,7 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gl_preview);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View controlsViewTop = findViewById(R.id.fullscreen_content_controls_top);
@@ -764,5 +724,127 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+}
+
+class Server implements Runnable{
+    public volatile boolean recording_on = false;
+    private RenderedImage renderedImage;
+    GLPreviewActivity parent;
+    private int idleSleepTime = 1000;
+    private int recordingPeriod = 5000;
+
+    public void setUpImage(final RenderedImage renderedImageExternal){
+        renderedImage = renderedImageExternal;
+    }
+
+    public void setUpThis(final GLPreviewActivity parent_instance){
+        parent = parent_instance;
+    }
+
+
+    public void run() {
+        while (true) {
+//        (this.recording_on) {
+            if (!this.recording_on){
+                try{
+//                    Toast.makeText(parent, "Sleeping...", Toast.LENGTH_LONG).show();
+                    Thread.sleep(idleSleepTime);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+                continue;
+            }
+
+//            Toast.makeText(parent, "Recording...", Toast.LENGTH_LONG).show();
+
+            String lastSavedPath;
+            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault());
+
+
+            String formatedDate = sdf.format(new Date());
+            String fileName = "thermal_data_" + formatedDate + ".csv";
+
+//                    public static void write (String fileName, int[]x) throws IOException{
+            try {
+                int[] thermalPixels = renderedImage.thermalPixelValues();
+                lastSavedPath = path + "/" + fileName;
+                BufferedWriter outputWriter = null;
+                outputWriter = new BufferedWriter(new FileWriter(lastSavedPath));
+                NumberFormat numberFormat = NumberFormat.getInstance();
+                numberFormat.setMaximumFractionDigits(2);
+                numberFormat.setMinimumFractionDigits(2);
+
+//                        for (int i = 0; i < thermalPixels.length; i++) {
+                int step_size = 10;
+                int width = renderedImage.width();
+                int height = renderedImage.height();
+
+                int n_horizontal_steps = width / step_size;
+                int n_vertical_steps = height / step_size;
+                char end_of_line_character;
+
+                for (int i = 0; i < thermalPixels.length / (step_size * step_size); i++) {
+                    // Maybe:
+                    int horizontal_coordinate = (i % n_horizontal_steps) * step_size + step_size / 2;
+                    int vertical_coordinate = (i / n_horizontal_steps) * step_size + step_size / 2;
+                    int array_index = vertical_coordinate * width + horizontal_coordinate;
+
+                    double valueCelcius = ((double) thermalPixels[array_index] / 100) - 273.15;
+                    final String valueCelciusString = numberFormat.format(valueCelcius);
+                    if (i % n_horizontal_steps == n_horizontal_steps - 1) {
+                        end_of_line_character = '\n';
+                    } else {
+                        end_of_line_character = ',';
+                    }
+
+                    outputWriter.write(valueCelciusString + end_of_line_character);
+//                            outputWriter.write(valueCelciusString + ",");
+                    // Or:
+//                            outputWriter.write(Integer.toString(thermalPixels[i]));
+//                            outputWriter.newLine();
+                }
+                outputWriter.flush();
+                outputWriter.close();
+
+                try{
+                    Thread.sleep(recordingPeriod);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+//                    }
+
+//                    try{
+//                        lastSavedPath = path+ "/" + fileName;
+//                        renderedImage.getFrame().save(new File(lastSavedPath), frameProcessor);
+//
+//                        MediaScannerConnection.scanFile(context,
+//                                new String[]{path + "/" + fileName}, null,
+//                                new MediaScannerConnection.OnScanCompletedListener() {
+//                                    @Override
+//                                    public void onScanCompleted(String path, Uri uri) {
+//                                        Log.i("ExternalStorage", "Scanned " + path + ":");
+//                                        Log.i("ExternalStorage", "-> uri=" + uri);
+//                                    }
+//
+//                                });
+//
+//                    }catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+    }
+
+    public void stop_recording() {
+        recording_on = false;
+    }
+
+    public void start_recording() {
+        recording_on = true;
     }
 }

@@ -185,8 +185,10 @@
                 android:adjustViewBounds="false"
                 android:baselineAlignBottom="false"
                 android:cropToPadding="false"
-                android:onClick="onCaptureImageClicked"
-                android:src="@mipmap/record_button_picture" />
+                android:onClick="onCaptureRecordingStart"
+                android:text="Start recordings"
+                android:textColor="#000"
+                android:src="#FF4444" />
 
             <ImageButton
                 android:id="@+id/imageButton2"
@@ -196,8 +198,10 @@
                 android:layout_marginLeft="600px"
                 android:layout_marginBottom="0px"
                 android:layout_weight="0.33"
-                android:onClick="onCaptureImageClicked"
-                android:src="@mipmap/stop_button_picture" />
+                android:onClick="onCaptureRecordingStop"
+                android:text="Stop recordings"
+                android:textColor="#000"
+                android:src="#4444FF" />
 
 
         </FrameLayout>

@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Thu Oct 31 15:10:26 CET 2019
+#Thu Oct 31 18:49:16 CET 2019
 5.base=/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/transforms/mergeJniLibs/debug/0
 42.base=/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/transforms/mergeJniLibs/debug/0
 22.path=lib/arm64-v8a/libboost.so

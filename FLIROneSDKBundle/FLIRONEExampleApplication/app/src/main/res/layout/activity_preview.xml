@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageButton"
                 android:layout_weight="0.33"
-                android:onClick="onCaptureImageClicked"
+                android:onClick="onCaptureRecordingStart"
                 android:src="@android:drawable/ic_menu_camera"
                 android:layout_gravity="center_horizontal|bottom" />
 
