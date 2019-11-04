@@ -3,6 +3,7 @@ from queue import Queue
 from threading import Thread
 from datetime import datetime
 import json
+import os
 
 TIME_FORMAT4FILES = '%Y-%m-%d-%H-%M-%S'
 TIME_FORMAT = '%Y-%m-%d-%H:%M:%S.%f'
@@ -11,8 +12,12 @@ queue_mouse = Queue(maxsize=10000)
 queue_keyboard = Queue(maxsize=10000)
 coord_formating = '%.2f'
 current_datetime4files = datetime.now().strftime(TIME_FORMAT4FILES)
-filename_mouse = f'mouse_{current_datetime4files}.csv'
-filename_keyboard = f'keyboard_{current_datetime4files}.csv'
+
+if not os.path.exists('data'):
+    os.mkdir('data')
+
+filename_mouse = f'data/mouse_{current_datetime4files}.csv'
+filename_keyboard = f'data/keyboard_{current_datetime4files}.csv'
 header_mouse = 'time,event,x,y,params'
 header_keyboard = 'time,event,button'
 
