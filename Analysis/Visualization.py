@@ -9,8 +9,9 @@ from config import *
 
 data_dict = joblib.load(data_folder + 'data_dict')
 
-del data_dict[0]['eye_tracker']
-del data_dict[1]['eye_tracker']
+
+# del data_dict[0]['eye_tracker']
+# del data_dict[1]['eye_tracker']
 
 
 def square_plot(df, columns2plot, timecol='Timestamp', suffix='last'):
@@ -31,12 +32,13 @@ def square_plot(df, columns2plot, timecol='Timestamp', suffix='last'):
     fig.tight_layout()
     fig.savefig(f'{pic_folder}square_plot_{suffix}.png')
 
-data_sources = [f'arduino_{i}' for i in range(3)]
+data_sources = [f'arduino_{i}' for i in range(3)] + ['eye_tracker']
 
 data_sources_columns2plot = {
     'arduino_0': list(data_dict[0]['arduino_0'].columns),
     'arduino_1': list(data_dict[0]['arduino_1'].columns),
     'arduino_2': list(data_dict[0]['arduino_2'].columns),
+    'eye_tracker': ['gaze_x', 'gaze_y', 'pupil_diameter'],
 }
 
 n_plots = sum([len(value) for value in data_sources_columns2plot.values()])

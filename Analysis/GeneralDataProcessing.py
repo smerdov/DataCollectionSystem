@@ -19,6 +19,7 @@ day_num = 0
 # else:
 #     arduino_name = 'some_arduino'
 
+eye_tracker_shift_hours = 4
 
 
 def concat_files4data_source(filenames, index_col):
@@ -43,6 +44,7 @@ for player_id in [0, 1]:
         filenames_with_prefix = [filename for filename in filenames if filename.startswith(filename_prefix)]
         df_arduino = concat_files4data_source(filenames_with_prefix, index_col='Timestamp')
         df_arduino.index = pd.to_datetime(df_arduino.index)
+        df_arduino.sort_index(inplace=True)
         df_arduino = df_arduino.resample('1s').mean()
         # for filename in filenames_with_prefix:
         #     df_addition = pd.read_csv(data_path + filename)
@@ -54,11 +56,15 @@ for player_id in [0, 1]:
     ### Eye tracker
     filenames_with_prefix = [filename for filename in filenames if filename.startswith('tobii')]
     df_eyetracker = concat_files4data_source(filenames_with_prefix, index_col='#timestamp')
+    df_eyetracker.index = pd.to_datetime(df_eyetracker.index + 3600 * 4 * 1000, unit='ms')
+    df_eyetracker.sort_index(inplace=True)
+    df_eyetracker = df_eyetracker.resample('1s').mean()
     player_data_dict['eye_tracker'] = df_eyetracker
 
     data_dict[player_id] = player_data_dict
 
-# pd.to_datetime(data_dict[1]['eye_tracker'].index / 1000, unit='s')  # It's a bullshit!
+# pd.to_datetime(data_dict[1]['eye_tracker'].index + 3600 * 4 * 1000, unit='ms')  # It's a bullshit!  # Now not so much
+
 
 joblib.dump(data_dict, '../Data/data_dict')
 
