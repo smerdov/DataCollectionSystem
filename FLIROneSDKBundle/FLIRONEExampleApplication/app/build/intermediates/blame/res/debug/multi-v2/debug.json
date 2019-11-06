@@ -368,21 +368,6 @@
             ]
         },
         {
-            "outputFile": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/values-night-v8_values-night-v8.arsc.flat",
-            "map": [
-                {
-                    "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/values-night-v8/values-night-v8.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "55,125,209,293,389,491,593",
-                        "endColumns": "69,83,83,95,101,101,93",
-                        "endOffsets": "120,204,288,384,486,588,682"
-                    }
-                }
-            ]
-        },
-        {
             "outputFile": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/values-kn_values-kn.arsc.flat",
             "map": [
                 {
@@ -410,6 +395,21 @@
                         "startOffsets": "2009",
                         "endColumns": "100",
                         "endOffsets": "2105"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/res/merged/debug/values-night-v8_values-night-v8.arsc.flat",
+            "map": [
+                {
+                    "source": "/Users/asm/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/ebb973f5202d64bc3c7215746605f661/res/values-night-v8/values-night-v8.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,125,209,293,389,491,593",
+                        "endColumns": "69,83,83,95,101,101,93",
+                        "endOffsets": "120,204,288,384,486,588,682"
                     }
                 }
             ]

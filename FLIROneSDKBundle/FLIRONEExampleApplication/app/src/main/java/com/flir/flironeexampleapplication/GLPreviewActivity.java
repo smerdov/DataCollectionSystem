@@ -783,7 +783,7 @@ class Server implements Runnable{
                 lastSavedPath = path + "/" + fileName;
                 BufferedWriter outputWriter = null;
                 outputWriter = new BufferedWriter(new FileWriter(lastSavedPath));
-                NumberFormat numberFormat = NumberFormat.getInstance();
+                NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
                 numberFormat.setMaximumFractionDigits(2);
                 numberFormat.setMinimumFractionDigits(2);
 
@@ -794,7 +794,7 @@ class Server implements Runnable{
 
                 int n_horizontal_steps = width / step_size;
                 int n_vertical_steps = height / step_size;
-                char end_of_line_character;
+                char finishing_char;
 
                 for (int i = 0; i < thermalPixels.length / (step_size * step_size); i++) {
                     // Maybe:
@@ -805,12 +805,12 @@ class Server implements Runnable{
                     double valueCelcius = ((double) thermalPixels[array_index] / 100) - 273.15;
                     final String valueCelciusString = numberFormat.format(valueCelcius);
                     if (i % n_horizontal_steps == n_horizontal_steps - 1) {
-                        end_of_line_character = '\n';
+                        finishing_char = '\n';
                     } else {
-                        end_of_line_character = ',';
+                        finishing_char = ';';
                     }
 
-                    outputWriter.write(valueCelciusString + end_of_line_character);
+                    outputWriter.write(valueCelciusString + finishing_char);
 //                            outputWriter.write(valueCelciusString + ",");
                     // Or:
 //                            outputWriter.write(Integer.toString(thermalPixels[i]));

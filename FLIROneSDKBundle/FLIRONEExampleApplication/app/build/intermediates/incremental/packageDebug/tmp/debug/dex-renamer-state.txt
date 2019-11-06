@@ -1,4 +1,4 @@
-#Wed Nov 06 14:33:22 CET 2019
+#Wed Nov 06 15:28:28 CET 2019
 base.0=/Users/asm/Projects/AffectiveComputingDKFI/FLIROneSDKBundle/FLIRONEExampleApplication/app/build/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex
