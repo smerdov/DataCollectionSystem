@@ -12,9 +12,10 @@ replay_filenames = os.listdir(replays_path)
 match_ids = []
 
 for replay_filename in replay_filenames:
-    id_index_start = replay_filename.find('-') + 1
+    id_index_start = replay_filename.find('-')
     id_index_end = replay_filename.find('.rofl')
-    match_ids.append(replay_filename[id_index_start:id_index_end])
+    if (id_index_start != -1) and (id_index_end != -1):
+        match_ids.append(replay_filename[id_index_start+1:id_index_end])
 
 
 # match_id = '4232819529'
@@ -28,8 +29,21 @@ headers = {
 }
 
 for match_id in match_ids:
-    response = requests.get(prefix + f'lol/match/v4/timelines/by-match/{match_id}', headers=headers)
-    response_json = json.loads(response.content)
-    json.dump(response_json, open(data_folder + f'replay_{match_id}.json', 'w'))
+    replay_json = {}
+
+    response_match_info = requests.get(prefix + f'lol/match/v4/matches/{match_id}', headers=headers)
+    if response_match_info.status_code != 200:
+        raise ValueError('There is a problem')
+    response_match_info_json = json.loads(response_match_info.content)
+    replay_json.update(response_match_info_json)
+
+    response_timeline = requests.get(prefix + f'lol/match/v4/timelines/by-match/{match_id}', headers=headers)
+    if response_timeline.status_code != 200:
+        raise ValueError('There is a problem')
+    response_timeline_json = json.loads(response_timeline.content)
+    replay_json.update(response_timeline_json)
+
+
+    json.dump(replay_json, open(data_folder + 'replays_json/' + f'replay_{match_id}.json', 'w'))
 
 
