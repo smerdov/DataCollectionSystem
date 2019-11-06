@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.opengl.GLSurfaceView;
@@ -96,6 +97,7 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
 
     Server background_server = new Server();
     Thread recording_thread = new Thread(background_server);
+
 
 
     // Device Delegate methods
@@ -366,7 +368,12 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
             } else {
                 Toast.makeText(this, "Starting recording...", Toast.LENGTH_LONG).show();
             }
+
             background_server.start_recording();
+
+            ImageView imgStatus = findViewById(R.id.Status);
+            imgStatus.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+
         }
     }
     public void onCaptureRecordingStop(View v){
@@ -378,6 +385,9 @@ public class GLPreviewActivity extends Activity implements Device.Delegate, Fram
             Toast.makeText(this, "Already stopped", Toast.LENGTH_LONG).show();
         }
         background_server.stop_recording();
+
+        ImageView imgStatus = findViewById(R.id.Status);
+        imgStatus.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
 //        }
     }
 
@@ -753,6 +763,7 @@ class Server implements Runnable{
                 } catch (Exception e) {
                     System.out.println(e);
                 }
+
                 continue;
             }
 

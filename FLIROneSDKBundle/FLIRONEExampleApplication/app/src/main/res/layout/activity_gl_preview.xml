@@ -175,33 +175,30 @@
                 android:onClick="onConnectSimClicked"
                 android:layout_gravity="center_horizontal|bottom|right" />
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/button"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="380px"
-                android:layout_marginBottom="0px"
-                android:adjustViewBounds="false"
-                android:baselineAlignBottom="false"
-                android:cropToPadding="false"
+                android:layout_marginLeft="360px"
+                android:background="#4CAF50"
                 android:onClick="onCaptureRecordingStart"
-                android:text="Start recordings"
-                android:textColor="#000"
-                android:src="#FF4444" />
+                android:text="Start" />
 
-            <ImageButton
-                android:id="@+id/imageButton2"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="600px"
-                android:layout_marginBottom="0px"
-                android:layout_weight="0.33"
+                android:layout_marginLeft="650px"
+                android:background="#B62F26"
                 android:onClick="onCaptureRecordingStop"
-                android:text="Stop recordings"
-                android:textColor="#000"
-                android:src="#4444FF" />
+                android:text="Stop" />
+
+            <ImageView
+                android:id="@+id/Status"
+                android:layout_width="38dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="539px"
+                android:src="#FFFFFF" />
 
 
         </FrameLayout>

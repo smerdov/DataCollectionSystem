@@ -60,8 +60,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/stop-button-icon_82836.png" />
-                                      <entry key="outputName" value="stop_button_picture" />
+                                      <entry key="foregroundImage" value="$PROJECT_DIR$/../ircat.jpeg" />
                                     </map>
                                   </option>
                                 </PersistentState>
