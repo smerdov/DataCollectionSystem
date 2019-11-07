@@ -7,3 +7,4 @@ headset_id2player_id = {
 }
 
 TIME_FORMAT = '%Y-%m-%d-%H:%M:%S.%f'
+TIME_FORMAT4FILES = '%Y-%m-%d-%H-%M-%S'
