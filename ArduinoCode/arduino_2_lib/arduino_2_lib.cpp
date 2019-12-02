@@ -9,11 +9,15 @@ const int ArduinoTypeID = 2;
 struct measurementsStruct{
     String current_time;
     long irValue;
+    long redValue;
+//    long greenValue;
 };
 
 std::vector<String> columns = {
     "Timestamp",
     "irValue",
+    "redValue",
+//    "greenValue",
 };
 
 int incr = 0;
@@ -34,7 +38,15 @@ long lastBeatTimes[RATE_SIZE] = {0};
 //int beatAvg;
 float heartrate, instantaneousBeatsPerMinute;
 int n_sample = 0;
-long irValue;
+long irValue, redValue, greenValue;
+
+bool isBadData(measurementsStruct measurements){
+    if (measurements.irValue < 50000) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 void maxInit()
 {
@@ -46,8 +58,9 @@ void maxInit()
 //  Serial.println("Place your index finger on the sensor with steady pressure.");
 
   particleSensor.setup(); //Configure sensor with default settings
-  particleSensor.setPulseAmplitudeRed(0x0A); //Turn Red LED to low to indicate sensor is running
-  particleSensor.setPulseAmplitudeGreen(0); //Turn off Green LED
+//  particleSensor.setPulseAmplitudeRed(0x0A); //Turn Red LED to low to indicate sensor is running
+//  particleSensor.setPulseAmplitudeGreen(0); //Turn off Green LED
+
 }
 
 void arduinoInit(){
@@ -59,6 +72,8 @@ void Task_ReadingData(void *pvParameters){
     while (true) {
         if (do_measurements) {
             irValue = particleSensor.getIR();
+            redValue = particleSensor.getRed();
+//            greenValue = particleSensor.getGreen();
 
 //            if (checkForBeat(irValue) == false){
 //                continue;
@@ -92,15 +107,19 @@ void Task_ReadingData(void *pvParameters){
             struct measurementsStruct measurements;
             measurements.current_time = dateTime(TIME_FORMAT);
             measurements.irValue = irValue;
+            measurements.redValue = redValue;
+//            measurements.greenValue = greenValue;
 
             dataArray[incr] = measurements;
+            bad_data = isBadData(measurements);
+
             
             P_send = dataArray+incr;
             
             incr = (incr + 1) % QUEUE_SIZE;
             
             xQueueSend(queue, &P_send, portMAX_DELAY);
-            delay(1);
+//            delay(1);
         } else {
             delay(IDLE_DELAY);  // THAT'S JUST IN CASE do_measurements == false
         }
@@ -115,10 +134,19 @@ void Task_WritingData(void *pvParameters){
         myFile.print(DELIMITER);
         
         myFile.print(P_receive -> irValue);
+        myFile.print(DELIMITER);
+
+        myFile.print(P_receive -> redValue);
 //        myFile.print(DELIMITER);
+//
+//        myFile.print(P_receive -> greenValue);
+////        myFile.print(DELIMITER);
 
         myFile.print('\n');
         myFile.flush();
     }
 }
+
+
+
 

@@ -35,6 +35,7 @@ class StatusWidget(QWidget):
         'Measuring': '#00AA00',
         'NA': '#777777',
         'File error': '#AA0000',
+        'Bad data': '#CC5500',
     }
 
     def __init__(self, square_size = 15, timeout=2):
@@ -77,8 +78,12 @@ class StatusWidget(QWidget):
 
         # print(f"changing status from {self.status} to {new_status}")
 
-        new_status_first_part = new_status.split(',')[0]
-        new_status_color = self.STATUS_COLORS.get(new_status_first_part, self.default_color)
+        statuses_splitted = new_status.split(',')
+        if (len(statuses_splitted) > 1) and (statuses_splitted[1] == 'Bad_data'):
+            status_class = 'Bad data'
+        else:
+            status_class = statuses_splitted[0]
+        new_status_color = self.STATUS_COLORS.get(status_class, self.default_color)
         if new_status_color != self.status_color:
             self.square.setStyleSheet("QWidget { background-color: %s }" % new_status_color)
 

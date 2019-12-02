@@ -26,7 +26,7 @@ char ftp_user[20]   = "player_X_arduino_X";
 
 const char DELIMITER = ',';
 const int N_DIGITS_PRECISION = 4;
-bool do_measurements = false, ftp_sending = false, file_error = false;
+bool do_measurements = false, ftp_sending = false, file_error = false, bad_data = false;
 const int IDLE_DELAY = 100;
 
 
@@ -243,6 +243,9 @@ String getStatus(){
     } else {
         if (do_measurements) {
             status += "Measuring";
+            if (bad_data) {
+                status += ",Bad_data";
+            }
         } else {
             status += "Idle";
         }

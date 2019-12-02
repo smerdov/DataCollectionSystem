@@ -17,6 +17,9 @@ for player_dict in players_list:
 
     prefixes = [filename[:-4] for filename in player_fit_filenames if filename.endswith('.fit')]
 
+    if len(prefixes) == 0:
+        continue
+
     # for player_fit_filename in player_fit_filenames:
     for prefix in prefixes:
         filename_data = prefix + '.fit'
@@ -26,17 +29,24 @@ for player_dict in players_list:
             start_time = f.readline()
 
         data2add = aio.read(player_data_dir + filename_data)
+        if 'hr' not in data2add:
+            continue
+
         df2add = pd.DataFrame(data2add)[['hr']]
         df2add.index = pd.to_datetime(start_time) + df2add.index
         df2add.rename(columns={'hr': 'heart_rate'}, inplace=True)
+        df2add.index.name = 'Timestamp'
 
         df4player = pd.concat([df4player, df2add])
 
-    df4player = df4player.sort_index()
-    suffix = df4player.index[0].strftime(TIME_FORMAT)
+    if len(df4player):
+        df4player = df4player.sort_index()
+        suffix = df4player.index[0].strftime(TIME_FORMAT)
 
-    df4player.to_csv(f'output/player_{player_id}/heart_rate_{suffix}.csv')
-    # print(df4player)
+        df4player.to_csv(f'output/player_{player_id}/heart_rate_{suffix}.csv')
+    else:
+        print(f'No data for player {player_id}')
+        # print(df4player)
 
 
 

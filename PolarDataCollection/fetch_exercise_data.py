@@ -28,7 +28,8 @@ def get_relevant_exercises(exercises_list, start_time_intervals_list, min_durati
 players_list = json.load(open('players_credentials.json'))
 
 start_time_intervals_list = [ # Start time intervals must don't intersect
-    ('2019-10-25T16:30:51Z', '2019-10-26T14:59:51Z'),
+    ('2019-11-15T00:00:00Z', '2019-11-15T23:59:59Z'),
+    # ('2019-11-22T00:00:00Z', '2019-11-22T23:59:59Z'),
 ]
 
 

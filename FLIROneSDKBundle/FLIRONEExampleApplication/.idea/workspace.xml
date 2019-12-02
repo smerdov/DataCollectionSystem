@@ -2,7 +2,9 @@
 <project version="4">
   <component name="AndroidLayouts">
     <shared>
-      <config />
+      <config>
+        <device id="pixel_3a_xl" />
+      </config>
     </shared>
   </component>
   <component name="AndroidLogFilters">
@@ -19,13 +21,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47082c50-9797-4495-97b1-954aa1ea75e6" name="Default" comment="minor fixes">
-      <change afterPath="$PROJECT_DIR$/../../Analysis/ThermalDataVisualization.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Misc/fixing_corrupted_files.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ArduinoCode/CalibrstionValues4GSR" beforeDir="false" afterPath="$PROJECT_DIR$/../../ArduinoCode/CalibrstionValues4GSR" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ArduinoCode/Main/Main.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../../ArduinoCode/Main/Main.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ArduinoCode/arduino_0_lib/arduino_0_lib.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../ArduinoCode/arduino_0_lib/arduino_0_lib.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ArduinoCode/arduino_1_lib/arduino_1_lib.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../ArduinoCode/arduino_1_lib/arduino_1_lib.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ArduinoCode/arduino_2_lib/arduino_2_lib.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../ArduinoCode/arduino_2_lib/arduino_2_lib.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ArduinoCode/eSportsLibrary/eSportsLibrary.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../ArduinoCode/eSportsLibrary/eSportsLibrary.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ArduinoCode/eSportsLibrary/eSportsLibrary.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../ArduinoCode/eSportsLibrary/eSportsLibrary.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ExperimentalProtocol/Experimantal protocol.pages" beforeDir="false" afterPath="$PROJECT_DIR$/../../ExperimentalProtocol/Experimantal protocol.pages" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/dexMerger/debug/0/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/dexMerger/debug/0/classes.dex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/intermediates/res/debug/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/res/debug/resources-debug.ap_" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/transforms/dexMerger/debug/__content__.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/transforms/dexMerger/debug/__content__.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../PolarDataCollection/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/fetch_exercise_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../PolarDataCollection/fetch_exercise_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/file_parsing.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../PolarDataCollection/file_parsing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/fit_data/player_0/fit_file_player_0_0_2019-10-25.fit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/fit_data/player_0/fit_file_player_0_0_2019-10-25_start_time.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/fit_data/player_1/fit_file_player_1_0_2019-10-25.fit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/fit_data/player_1/fit_file_player_1_0_2019-10-25_start_time.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/fit_data/player_2/fit_file_player_2_0_2019-10-25.fit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/fit_data/player_2/fit_file_player_2_0_2019-10-25_start_time.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/fit_data/player_3/fit_file_player_3_0_2019-10-25.fit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/fit_data/player_3/fit_file_player_3_0_2019-10-25_start_time.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/output/player_0/heart_rate_2019-10-25-16-32-29.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/output/player_1/heart_rate_2019-10-25-16-32-02.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/output/player_2/heart_rate_2019-10-25-16-31-58.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/output/player_3/heart_rate_2019-10-25-16-32-02.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PolarDataCollection/players_credentials.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../PolarDataCollection/players_credentials.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Server/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Server/GUI.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +71,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="LGH95527f0605b" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_24" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -64,11 +99,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/flir/flironeexampleapplication/GLPreviewActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="550">
-              <caret line="799" column="29" lean-forward="true" selection-start-line="799" selection-start-column="29" selection-end-line="799" selection-end-column="29" />
+            <state relative-caret-position="6435">
+              <caret line="493" column="19" selection-start-line="493" selection-start-column="14" selection-end-line="493" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -76,30 +111,27 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_gl_preview.xml">
-          <provider selected="true" editor-type-id="android-designer2" />
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="600">
+              <caret line="40" column="24" lean-forward="true" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
             </state>
           </provider>
+          <provider editor-type-id="android-manifest" />
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="resourceFile" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>onCreate</find>
-      <find>oncre</find>
-      <find>WindowManager</find>
-      <find>FLAG_KEEP_SCREEN_ON</find>
-      <find>stop</find>
-      <find>setUpImage</find>
-      <find>background_server</find>
-      <find>cali</find>
-      <find>ToggleButton</find>
-      <find>onVividClicked</find>
       <find>v</find>
       <find>log.</find>
       <find>300</find>
@@ -120,6 +152,16 @@
       <find>BLUE</find>
       <find>'\n</find>
       <find>finishing_char</find>
+      <find>servi</find>
+      <find>waiting</find>
+      <find>waiti</find>
+      <find>thermal</find>
+      <find>camera</find>
+      <find>AppLinkUrlError</find>
+      <find>name</find>
+      <find>flironesdk</find>
+      <find>activi</find>
+      <find>onCre</find>
     </findStrings>
     <replaceStrings>
       <replace>libturbojpeg</replace>
@@ -142,12 +184,13 @@
         <option value="$PROJECT_DIR$/flironesdk/src/main/jni/systemimage/Android.mk" />
         <option value="$PROJECT_DIR$/flironesdk/build.gradle" />
         <option value="$PROJECT_DIR$/flironesdk/DeveloperGuide.md" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/ServerExample/streamReceiver.py" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/flir/flironeexampleapplication/EditorActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_gl_preview.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/flir/flironeexampleapplication/GLPreviewActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -162,14 +205,19 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DEBUGGABLE_DEVICE" value="bullittgrouplimited-s60-S601709006037" />
     <property name="DEBUGGABLE_PROCESS" value="com.flir.flironeexampleapplication" />
     <property name="DEBUGGER_ID" value="Java" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="LGH95527f0605b" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2019-11-06T14:29:25.939Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="05157df51d568b16" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2019-11-29T09:05:54.152Z" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
     <property name="android.project.structure.last.selected" value="app" />
@@ -379,10 +427,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7733142" weight="0.22466423" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7733142" visible="true" weight="0.22466423" />
       <window_info id="Structure" order="1" sideWeight="0.49928263" weight="0.24969475" />
       <window_info id="Designer" order="2" />
       <window_info id="Build Variants" order="3" sideWeight="0.22668579" side_tool="true" weight="0.22466423" />
@@ -393,14 +441,14 @@
       <window_info id="Resources Explorer" order="8" sideWeight="0.49928263" weight="0.32967034" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.2631016" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4993895" weight="0.32941177" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.498779" weight="0.32406417" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39937106" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.25454545" />
       <window_info anchor="bottom" id="Android Profiler" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50061053" side_tool="true" weight="0.32941177" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.501221" side_tool="true" weight="0.32941177" />
       <window_info anchor="bottom" id="Logcat" order="10" weight="0.31764707" />
       <window_info anchor="bottom" id="Version Control" order="11" />
       <window_info anchor="bottom" id="Terminal" order="12" />
@@ -410,7 +458,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Android WiFi ADB" order="3" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="right" id="Device File Explorer" order="5" sideWeight="0.5021521" side_tool="true" weight="0.2924298" />
+      <window_info anchor="right" id="Device File Explorer" order="5" sideWeight="0.5021521" side_tool="true" weight="0.43833944" />
       <window_info anchor="right" id="Gradle" order="6" sideWeight="0.4978479" weight="0.32967034" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
@@ -458,9 +506,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/lge-lg_h955-LGH95527f0605b/pkg/Pictures/thermal_data_2019-10-31-17-00-41.csv" />
-    <entry file="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/lge-lg_h955-LGH95527f0605b/pkg/Pictures/thermal_data_2019-10-31-17-00-46.csv" />
-    <entry file="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/lge-lg_h955-LGH95527f0605b/pkg/Pictures/thermal_data_2019-10-31-17-00-51.csv" />
     <entry file="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/lge-lg_h955-LGH95527f0605b/pkg/Pictures/thermal_data_2019-10-31-17-00-56.csv" />
     <entry file="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/lge-lg_h955-LGH95527f0605b/pkg/Pictures/thermal_data_2019-10-31-17-01-01.csv" />
     <entry file="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/lge-lg_h955-LGH95527f0605b/pkg/Pictures/thermal_data_2019-10-31-17-04-11.csv" />
@@ -526,34 +571,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml" />
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/flironesdk.aar/2be744c23d1a303444901c81a0970a84/jars/classes.jar!/com/flir/flironesdk/FlirUsbDevice.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="68" lean-forward="true" selection-start-line="17" selection-start-column="68" selection-end-line="17" selection-end-column="68" />
-          <folding>
-            <element signature="e#328#346#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="480">
+          <caret line="43" column="69" selection-start-line="43" selection-start-column="69" selection-end-line="43" selection-end-column="69" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_gl_preview.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/flir/flironeexampleapplication/GLPreviewActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/flir/flironeexampleapplication/FLIROneSDKTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="799" column="29" lean-forward="true" selection-start-line="799" selection-start-column="29" selection-end-line="799" selection-end-column="29" />
+        <state relative-caret-position="314">
+          <caret line="34" column="23" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_gl_preview.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/flir/flironeexampleapplication/GLPreviewActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6435">
+          <caret line="493" column="19" selection-start-line="493" selection-start-column="14" selection-end-line="493" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="40" column="24" lean-forward="true" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest" />
     </entry>
   </component>
 </project>

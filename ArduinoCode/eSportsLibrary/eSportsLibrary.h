@@ -26,6 +26,7 @@ extern const int IDLE_DELAY;
 extern const char DELIMITER;
 extern const int N_DIGITS_PRECISION;
 extern bool do_measurements;
+extern bool bad_data;
 extern String current_time;
 
 extern SdFat SD;

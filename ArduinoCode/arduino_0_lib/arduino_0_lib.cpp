@@ -90,10 +90,22 @@ struct measurementsStruct *P_send = dataArray;
 struct measurementsStruct *P_receive = NULL;
 
 const int GSRPin = A2;
-const int EMG0Pin = A3;
-const int EMG1Pin = A4;
+int EMG0Pin, EMG1Pin;
+
 
 uint8_t uch_dummy;
+
+bool isBadData(measurementsStruct measurements){
+    if ((abs(measurements.quaternion_w_0) + abs(measurements.quaternion_x_0) +
+    abs(measurements.quaternion_y_0) + abs(measurements.quaternion_z_0) < 0.5) ||
+        (abs(measurements.quaternion_w_1) + abs(measurements.quaternion_x_1) +
+        abs(measurements.quaternion_y_1) + abs(measurements.quaternion_z_1) < 0.5))
+    {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 void bnoInit(Adafruit_BNO055 bno, String bno_name){
     if(!bno.begin())
@@ -155,6 +167,14 @@ void bnoInit(Adafruit_BNO055 bno, String bno_name){
 void arduinoInit(){
     bnoInit(bno_0, "bno_0");
     bnoInit(bno_1, "bno_1");
+
+    if (playerID == 0){  // I mixed it up for arduino 0 player 0
+        EMG0Pin = A4;
+        EMG1Pin = A3;
+    } else {
+        EMG0Pin = A3;
+        EMG1Pin = A4;
+    }
 }
 
 void Task_ReadingData(void *pvParameters){

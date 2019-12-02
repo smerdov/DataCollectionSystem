@@ -84,6 +84,17 @@ struct measurementsStruct dataArray[QUEUE_SIZE];
 struct measurementsStruct *P_send = dataArray;
 struct measurementsStruct *P_receive = NULL;
 
+bool isBadData(measurementsStruct measurements){
+    if ((abs(measurements.quaternion_w_0) + abs(measurements.quaternion_x_0) +
+    abs(measurements.quaternion_y_0) + abs(measurements.quaternion_z_0) < 0.5) ||
+        (abs(measurements.quaternion_w_1) + abs(measurements.quaternion_x_1) +
+        abs(measurements.quaternion_y_1) + abs(measurements.quaternion_z_1) < 0.5))
+    {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 void bnoInit(Adafruit_BNO055 bno, String bno_name){
     if(!bno.begin())
@@ -168,6 +179,7 @@ void Task_ReadingData(void *pvParameters){
             measurements.quaternion_z_1 = quaternion_1.z();
             
             dataArray[incr] = measurements;
+            bad_data = isBadData(measurements);
             
             P_send = dataArray+incr;
             
@@ -287,4 +299,7 @@ void Task_WritingData(void *pvParameters){
         myFile.flush();
     }
 }
+
+
+
 

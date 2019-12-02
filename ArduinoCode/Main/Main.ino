@@ -1,8 +1,8 @@
 #include "eSportsLibrary.h"
-#include "arduino_3_lib.h"
+#include "arduino_2_lib.h"
 
-const int playerID = 9;
-  
+const int playerID = 0;
+
 void setup() {
   generalInit();
   arduinoInit();

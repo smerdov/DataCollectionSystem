@@ -6,7 +6,8 @@ from config import *
 
 # plt.interactive(False)
 
-thermal_images_path = '../AndroidAppData/'
+# thermal_images_path = '../AndroidAppData/'
+thermal_images_path = 'Dataset/2019-11-15/player_2/face_temperature/'
 filenames = os.listdir(thermal_images_path)
 
 for filenum, filename in enumerate(filenames):
