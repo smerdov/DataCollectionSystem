@@ -3,7 +3,8 @@ import pandas as pd
 import os
 import json
 
-TIME_FORMAT = "%Y-%m-%d-%H-%M-%S"
+TIME_FORMAT4FILES = "%Y-%m-%d-%H-%M-%S"
+TIME_FORMAT = "%Y-%m-%d-%H:%M:%S"
 TIME_FORMAT_FIT = "%Y-%m-%dT%H:%M:%SZ"
 players_list = json.load(open('players_credentials.json'))
 
@@ -34,6 +35,7 @@ for player_dict in players_list:
 
         df2add = pd.DataFrame(data2add)[['hr']]
         df2add.index = pd.to_datetime(start_time) + df2add.index
+        df2add.index = [index_value.strftime(TIME_FORMAT) for index_value in df2add.index]
         df2add.rename(columns={'hr': 'heart_rate'}, inplace=True)
         df2add.index.name = 'Timestamp'
 
@@ -41,7 +43,8 @@ for player_dict in players_list:
 
     if len(df4player):
         df4player = df4player.sort_index()
-        suffix = df4player.index[0].strftime(TIME_FORMAT)
+        # suffix = df4player.index[0].strftime(TIME_FORMAT4FILES)
+        suffix = df4player.index[0].replace(':', '-')
 
         df4player.to_csv(f'output/player_{player_id}/heart_rate_{suffix}.csv')
     else:

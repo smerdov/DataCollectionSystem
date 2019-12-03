@@ -7,6 +7,7 @@ import os
 
 TIME_FORMAT4FILES = '%Y-%m-%d-%H-%M-%S'
 TIME_FORMAT = '%Y-%m-%d-%H:%M:%S.%f'
+sep = ';'
 
 queue_mouse = Queue(maxsize=10000)
 queue_keyboard = Queue(maxsize=10000)
@@ -18,8 +19,8 @@ if not os.path.exists('data'):
 
 filename_mouse = f'data/mouse_{current_datetime4files}.csv'
 filename_keyboard = f'data/keyboard_{current_datetime4files}.csv'
-header_mouse = 'time,event,x,y,params'
-header_keyboard = 'time,event,button'
+header_mouse = f'time{sep}event{sep}x{sep}y{sep}params'
+header_keyboard = f'time{sep}event{sep}button'
 
 def get_current_time():
     return datetime.now().strftime(TIME_FORMAT)
@@ -35,7 +36,7 @@ def mouse_on_move(x, y):
     params = {}
     params_str = json.dumps(params)
 
-    msg = f'{current_time},{event},{x},{y},{params_str}'
+    msg = f'{current_time}{sep}{event}{sep}{x}{sep}{y}{sep}{params_str}'
     queue_mouse.put(msg)
 
 
@@ -53,7 +54,7 @@ def mouse_on_click(x, y, button, pressed):
     params['button'] = button.name
     params_str = json.dumps(params)
 
-    msg = f'{current_time},{event},{x},{y},{params_str}'
+    msg = f'{current_time}{sep}{event}{sep}{x}{sep}{y}{sep}{params_str}'
     queue_mouse.put(msg)
 
 def mouse_on_scroll(x, y, dx, dy):
@@ -67,7 +68,7 @@ def mouse_on_scroll(x, y, dx, dy):
     params['dy'] = dy
     params_str = json.dumps(params)
 
-    msg = f'{current_time},{event},{x},{y},{params_str}'
+    msg = f'{current_time}{sep}{event}{sep}{x}{sep}{y}{sep}{params_str}'
     queue_mouse.put(msg)
 
 
@@ -79,10 +80,10 @@ def keyboard_on_press(key):
     else:
         button_name = key.name
 
-    if button_name == ',':  # We won't lose much but simplify the format
+    if button_name == sep:  # We won't lose much but simplify the format
         return
 
-    msg = f'{current_time},{event},{button_name}'
+    msg = f'{current_time}{sep}{event}{sep}{button_name}'
     queue_keyboard.put(msg)
 
 
@@ -94,10 +95,10 @@ def keyboard_on_release(key):
     else:
         button_name = key.name
 
-    if button_name == ',':  # We won't lose much but simplify the format
+    if button_name == sep:  # We won't lose much but simplify the format
         return
 
-    msg = f'{current_time},{event},{button_name}'
+    msg = f'{current_time}{sep}{event}{sep}{button_name}'
     queue_keyboard.put(msg)
 
 

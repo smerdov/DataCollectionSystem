@@ -31,6 +31,9 @@ async def do_stuff(cortex):
         # session_ids = []
         # session_id2player_id = {}
         for headset_id in cortex.headsets:
+            if not headset_id.startswith('INSIGHT'):
+                continue
+
             await cortex.create_session(activate=True, headset_id=headset_id)
             # session_ids.append(new_session_id)
 
