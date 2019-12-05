@@ -3,10 +3,17 @@ import os
 from datetime import datetime
 import pandas as pd
 import json
+import argparse
 
 # CONFIG_FILENAME = "config.yml"
 # config = load_config(CONFIG_FILENAME)
 # # user_id = config["user_id"]
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--date', default='', type=str)
+args = parser.parse_args()
+date = args.date
+
 
 def get_relevant_exercises(exercises_list, start_time_intervals_list, min_duration=0):
     relevant_exercises_list = []
@@ -27,11 +34,22 @@ def get_relevant_exercises(exercises_list, start_time_intervals_list, min_durati
 
 players_list = json.load(open('players_credentials.json'))
 
-start_time_intervals_list = [ # Start time intervals must don't intersect
-    ('2019-11-15T00:00:00Z', '2019-11-15T23:59:59Z'),
-    # ('2019-11-22T00:00:00Z', '2019-11-22T23:59:59Z'),
-]
+def create_interval_for_date(date):
+    date_start = f'{date}T00:00:00Z'
+    date_end = f'{date}T23:59:59Z'
 
+    return (date_start, date_end)
+
+
+
+# start_time_intervals_list = [ # Start time intervals must don't intersect
+#     ('2019-11-15T00:00:00Z', '2019-11-15T23:59:59Z'),
+#     # ('2019-11-22T00:00:00Z', '2019-11-22T23:59:59Z'),
+# ]
+
+start_time_intervals_list = [
+    create_interval_for_date(date)
+]
 
 for player_dict in players_list:
     player_id = player_dict['player_id']

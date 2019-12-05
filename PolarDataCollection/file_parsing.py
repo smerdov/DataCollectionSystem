@@ -19,6 +19,7 @@ for player_dict in players_list:
     prefixes = [filename[:-4] for filename in player_fit_filenames if filename.endswith('.fit')]
 
     if len(prefixes) == 0:
+        print(f'No data for player {player_id}')
         continue
 
     # for player_fit_filename in player_fit_filenames:
