@@ -6,11 +6,34 @@ import matplotlib.pyplot as plt
 import itertools
 from config import *
 from utils import get_intervals_from_moments, EventIntervals
-
+import argparse
 
 plt.interactive(False)
+
+date = '2019-11-15'
+# data_path = f'{dataset_folder}{date}/'
+data_path_processed = f'{dataset_folder}{date}_processed/'
+
+# parser = argparse.ArgumentParser()
+# parser.add_argument('--date', default='', type=str)
+# args = parser.parse_args()
+# date = args.date
+
+data_sources = [
+    'arduino_0',
+    'arduino_1',
+    'arduino_2',
+    'polar_heart_rate',
+    'face_temperature',
+    'eye_tracker',
+    'mouse',
+    'keyboard',
+    'EEG',
+]
+
+
 # data_dict = joblib.load(data_folder + 'data_dict')
-matches_dict = joblib.load(data_folder + 'matches_dict')
+# matches_dict = joblib.load(data_folder + 'matches_dict')
 # replays_dict = joblib.load(data_folder + 'replays_dict')
 
 # del data_dict[0]['eye_tracker']
@@ -38,13 +61,19 @@ def square_plot(df, columns2plot, timecol='Timestamp', suffix='last'):
     fig.tight_layout()
     fig.savefig(f'{pic_folder}square_plot_{suffix}.png')
 
-data_sources = [f'arduino_{i}' for i in range(3)] + ['eye_tracker']
+# data_sources = [f'arduino_{i}' for i in range(3)] + ['eye_tracker']
 
-data_sources_columns2plot = {
-    'arduino_0': list(matches_dict['4232819529']['0']['sensors']['arduino_0'].columns),
-    'arduino_1': list(matches_dict['4232819529']['0']['sensors']['arduino_1'].columns),
-    'arduino_2': list(matches_dict['4232819529']['0']['sensors']['arduino_2'].columns),
+data_sources_columns2plot = { # If None, then plot all columns
+    'arduino_0': ['gsr', 'emg_0', 'emg_1', 'linaccel_x_0', 'linaccel_y_1', 'linaccel_z_0',
+                  'linaccel_x_1', 'linaccel_y_1', 'linaccel_z_1'],
+    'arduino_1': ['linaccel_x_0', 'linaccel_y_1', 'linaccel_z_0',
+                  'linaccel_x_1', 'linaccel_y_1', 'linaccel_z_1',
+                  'gyro_x_0', 'gyro_y_0', 'gyro_z_0',
+                  'gyro_x_1', 'gyro_y_1', 'gyro_z_1',
+                  ],
+    'arduino_2': ['irValue', 'redValue'],
     'eye_tracker': ['gaze_x', 'gaze_y', 'pupil_diameter'],
+    'polar_heart_rate': ['heart_rate'],
 }
 
 n_plots = sum([len(value) for value in data_sources_columns2plot.values()])
@@ -52,11 +81,32 @@ n_plots = sum([len(value) for value in data_sources_columns2plot.values()])
 n_cols = np.ceil(np.sqrt(n_plots)).astype(int)
 n_rows = (n_plots - 1) // n_cols + 1
 
+game_names = sorted(os.listdir(data_path_processed))
+game_names = [game_name for game_name in game_names if game_name.startswith('game')]
+player_ids = ['0', '1', '2', '3', '4']
 
-for match_id, match_dict in matches_dict.items():
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Visualization of many sensors for each player
+
+for game_name in game_names:
+    # for match_id, match_dict in matches_dict.items():
     # for player_id, match_dict4player in match_dict.items():
+
     for player_id in player_ids:
-        match_dict4player = match_dict[player_id]
+        # match_dict4player = match_dict[player_id]
 
         fig, ax = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=(50, 25), squeeze=False, sharex=True)
         n_plot = 0
