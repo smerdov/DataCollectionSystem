@@ -1,12 +1,20 @@
 from datetime import datetime
 import pandas as pd
 from datetime import timedelta
+import os
+import argparse
 
-date = '2019-11-15'
+parser = argparse.ArgumentParser()
+parser.add_argument('--date', default='', type=str)
+args = parser.parse_args()
+date = args.date
+
+# date = '2019-11-15'
+
 path = f'../Dataset/{date}/'
 TIME_FORMAT = '%Y-%m-%d-%H:%M:%S'
 
-df = pd.read_csv(path + 'games_start_end_times_calculation.csv', sep=';')
+df = pd.read_csv(path + 'labels/games_start_end_times_input_data.csv', sep=';')
 
 def parse_timedelta(string):
     timedelta_value = datetime.strptime(string, '%H:%M:%S')
@@ -40,7 +48,7 @@ for n_row in range(len(df)):
     df.loc[n_row, 'game_end'] = game_end
 
 df = df[['game_num', 'game_start', 'game_end']]
-df.to_csv(path + 'games_start_end_times.csv', index=False)
+df.to_csv(path + 'labels/games_start_end_times.csv', index=False)
 
 
 
