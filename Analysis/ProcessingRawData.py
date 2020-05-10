@@ -260,7 +260,7 @@ for date in tqdm.tqdm(args.dates, desc='date\'s progress...'):
                                 filename_1 = data_rename_dict[data_source][1]
                                 save2path(game_dir, player_id, filename_1, df_imu_chair_back)
                             elif data_source =='arduino_0':
-                                columns_part_0 = ['gsr']  # TODO: shall I process it?
+                                columns_part_0 = ['gsr']
                                 columns_part_1 = ['emg_0', 'emg_1']
                                 columns_part_1_renamed = ['emg_right_hand', 'emg_left_hand']
                                 columns_part_2 = [column for column in df4game.columns if column not in (columns_part_0 + columns_part_1)]
