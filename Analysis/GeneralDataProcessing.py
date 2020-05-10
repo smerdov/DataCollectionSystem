@@ -9,7 +9,8 @@ from config import *
 import argparse
 import json
 
-dates = ['2019-11-15', '2019-11-22']
+# dates = ['2019-11-15', '2019-11-22']
+dates = ['2019-11-22']
 player_ids = ['player_0', 'player_1', 'player_2', 'player_3', 'player_4']
 
 data_sources = [
@@ -45,6 +46,7 @@ data_sources_columns = { # If None, then plot all columns
 
 data_dict = {}
 
+# date = dates[0]
 for date in dates:
     date_dict = {}
     # data_path = f'{dataset_folder}{date}/'
