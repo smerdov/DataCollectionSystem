@@ -10,6 +10,8 @@ API_KEY = 'RGAPI-be47ec68-ab05-46b3-97ad-902d0d44a31b'
 plt.interactive(True)
 pd.options.display.max_columns = 15
 
+player_ids = list(range(5))
+
 summoner_name2player_id_dicts = {
     'pros': {
         'Reiign': 0,
