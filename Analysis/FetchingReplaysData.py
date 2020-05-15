@@ -13,6 +13,8 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--dates', nargs='+', default='', type=str)
 args = parser.parse_args()
+if args.dates[0] == 'all_dates':
+    args.dates = all_dates
 
 
 for date in args.dates:

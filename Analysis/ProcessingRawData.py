@@ -16,6 +16,8 @@ import tqdm
 parser = argparse.ArgumentParser()
 parser.add_argument('--dates', nargs='+', default='', type=str)
 args = parser.parse_args()
+if args.dates[0] == 'all_dates':
+    args.dates = all_dates
 # args = parser.parse_args(['--date', '2019-12-17'])
 # args = parser.parse_args(['--date', '2019-12-11b'])
 # date = args.date
