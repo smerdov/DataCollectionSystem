@@ -38,6 +38,10 @@ for date in tqdm.tqdm(args.dates, desc='date\'s progress...'):
             continue
 
         path_src = os.path.join(dataset_folder, f'{date}_processed', f'game_{game_id}')
+        if not os.path.exists(path_src):
+            print(f'{path_src} does not exist')
+            continue
+
         path_dst = os.path.join(dataset_folder, 'matches', f'match_{match_id}')
         if not os.path.exists(path_dst):
             os.makedirs(path_dst)

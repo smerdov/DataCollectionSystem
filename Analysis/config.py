@@ -5,18 +5,35 @@ dataset_folder = '../Dataset/'
 data_folder = '../Data/'
 pic_folder = '../Pictures/'
 # API_KEY = 'RGAPI-3e4ae736-1151-4541-9c45-c33593d25987'
-API_KEY = 'RGAPI-be47ec68-ab05-46b3-97ad-902d0d44a31b'
+API_KEY = 'RGAPI-43efbdb5-43b8-4867-bac6-93180de95bf8'
 
 plt.interactive(True)
 pd.options.display.max_columns = 15
 
 player_ids = list(range(5))
 
+data_sources = [
+    'emg',
+    'eye_tracker',
+    'gsr',
+    'heart_rate',
+    'imu_chair_back',
+    'imu_chair_seat',
+    'imu_left_hand',
+    'imu_right_hand',
+    'keyboard',
+    'mouse',
+    'particle_sensor',
+    'face_temperature',
+    'eeg',
+]
+
 summoner_name2player_id_dicts = {
     'pros': {
         'Reiign': 0,
         'Biotom': 1,
         'TUK hi im ballat': 2,
+        'Ebermann': 2,
         'TUK Psytolos': 3,
         'TUK Trannas': 4,
         },

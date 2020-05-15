@@ -136,64 +136,64 @@ class EncounterExtractor:
     #     return encounter
 
 
+if __name__ == '__main__':
+    encounter_extractor = EncounterExtractor(min_interval=10)
 
-encounter_extractor = EncounterExtractor(min_interval=10)
+    # match = 'match_0'
+    for match in matches:
+        path2replay_json = os.path.join(matches_folder, match, 'replay.json')
+        path2meta_info = os.path.join(matches_folder, match, 'meta_info.json')
+        # events = []
+        events4players = defaultdict(list)
+        encounters4players = {}
+        # player_id = 0
 
-# match = 'match_0'
-for match in matches:
-    path2replay_json = os.path.join(matches_folder, match, 'replay.json')
-    path2meta_info = os.path.join(matches_folder, match, 'meta_info.json')
-    # events = []
-    events4players = defaultdict(list)
-    encounters4players = {}
-    # player_id = 0
+        with open(path2replay_json) as f:
+            replay_json = json.load(f)
 
-    with open(path2replay_json) as f:
-        replay_json = json.load(f)
+        with open(path2meta_info) as f:
+            meta_info = json.load(f)
 
-    with open(path2meta_info) as f:
-        meta_info = json.load(f)
+        match_result = replay_json['teams']['participants']['win']
+        # replay_json['player_0']['killTimes']
+        # replay_json['player_0']['deathTimes']
 
-    match_result = replay_json['teams']['participants']['win']
-    # replay_json['player_0']['killTimes']
-    # replay_json['player_0']['deathTimes']
+        for player_id in player_ids:
+            # path2player_data = os.path.join(matches_folder, match, f'player_{player_id}')
+            event4player = replay_json[f'player_{player_id}']
 
-    for player_id in player_ids:
-        # path2player_data = os.path.join(matches_folder, match, f'player_{player_id}')
-        event4player = replay_json[f'player_{player_id}']
+            for event_type in event_types:
+                key4event_type = event_type + 'Times'
+                event_times = event4player[key4event_type]
+                for event_time in event_times:
+                    event = Event(time=event_time, event_type=event_type, player_id=player_id)
+                    events4players[player_id].append(event)
+                    # match_events
 
-        for event_type in event_types:
-            key4event_type = event_type + 'Times'
-            event_times = event4player[key4event_type]
-            for event_time in event_times:
-                event = Event(time=event_time, event_type=event_type, player_id=player_id)
-                events4players[player_id].append(event)
-                # match_events
+        # match_events
+        # sorted(match_events)
+        for player_id in player_ids:
+            events4players[player_id] = sorted(events4players[player_id])
+            encounters4players[player_id] = encounter_extractor(events4players[player_id])
+            pprint(encounters4players[player_id])
 
-    # match_events
-    # sorted(match_events)
-    for player_id in player_ids:
-        events4players[player_id] = sorted(events4players[player_id])
-        encounters4players[player_id] = encounter_extractor(events4players[player_id])
-        pprint(encounters4players[player_id])
+        for player_id, encounters4player in encounters4players.items():
+            output_path = os.path.join(matches_processed_folder, match, f'player_{player_id}', 'encounters.json')
+            output_dir = os.path.dirname(output_path)
+            if not os.path.exists(output_dir):
+                os.makedirs(output_dir)
 
-    for player_id, encounters4player in encounters4players.items():
-        output_path = os.path.join(matches_processed_folder, match, f'player_{player_id}', 'encounters.json')
-        output_dir = os.path.dirname(output_path)
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+            json_content = []
+            for encounter4player in encounters4player:
+                time = encounter4player.time
+                outcome = encounter4player.outcome
+                json_content.append({
+                    'time': time,
+                    'outcome': outcome,
+                })
 
-        json_content = []
-        for encounter4player in encounters4player:
-            time = encounter4player.time
-            outcome = encounter4player.outcome
-            json_content.append({
-                'time': time,
-                'outcome': outcome,
-            })
-
-        with open(output_path, 'w') as f:
-            json.dump(json_content, f)
+            with open(output_path, 'w') as f:
+                json.dump(json_content, f)
 
 
 

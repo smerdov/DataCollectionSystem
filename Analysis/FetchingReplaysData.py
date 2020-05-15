@@ -34,7 +34,12 @@ for date in args.dates:
     game_folders = sorted(game_folders)
 
     for game_folder in game_folders:
-        with open(replays_path + game_folder + '/' + 'match_id.md') as f:
+        match_id_path = os.path.join(replays_path, game_folder, 'match_id.md')
+        # with open(replays_path + game_folder + '/' + 'match_id.md') as f:
+        if not os.path.exists(match_id_path):
+            continue
+
+        with open(match_id_path) as f:
             match_id = f.readline()
             match_ids_dict[game_folder] = match_id
 

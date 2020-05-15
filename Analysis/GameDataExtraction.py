@@ -14,7 +14,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--dates', nargs='+', default='', type=str)
 args = parser.parse_args()
 # args = parser.parse_args(['--date', '2019-12-17', '2019-12-11b', '2019-12-11a'])
-# args = parser.parse_args(['--date', '2019-12-11b'])
+# args = parser.parse_args(['--date', '2019-12-04'])
+# date = args.dates[0]
 
 for date in args.dates:
     # date = args.date
@@ -97,10 +98,20 @@ for date in args.dates:
                 5: 'TUK Psytolos',
             }
         },
+        '2019-12-04': {
+            'game_2': {
+                1: 'Reiign',
+                2: 'TUK Psytolos',
+                3: 'Biotom',
+                4: 'Ebermann',
+                5: 'TUK Trannas',
+            }
+        },
     }
 
     # match_id, replay_json = list(replays_jsons.items())[0]
     for match_id, replay_json in replays_jsons.items():
+        print(f'Processing {match_id}')
         custom_game = False
         # players_dict4replay = {}
         participant_id2summoner_name_dict = {}
@@ -122,11 +133,16 @@ for date in args.dates:
 
             return player_id
 
+        ### TODO: do I need 2 lines below?
+        # if len(participant_id2summoner_name_dict) == 0:
+        #     raise ValueError(f'Game {match_id} is a custom game. I need to reindex players')
 
+        # print(participant_id2summoner_name_dict)
         n_opponent_id = 0
         for _participant_id in range(1, 11):
             if _participant_id not in participant_id2summoner_name_dict:  # T
                 opponent_name = f'opponent_{n_opponent_id}'
+                print(f'Creating {opponent_name}')
                 participant_id2summoner_name_dict[_participant_id] = opponent_name
                 n_opponent_id += 1
 

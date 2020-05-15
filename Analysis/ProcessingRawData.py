@@ -37,6 +37,7 @@ data_rename_dict = {
     'arduino_1': ['imu_chair_seat', 'imu_chair_back'],
     'arduino_2': 'particle_sensor',
     'polar_heart_rate': 'heart_rate',
+    'EEG': 'eeg',
 }
 
 def save2path(game_dir, player_id, filename, df):
@@ -218,7 +219,9 @@ for date in tqdm.tqdm(args.dates, desc='date\'s progress...'):
             #     df_data_source.index = [datetime.strptime(x, '%Y-%m-%d-%H:%M:%S').timestamp() for x in df_data_source.index]
 
             if data_source == 'eye_tracker':
-                df_data_source.index = df_data_source.index / 1000 + 3600 * eye_tracker_shift_hours
+                # df_data_source.index = df_data_source.index / 1000 + 3600 * eye_tracker_shift_hours
+                # When using '+' it looks like the data is misaligned probably for about 2 hours
+                df_data_source.index = df_data_source.index / 1000 - 3600 * eye_tracker_shift_hours
 
             df_data_source.index.name = 'Timestamp'
             df_data_source.sort_index(inplace=True)
