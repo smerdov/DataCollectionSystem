@@ -1,15 +1,9 @@
-To extract data for one experimental day:
+To process the dataset:
 
-1. Get game start end times with `python get_game_start_end_times.py --dates YOUR_DATES`
+1. Smoothed and preliminary resample data: `python SensorDataProcessing.py --resample-string 5s`
 
-2. Process the data with `python ProcessingRawData.py --dates YOUR_DATES`
+1. Extract information about encounters: `python EncountersProcessing.py`
 
-3. Fetch replays from RIOT database `python FetchingReplaysData.py --dates YOUR_DATES`
+1. Prepare training tensors for training: `python TensorsCreation.py --resample-string 30s`
 
-4. Process fetched replays with `python GameDataExtraction.py --dates YOUR_DATES`
-
-5. Process players' responses `python AfterMatchSurveyProcessing`
-
-6. Compose all matches to `matches` folder using `python compose_matches --dates YOUR_DATES`
-
-To create a file with players info run `python PlayerSurveyProcessing.py`
+1. Traing a network: `python NN.py`
