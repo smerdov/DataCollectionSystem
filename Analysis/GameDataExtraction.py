@@ -13,18 +13,23 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--dates', nargs='+', default='', type=str)
 args = parser.parse_args()
+if args.dates[0] == 'all_dates':
+    args.dates = all_dates
+
 # args = parser.parse_args(['--date', '2019-12-17', '2019-12-11b', '2019-12-11a'])
 # args = parser.parse_args(['--date', '2019-12-04'])
 # date = args.dates[0]
+event_types_dict = {}
+event_types_dict['kill'] = ['CHAMPION_KILL']
+event_types_dict['building_kill'] = ['BUILDING_KILL']
+event_types_dict['item_and_skill'] = ['ITEM_DESTROYED', 'ITEM_PURCHASED', 'ITEM_UNDO', 'ITEM_SOLD', 'SKILL_LEVEL_UP']
+event_types_dict['ward_placed'] = ['WARD_PLACED']
+event_types_dict['ward_or_monster_kill'] = ['WARD_KILL', 'ELITE_MONSTER_KILL']
+event_types_union = sum(list(event_types_dict.values()), [])
+
 
 for date in args.dates:
-    # date = args.date
-
-    # date = '2019-12-17'
-    # team_name = 'amateurs'
     team_name = date2exp_dict[date]['team']
-
-    # team_name = 'pros'
 
     summoner_name2player_id_dict = summoner_name2player_id_dicts[team_name]
     summoner_name2player_id_dict.update({
@@ -128,6 +133,9 @@ for date in args.dates:
                     participant_id2summoner_name_dict[participant_id] = participant['player']['summonerName']
 
         def get_player_id_from_participant_id(participant_id):
+            if participant_id == 0:
+                return 0
+
             summoner_name = participant_id2summoner_name_dict[participant_id]
             player_id = summoner_name2player_id_dict[summoner_name]
 
@@ -183,6 +191,7 @@ for date in args.dates:
                 'deathTimes': [],
                 'killTimes': [],
                 'assistTimes': [],
+                'timelineStats': [],
             }
 
 
@@ -206,10 +215,10 @@ for date in args.dates:
 
         # replay_processed['end_time'] = replay_processed['start_time'] + pd.Timedelta(replay_processed['game_duration'], unit='s')
 
-
-
-
+        player_stats_processed = []
+        events_processed = []
         for frames in replay_json['frames']:
+            current_timestamp = frames['timestamp'] / 1000
             for event in frames['events']:
             # for event in replay_json['frames'][10]['events']:
                 if event['type'] == 'CHAMPION_KILL':
@@ -224,6 +233,7 @@ for date in args.dates:
                         # summoner_name = participant_id2summoner_name_dict[event['victimId']]
                         player_id = get_player_id_from_participant_id(event['victimId'])
                         replay_processed[f'player_{player_id}']['deathTimes'].append(timestamp)
+
                     for assistant_participant_id in event['assistingParticipantIds']:
                         if assistant_participant_id in participant_id2summoner_name_dict:
                             timestamp = event['timestamp'] / 1000
@@ -231,6 +241,49 @@ for date in args.dates:
                             player_id = get_player_id_from_participant_id(assistant_participant_id)
                             replay_processed[f'player_{player_id}']['assistTimes'].append(timestamp)
 
+                ### Counting unique events
+                # pd.concat([pd.DataFrame(frame['events']) for frame in replay_json['frames']])['type'].value_counts()
+                # pd.DataFrame(replay_json['frames'][-1]['events'])['type'].value_counts()
+                event_processed = {}
+
+                if event['type'] in event_types_union:
+                    event_processed.update(event)
+                    event_processed['timestep'] = event_processed['timestamp'] / 1000
+
+                    if event['type'] in event_types_dict['kill']:
+                        event_processed['killerId'] = get_player_id_from_participant_id(event_processed['killerId'])
+                        event_processed['victimId'] = get_player_id_from_participant_id(event_processed['victimId'])
+                        event_processed['assistingPlayerIds'] = [get_player_id_from_participant_id(assisting_participant_id)
+                             for assisting_participant_id in event_processed['assistingParticipantIds']]
+
+                    if event['type'] in event_types_dict['item_and_skill']:
+                        event_processed['playerId'] = get_player_id_from_participant_id(event_processed['participantId'])
+
+                    if event['type'] in event_types_dict['ward_placed']:
+                        event_processed['playerId'] = get_player_id_from_participant_id(event_processed['creatorId'])
+
+                    if event['type'] in event_types_dict['ward_or_monster_kill']:
+                        # if event_processed['killerId'] > 0:
+                        event_processed['playerId'] = get_player_id_from_participant_id(event_processed['killerId'])
+
+                    if event['type'] in event_types_dict['building_kill']:
+                        # if event_processed['killerId'] > 0:  # Hot solution! maybe I can save such event somehow
+                        event_processed['killerId'] = get_player_id_from_participant_id(event_processed['killerId'])
+                        event_processed['assistingPlayerIds'] = [get_player_id_from_participant_id(assisting_participant_id)
+                             for assisting_participant_id in event_processed['assistingParticipantIds']]
+
+                    events_processed.append(event_processed)
+
+            for value in frames['participantFrames'].values():
+                player_stats = value.copy()
+                player_id = get_player_id_from_participant_id(value['participantId'])
+                del player_stats['participantId']
+                player_stats['timestamp'] = current_timestamp
+                replay_processed[f'player_{player_id}']['timelineStats'].append(player_stats)
+                # player_stats_processed.append(player_stats)
+
+        replay_processed['events'] = events_processed
+        # replay_processed['player_stats'] = player_stats_processed
         replays_processed[match_id] = replay_processed
 
         path2save = os.path.join(data_path_processed, match_id, f'replay.json')

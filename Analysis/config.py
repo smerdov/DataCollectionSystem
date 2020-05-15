@@ -72,6 +72,7 @@ date2exp_dict = {
         'day_num': 3,
     },
 }
+all_dates = date2exp_dict.keys()
 
 exp2date_dict = {
     ('amateurs', 1): '2019-11-15',
