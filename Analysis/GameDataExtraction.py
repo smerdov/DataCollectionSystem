@@ -255,22 +255,27 @@ for date in args.dates:
                         event_processed['victimId'] = get_player_id_from_participant_id(event_processed['victimId'])
                         event_processed['assistingPlayerIds'] = [get_player_id_from_participant_id(assisting_participant_id)
                              for assisting_participant_id in event_processed['assistingParticipantIds']]
+                        del event_processed['assistingParticipantIds']
 
                     if event['type'] in event_types_dict['item_and_skill']:
                         event_processed['playerId'] = get_player_id_from_participant_id(event_processed['participantId'])
+                        del event_processed['participantId']
 
                     if event['type'] in event_types_dict['ward_placed']:
                         event_processed['playerId'] = get_player_id_from_participant_id(event_processed['creatorId'])
+                        del event_processed['creatorId']
 
                     if event['type'] in event_types_dict['ward_or_monster_kill']:
                         # if event_processed['killerId'] > 0:
                         event_processed['playerId'] = get_player_id_from_participant_id(event_processed['killerId'])
+                        del event_processed['killerId']
 
                     if event['type'] in event_types_dict['building_kill']:
                         # if event_processed['killerId'] > 0:  # Hot solution! maybe I can save such event somehow
                         event_processed['killerId'] = get_player_id_from_participant_id(event_processed['killerId'])
                         event_processed['assistingPlayerIds'] = [get_player_id_from_participant_id(assisting_participant_id)
                              for assisting_participant_id in event_processed['assistingParticipantIds']]
+                        del event_processed['assistingParticipantIds']
 
                     events_processed.append(event_processed)
 
