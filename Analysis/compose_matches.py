@@ -26,6 +26,8 @@ import shutil
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dates', nargs='+', default='', type=str)
+# parser.add_argument('--replay-only', action='store_true')
+parser.add_argument('--separate-file', default=None, type=str, choices=['replay.json', 'meta_info.json'])
 args = parser.parse_args()
 if args.dates[0] == 'all_dates':
     args.dates = all_dates
@@ -48,8 +50,18 @@ for date in tqdm.tqdm(args.dates, desc='date\'s progress...'):
         if not os.path.exists(path_dst):
             os.makedirs(path_dst)
 
-        shutil.rmtree(path_dst)
-        shutil.copytree(path_src, path_dst)
+        rm_func = shutil.rmtree
+        copy_func = shutil.copytree
+
+        # if len(args.separate_file):
+        if args.separate_file is not None:
+            path_src = os.path.join(path_src, args.separate_file)
+            path_dst = os.path.join(path_dst, args.separate_file)
+            rm_func = os.remove
+            copy_func = shutil.copy2
+
+        rm_func(path_dst)
+        copy_func(path_src, path_dst)
         # copytree(path_src, path_dst)
         match_id += 1
 

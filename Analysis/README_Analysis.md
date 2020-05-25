@@ -6,4 +6,4 @@ To process the dataset:
 
 1. Prepare training tensors for training: `python TensorsCreation.py --resample-string 30s`
 
-1. Traing a network: `python NN.py`
+1. Traing a network: `python RNN.py`

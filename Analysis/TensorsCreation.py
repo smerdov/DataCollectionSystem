@@ -14,14 +14,16 @@ from sklearn.preprocessing import StandardScaler
 import torch
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--resample-string', default='5s', type=str)
+parser.add_argument('--time-step', default='5s', type=str)
+parser.add_argument('--forecasting-horizon', default=10, type=float, help='Forecasting horizon in seconds')
+parser.add_argument('--suffix', default='last', type=str, help='Suffix to append to files')
 # args = parser.parse_args([])  # TODO: comment
 args = parser.parse_args()  # TODO: uncomment
 teams = ['amateurs', 'pros']
 
 matches_processed_folder = os.path.join(dataset_folder, 'matches_processed')
 matches = [match for match in os.listdir(matches_processed_folder) if match.startswith('match')]
-# resample_string = f'{args.timestep}s'
+# time_step = f'{args.timestep}s'
 
 data_sources2use = [
     'gsr',
@@ -36,17 +38,7 @@ data_sources2use = [
     'eye_tracker',
 ]
 
-columns_order = ['gsr', 'emg_right_hand', 'emg_left_hand', 'heart_rate',
-       'linaccel_x_left_hand', 'linaccel_y_left_hand', 'linaccel_z_left_hand',
-       'gyro_x_left_hand', 'gyro_y_left_hand', 'gyro_z_left_hand',
-       'linaccel_x_right_hand', 'linaccel_y_right_hand',
-       'linaccel_z_right_hand', 'gyro_x_right_hand', 'gyro_y_right_hand',
-       'gyro_z_right_hand', 'linaccel_x_chair_seat', 'linaccel_y_chair_seat',
-       'linaccel_z_chair_seat', 'gyro_x_chair_seat', 'gyro_y_chair_seat',
-       'gyro_z_chair_seat', 'linaccel_x_chair_back', 'linaccel_y_chair_back',
-       'linaccel_z_chair_back', 'gyro_x_chair_back', 'gyro_y_chair_back',
-       'gyro_z_chair_back', 'button_pressed', 'mouse_movement',
-       'mouse_pressed', 'gaze_movement', 'pupil_diameter']
+
 
 # test_matches = ['match_10', 'match_11']
 
@@ -71,9 +63,11 @@ for match in matches:
         player_id_team = (player_id, team)
 
         df_encounters = pd.DataFrame.from_records(encounters_json).set_index('time').rename(columns={'outcome':'encounter_outcome'})
+        df_encounters.index = df_encounters.index - args.forecasting_horizon
+        df_encounters = df_encounters.loc[df_encounters.index > 0, :]
         df_encounters.index = pd.TimedeltaIndex(df_encounters.index, unit='s')
-        df_encounters.index = df_encounters.index.floor(args.resample_string)
-        # For the case when args.resample_string in this script
+        df_encounters.index = df_encounters.index.floor(args.time_step)
+        # For the case when args.time_step in this script
         df_encounters = (df_encounters.groupby(by='time').mean() > 0.5) * 1
 
         # data_source = 'gsr'
@@ -88,8 +82,8 @@ for match in matches:
             df4data_source = pd.read_csv(path2data_source, index_col='time')
             df4data_source.index = pd.TimedeltaIndex(df4data_source.index, unit='s')
             if data_source.startswith('imu'):
-                suffix = data_source.split('imu')[1]
-                df4data_source.columns = [column + suffix for column in df4data_source.columns]
+                imu_suffix = data_source.split('imu')[1]
+                df4data_source.columns = [column + imu_suffix for column in df4data_source.columns]
 
             df4player = df4player.join(df4data_source, how='outer')
             # print(data_source)
@@ -98,7 +92,7 @@ for match in matches:
         df4player = df4player.interpolate('linear', limit_area='inside')
         df4player.fillna(df4player.median(), inplace=True)
 
-        df4player_resampled = df4player.resample(args.resample_string).mean()
+        df4player_resampled = df4player.resample(args.time_step).mean()
 
         df_encounters = df4player_resampled.join(df_encounters, how='outer')['encounter_outcome']  # Trick
         df_encounters = df_encounters.fillna(-1).astype(int)
@@ -128,17 +122,17 @@ data_dict = {
 }
 
 
-team = 'amateurs'
+# team = 'amateurs'
 for team in teams:
-    player_id = 3
+    # player_id = 3
     for player_id in player_ids:
         player_id_team = (player_id, team)
         player_train_list = []
         ss = StandardScaler()
 
         # match = 'match_1'
+        ### Collecting all train data to one df to fit standard scaler
         for match in matches:
-
             path2meta_info = os.path.join(matches_processed_folder, match, f'meta_info.json')
             with open(path2meta_info) as f:
                 meta_info_json = json.load(f)
@@ -152,7 +146,7 @@ for team in teams:
                 df2append = matches_dict[match][player_id_team]['data']
                 player_train_list.append(df2append)
 
-        all_train_df = pd.concat(player_train_list, axis=0)
+        all_train_df = pd.concat(player_train_list, axis=0).loc[:, columns_order]
         ss.fit(all_train_df.values)
         # tmp.tail(100)
 
@@ -176,6 +170,11 @@ for team in teams:
                     df4player_match[column] = None
 
             df4player_match_copy = df4player_match.fillna(df4player_match.median()).loc[:, columns_order].copy()
+
+            last_index = np.nonzero(target4player_match.values != -1)[-1][-1] + 1  # We are not interested in duplicating -1 in the end
+            df4player_match_copy = df4player_match_copy.iloc[:last_index, :]
+            target4player_match = target4player_match.iloc[:last_index]
+
             df4player_match_copy.loc[:, :] = ss.transform(df4player_match_copy.values)
             df4player_match_copy.fillna(0, inplace=True)
 
@@ -190,7 +189,7 @@ for team in teams:
             #     df2append = matches_dict[match][player_id_team]['data']
             #     player_train_list.append(df2append)
 
-joblib.dump(data_dict, os.path.join(data_folder, 'data_dict'))
+joblib.dump(data_dict, os.path.join(data_folder, f'data_dict_{args.suffix}'))
 
 # data_dict.keys()
 # data_dict['train']

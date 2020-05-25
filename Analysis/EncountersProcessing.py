@@ -11,6 +11,12 @@ import json
 from collections import defaultdict
 from pprint import pprint
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--min-interval', default=10, type=float)
+parser.add_argument('--margin', default=0.15, type=float)
+args = parser.parse_args()
+# args = parser.parse_args([])
+
 matches_folder = os.path.join(dataset_folder, 'matches')
 matches_processed_folder = os.path.join(dataset_folder, 'matches_processed')
 
@@ -21,13 +27,15 @@ event_types = ['kill', 'death', 'assist']
 
 class Event:
 
-    def __init__(self, time, event_type, player_id):
+    def __init__(self, time, event_type, player_id, n_assistants):
         self.time = time
         self.event_type = event_type
         self.player_id = player_id
+        self.n_assistants = n_assistants
 
     def __repr__(self):
-        return f'player {self.player_id} {self.event_type} at {round(self.time,2)} s'
+        return f'player {self.player_id} {self.event_type} at {round(self.time,2)} s, ' \
+               f'{self.n_assistants} assistants'
 
     def __lt__(self, other):
         return self.time < other.time
@@ -40,29 +48,42 @@ class Encounter:
     #     self.outcome = outcome
     #     self.player_id = player_id
 
-    def __init__(self, events, event_weights):
+    def __init__(self, events, event_weights, margin):
         self.events = events
         self.event_weights = event_weights
+        self.margin = margin
         self._parse_events(events, event_weights)
 
     def _parse_events(self, events, event_weights):
-        self.events_weights = [event_weights[event.event_type] for event in events]
-        self.outcome = self._weights2target(self.events_weights) * 1
+        # self.events_weights = [event_weights[event.event_type] for event in events]
+        self.events_weights = [event_weights[event.event_type] / (1 + event.n_assistants) for event in events]
+        self.outcome = self._weights2target(self.events_weights)
         self.time = events[0].time
+        self.duration = events[-1].time - events[0].time
         self.player_id = events[0].player_id
 
     # @staticmethod
     def _weights2target(self, weights):
         self.total_weight = sum(weights)
-        if self.total_weight == 0:
-            print('Nonsense! total_weight == 0 !')
-            return weights[0] > 0
+        if self.margin == 0:
+            if self.total_weight == 0:
+                # print('Nonsense! total_weight == 0 !')
+                return int(weights[0] > 0)
+            else:
+                return int(self.total_weight > 0)
         else:
-            return self.total_weight > 0
+            if self.total_weight > self.margin:
+                return 1
+            elif self.total_weight < - self.margin:
+                return 0
+            else:
+                return None
+
 
     def __repr__(self):
         return f'encounter {self.outcome} at {round(self.time, 1)} s for player_{self.player_id}, ' \
-               f'total weight {self.total_weight}, weights {self.events_weights}'
+               f'duration {round(self.duration, 1)} s, total weight {self.total_weight}, ' \
+               f'weights {self.events_weights}'
 
 
 class EncounterExtractor:
@@ -70,7 +91,7 @@ class EncounterExtractor:
     default_event_weights = {
         'kill': 1,
         'death': -1,
-        'assist': 0.5,
+        'assist': 1,
     }
 
     def __init__(self, min_interval=10, event_weights=None):
@@ -98,8 +119,9 @@ class EncounterExtractor:
                     # encounter2add = Encounter(time=encounter_start_time, outcome=encounter_outcome, player_id=player_id)
                     # encounters.append(encounter2add)
                     # encounter2add = self._events2encounter(current_events)
-                    encounter2add = Encounter(current_events, self.event_weights)
-                    encounters.append(encounter2add)
+                    encounter2add = Encounter(current_events, self.event_weights, args.margin)
+                    if encounter2add.outcome is not None:
+                        encounters.append(encounter2add)
 
                     # current_events = [event]
                     # last_event_time = event.time
@@ -117,8 +139,9 @@ class EncounterExtractor:
         else:  # In the case some encounters are not finished after the end of the game
             if len(current_events):
                 # encounter2add = self._events2encounter(current_events)
-                encounter2add = Encounter(current_events, self.event_weights)
-                encounters.append(encounter2add)
+                encounter2add = Encounter(current_events, self.event_weights, args.margin)
+                if encounter2add.outcome is not None:
+                    encounters.append(encounter2add)
 
         return encounters
 
@@ -137,9 +160,9 @@ class EncounterExtractor:
 
 
 if __name__ == '__main__':
-    encounter_extractor = EncounterExtractor(min_interval=10)
+    encounter_extractor = EncounterExtractor(min_interval=args.min_interval)
 
-    # match = 'match_0'
+    # match = 'match_3'
     for match in matches:
         path2replay_json = os.path.join(matches_folder, match, 'replay.json')
         path2meta_info = os.path.join(matches_folder, match, 'meta_info.json')
@@ -158,24 +181,56 @@ if __name__ == '__main__':
         # replay_json['player_0']['killTimes']
         # replay_json['player_0']['deathTimes']
 
-        for player_id in player_ids:
-            # path2player_data = os.path.join(matches_folder, match, f'player_{player_id}')
-            event4player = replay_json[f'player_{player_id}']
+        for raw_event in replay_json['events']:
+            if raw_event['type'] == 'CHAMPION_KILL':
+                n_assistants = len(raw_event['assistingPlayerIds'])
+                if raw_event['killerId'] in player_ids:
+                    event = Event(
+                        time=raw_event['timestamp'],
+                        event_type='kill',
+                        player_id=raw_event['killerId'],
+                        n_assistants=n_assistants)
+                    events4players[raw_event['killerId']].append(event)
 
-            for event_type in event_types:
-                key4event_type = event_type + 'Times'
-                event_times = event4player[key4event_type]
-                for event_time in event_times:
-                    event = Event(time=event_time, event_type=event_type, player_id=player_id)
-                    events4players[player_id].append(event)
-                    # match_events
+                if raw_event['victimId'] in player_ids:
+                    event = Event(
+                        time=raw_event['timestamp'],
+                        event_type='death',
+                        player_id=raw_event['victimId'],
+                        n_assistants=n_assistants)
+                    events4players[raw_event['victimId']].append(event)
+
+                for assisting_player_id in raw_event['assistingPlayerIds']:
+                    if assisting_player_id in player_ids:
+                        event = Event(
+                            time=raw_event['timestamp'],
+                            event_type='assist',
+                            player_id=assisting_player_id,
+                            n_assistants=n_assistants)
+                        events4players[assisting_player_id].append(event)
+
+                # event = Event(time=event['timestamp'], event_type=event_type, player_id=player_id)
+                # events4players[player_id].append(event)
+
+
+        # for player_id in player_ids:
+        #     # path2player_data = os.path.join(matches_folder, match, f'player_{player_id}')
+        #     event4player = replay_json[f'player_{player_id}']
+        #
+        #     for event_type in event_types:
+        #         key4event_type = event_type + 'Times'
+        #         event_times = event4player[key4event_type]
+        #         for event_time in event_times:
+        #             event = Event(time=event_time, event_type=event_type, player_id=player_id)
+        #             events4players[player_id].append(event)
+        #             # match_events
 
         # match_events
         # sorted(match_events)
         for player_id in player_ids:
             events4players[player_id] = sorted(events4players[player_id])
             encounters4players[player_id] = encounter_extractor(events4players[player_id])
-            pprint(encounters4players[player_id])
+            # pprint(encounters4players[player_id])
 
         for player_id, encounters4player in encounters4players.items():
             output_path = os.path.join(matches_processed_folder, match, f'player_{player_id}', 'encounters.json')

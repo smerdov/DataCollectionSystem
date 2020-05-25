@@ -15,12 +15,13 @@ import tqdm
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dates', nargs='+', default='', type=str)
+parser.add_argument('--only-metadata', action='store_true')
 args = parser.parse_args()
 if args.dates[0] == 'all_dates':
     args.dates = all_dates
 # args = parser.parse_args(['--date', '2019-12-17'])
 # args = parser.parse_args(['--date', '2019-12-11b'])
-# date = args.date
+# args = parser.parse_args(['--only-metadata', '--dates', '2019-11-15'])
 
 data_sources = [
         'arduino_0',
@@ -46,7 +47,7 @@ def save2path(game_dir, player_id, filename, df):
     path = f'{game_dir}player_{player_id}/{filename}.csv'
     df.to_csv(path)
 
-
+# date = list(args.dates)[0]
 for date in tqdm.tqdm(args.dates, desc='date\'s progress...'):
 
     eye_tracker_shift_hours = 1  # IMPORTANT: IT SHOULD BE 2 FOR CEST!!!
@@ -84,6 +85,13 @@ for date in tqdm.tqdm(args.dates, desc='date\'s progress...'):
 
     games_start_end_times = pd.read_csv(data_path + 'labels/games_start_end_times.csv')
 
+    ### Game lengths calculation
+    game_lenghts = pd.to_datetime(games_start_end_times['game_end']) - pd.to_datetime(games_start_end_times['game_start'])
+    game_lenghts.index = games_start_end_times['game_num']
+    game_lenghts = game_lenghts / pd.Timedelta(seconds=1)
+    game_lenghts = game_lenghts.astype(int)
+    ### End of game lengths calculation
+
     game_ids = list(games_start_end_times['game_num'])
     player_ids = ['0', '1', '2', '3', '4']
 
@@ -116,10 +124,15 @@ for date in tqdm.tqdm(args.dates, desc='date\'s progress...'):
         if (date == '2019-12-11a') and (game_id == 4):
             game_id_infos[game_id]['day_match_num'] = game_id_infos[game_id]['day_match_num'] - 1  # Because match #3 was skipped
 
+        game_id_infos[game_id]['match_duration'] = int(game_lenghts[game_id])
+
         path2game_info = os.path.join(data_path_processed, f'game_{game_id}', 'meta_info.json')
+
         with open(path2game_info, 'w') as f:
             json.dump(game_id_infos[game_id], f)
 
+    if args.only_metadata:
+        continue
 
     for data_source in ['environment']:
         sep = ','

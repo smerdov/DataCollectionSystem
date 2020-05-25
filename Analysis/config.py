@@ -1,5 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.metrics import roc_auc_score, accuracy_score
+import torch.nn as nn
 
 dataset_folder = '../Dataset/'
 data_folder = '../Data/'
@@ -11,6 +13,12 @@ plt.interactive(True)
 pd.options.display.max_columns = 15
 
 player_ids = list(range(5))
+
+criterion = nn.BCELoss()
+scorers_dict = {
+    'auc': roc_auc_score,
+    # 'acc': accuracy_score,
+    'loss': criterion}
 
 data_sources = [
     'emg',
@@ -138,7 +146,17 @@ class GameDay:
         }
 
 
-
+columns_order = ['gsr', 'emg_right_hand', 'emg_left_hand', 'heart_rate',
+       'linaccel_x_left_hand', 'linaccel_y_left_hand', 'linaccel_z_left_hand',
+       'gyro_x_left_hand', 'gyro_y_left_hand', 'gyro_z_left_hand',
+       'linaccel_x_right_hand', 'linaccel_y_right_hand',
+       'linaccel_z_right_hand', 'gyro_x_right_hand', 'gyro_y_right_hand',
+       'gyro_z_right_hand', 'linaccel_x_chair_seat', 'linaccel_y_chair_seat',
+       'linaccel_z_chair_seat', 'gyro_x_chair_seat', 'gyro_y_chair_seat',
+       'gyro_z_chair_seat', 'linaccel_x_chair_back', 'linaccel_y_chair_back',
+       'linaccel_z_chair_back', 'gyro_x_chair_back', 'gyro_y_chair_back',
+       'gyro_z_chair_back', 'button_pressed', 'mouse_movement',
+       'mouse_pressed', 'gaze_movement', 'pupil_diameter']
 
 
 

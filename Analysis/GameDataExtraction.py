@@ -159,7 +159,8 @@ for date in args.dates:
         meta_info = {}
         # loading_screen_correction = 90
         # replay_processed['start_time'] = pd.to_datetime(replay_json['gameCreation'] / 1000 + 3600 * 2 + loading_screen_correction, unit='s')
-        meta_info['game_duration'] = replay_json['gameDuration']
+        # meta_info['game_duration'] = replay_json['gameDuration']
+        meta_info['match_duration'] = replay_json['gameDuration']
         meta_info['season_id'] = replay_json['seasonId']
         meta_info['game_version'] = replay_json['gameVersion']
         # replay_processed['game_mode'] = replay_json['gameMode']
@@ -248,7 +249,7 @@ for date in args.dates:
 
                 if event['type'] in event_types_union:
                     event_processed.update(event)
-                    event_processed['timestep'] = event_processed['timestamp'] / 1000
+                    event_processed['timestamp'] = event_processed['timestamp'] / 1000
 
                     if event['type'] in event_types_dict['kill']:
                         event_processed['killerId'] = get_player_id_from_participant_id(event_processed['killerId'])
@@ -299,6 +300,8 @@ for date in args.dates:
             meta_info_prev = json.load(f)
 
         meta_info.update(meta_info_prev)
+        if 'game_duration' in meta_info:
+            del meta_info['game_duration']
 
         with open(path2meta_info, 'w') as f:
             json.dump(meta_info, f)
