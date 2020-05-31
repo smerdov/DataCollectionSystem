@@ -1,7 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.metrics import roc_auc_score, accuracy_score
+from sklearn.metrics import roc_auc_score, accuracy_score, average_precision_score, precision_recall_curve, precision_score, recall_score, log_loss
 import torch.nn as nn
+import torch
 
 dataset_folder = '../Dataset/'
 data_folder = '../Data/'
@@ -15,10 +16,17 @@ pd.options.display.max_columns = 15
 player_ids = list(range(5))
 
 criterion = nn.BCELoss()
+# criterion = nn.BCEWithLogitsLoss(pos_weight=torch.Tensor([1, 0.1]))
 scorers_dict = {
     'auc': roc_auc_score,
-    # 'acc': accuracy_score,
-    'loss': criterion}
+    'ap': average_precision_score,
+    'ap_neg': average_precision_score,
+    'precision': precision_score,
+    'recall': recall_score,
+    'precision_neg': precision_score,
+    'recall_neg': recall_score,
+    'acc': accuracy_score,
+    'log_loss': log_loss}
 
 data_sources = [
     'emg',
@@ -29,11 +37,15 @@ data_sources = [
     'imu_chair_seat',
     'imu_left_hand',
     'imu_right_hand',
+    'imu_head',
     'keyboard',
     'mouse',
     'particle_sensor',
     'face_temperature',
-    'eeg',
+    # 'eeg',
+    'eeg_band_power',
+    # 'eeg_device_info',
+    'eeg_metrics',
 ]
 
 summoner_name2player_id_dicts = {

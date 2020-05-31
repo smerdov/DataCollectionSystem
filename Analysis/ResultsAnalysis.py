@@ -3,8 +3,12 @@ import os
 import pandas as pd
 from config import *
 import json
+import matplotlib
 
-exp_ids = [9]
+# exp_ids = [11, 12]
+# exp_ids = [12, 13]
+exp_ids = [49, 50]
+# exp_ids = [1]
 exp_names = [f'exp_{exp_id}' for exp_id in exp_ids] + []  # For named experiments
 
 results_list = []
@@ -48,11 +52,15 @@ for exp_name in exp_names:
             alg_resuls.update(params)
             results_list.append(alg_resuls)
 
-
 df_results = pd.DataFrame(results_list)
+
 
 def agg_results(df, columns, metric='auc_test'):
     return df.groupby(columns)[metric].mean()
+
+
+agg_results(df_results, ['alg_name'], metric='ap_test')
+
 
 agg_results(df_results, ['alg_name'])
 agg_results(df_results, ['forecasting_horizon'])
@@ -65,6 +73,9 @@ agg_results(df_results, ['alg_name', 'forecasting_horizon'])
 agg_results(df_results, ['alg_name', 'forecasting_horizon', 'time_step'])
 agg_results(df_results, ['alg_name', 'time_step'])
 agg_results(df_results, ['time_step', 'forecasting_horizon'])
+agg_results(df_results, ['time_step', 'forecasting_horizon', 'margin'])
+agg_results(df_results, ['time_step', 'forecasting_horizon', 'margin', 'min_interval'])
+agg_results(df_results, ['time_step', 'forecasting_horizon', 'margin', 'min_interval', 'alg_name'])
 agg_results(df_results, ['alg_name', 'margin'])
 agg_results(df_results, ['min_interval', 'margin'])
 
@@ -75,7 +86,67 @@ agg_results(df_results, ['resampling_str'])
 
 
 # df_results.groupby(['time_step', 'forecasting_horizon', 'margin'])['auc_test'].mean()
-agg_results
+
+
+nn_mask = df_results['alg_name'].apply(lambda x: x[0].isdigit())
+new_cols = ['hidden_size', 'n_lstm_layers', 'n_linear_layers', 'tmp']
+for col in new_cols:
+    df_results[col] = None
+
+df_results_nn = df_results.loc[nn_mask, :]
+df_results_nn.loc[:, new_cols] = df_results_nn.loc[:, 'alg_name'].apply(lambda x: pd.Series(x.split(','))).values
+
+df_results_nn.groupby(['hidden_size'])['auc_test'].mean()
+df_results_nn.groupby(['n_lstm_layers'])['auc_test'].mean()
+df_results_nn.groupby(['n_linear_layers'])['auc_test'].mean()
+df_results_nn.groupby(['n_lstm_layers', 'n_linear_layers'])['auc_test'].mean()
+df_results_nn.groupby(['n_lstm_layers', 'hidden_size'])['auc_test'].mean()
+df_results_nn.groupby(['n_lstm_layers', 'n_linear_layers'])['auc_test'].mean()
+
+
+
+forecasting_horizons_list = sorted(df_results['forecasting_horizon'].unique())
+
+
+
+rename_dict = {
+    '32,2,1': 'GRU',
+    'lr': 'Logistic Regression',
+    'svm': 'SVM',
+    'knn_96': 'KNN',
+}
+
+
+# for forecasting_horizons in forecasting_horizons_list:
+plt.close()
+fontsize = 24
+matplotlib.rcParams.update({'font.size': 24})
+lw = 5
+alpha = 0.9
+
+fig, ax = plt.subplots(figsize=(16, 9))
+for alg_name in df_results['alg_name'].unique():
+    # if not alg_name[0].isdigit():
+    #     continue
+    if alg_name.startswith('rf') or (alg_name == 'knn_64'):
+        continue
+
+    mask = df_results['alg_name'] == alg_name
+
+    df4plot = df_results.loc[mask, ['auc_test', 'forecasting_horizon']]
+    df4plot.set_index('forecasting_horizon', inplace=True)
+    df4plot.sort_index(inplace=True)
+    ax.plot(df4plot.index, df4plot['auc_test'], label=rename_dict[alg_name], lw=lw, alpha=alpha)
+
+ax.hlines(0.5, 0, 40, lw=lw, color='black', linestyles='--', label='Random Guess')
+# ax.set_title('Algorithms\' Scores w.r.t. Forecasting Horizon')
+ax.set_xlabel('Forecasting Horizon, s')
+ax.set_ylabel('AUC')
+ax.grid(alpha=1)
+ax.legend()
+ax.tick_params(which='major', size=fontsize//2)
+fig.tight_layout()
+fig.savefig('../Pictures/AUC/auc_last_5.pdf')
 
 
 
@@ -85,19 +156,6 @@ agg_results
 
 
 
-
-
-path2results = os.path.join(data_folder, 'results_last_2.json')
-with open(path2results) as f:
-    results = json.load(f)
-
-results.keys()
-results['5,2,1'].keys()
-
-selected_results = {key: value[key_1][key_2] for key, value in results.items()}
-
-pd.DataFrame.from_records(selected_results)
-# pd.DataFrame(selected_results)
 
 
 

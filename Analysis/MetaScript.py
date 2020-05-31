@@ -35,8 +35,8 @@ parser.add_argument('--linear-layers-list', nargs='+', default=(1,), type=int)
 # parser.add_argument('--output-suffix', default='last', type=str, help='Suffix to append to results')
 # parser.add_argument('--data-suffix', default='last', type=str, help='Suffix for input data')
 parser.add_argument('--patience', default=3, type=int, help='Patience for early stopping')
-parser.add_argument('--step-mode-list', nargs='+', default=('each',), type=str, help='Step modes for training',
-                    choices=['each', 'player', 'epoch'])
+# parser.add_argument('--step-mode-list', nargs='+', default=('each',), type=str, help='Step modes for training',
+#                     choices=['each', 'player', 'epoch'])
 
 # Experiment related
 parser.add_argument('--skip-encounters', action='store_true')
@@ -46,6 +46,8 @@ parser.add_argument('--skip-cml', action='store_true')
 parser.add_argument('--skip-rnn', action='store_true')
 
 parser.add_argument('--exp-name', default=None, type=str)
+parser.add_argument('--key-mode', default='all', type=str, help='Averaging type', choices=['player_team', 'player_team_match', 'match', 'all'])
+parser.add_argument('--path2datasets', default='../Dataset/encounters_dataset', type=str, help='Suffix for input data')
 
 
 
@@ -111,7 +113,7 @@ if __name__ == '__main__':
 
         if not args.skip_tensor_creation:
             # Aggregating data into tensors with training data
-            cmd = f'python TensorsCreation.py --time-step {time_step} --forecasting-horizon {forecasting_horizon}'
+            cmd = f'python EncountersDatasetCreation.py --time-step {time_step} --forecasting-horizon {forecasting_horizon}'
             exec_cmd(cmd)
 
         # Creating a directory for experiment results
@@ -120,7 +122,8 @@ if __name__ == '__main__':
 
         if not args.skip_cml:
             # Run Classical ML
-            cmd = f'python ClassicalML.py --output-path {path2exp} --output-suffix {output_suffix}'
+            cmd = f'python ClassicalML.py --output-path {path2exp} --output-suffix {output_suffix} --key-mode {args.key_mode} ' \
+                  f'--path2datasets {args.path2datasets}'
             exec_cmd(cmd)
 
         if not args.skip_rnn:
@@ -130,9 +133,11 @@ if __name__ == '__main__':
                   f'--linear-layers-list {args_list2args_str(args.linear_layers_list)} ' \
                   f'--patience {args.patience} ' \
                   f'--epochs {args.epochs} ' \
-                  f'--step-mode-list {args_list2args_str(args.step_mode_list)} ' \
+                  f'--key-mode {args.key_mode} ' \
+                  f'--path2datasets {args.path2datasets} ' \
                   f'--output-path {path2exp} ' \
                   f'--output-suffix {output_suffix}'
+                  # f'--step-mode-list {args_list2args_str(args.step_mode_list)} ' \
             exec_cmd(cmd)
 
 
