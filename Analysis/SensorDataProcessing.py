@@ -314,7 +314,7 @@ if __name__ == '__main__':
                     values_min, values_max = np.percentile(df4data_source, [5, 95], axis=0)
                     df4data_source = df4data_source.clip(values_min, values_max, axis=1)
                     plt.close()
-                    df4data_source.plot()
+                    # df4data_source.plot()
 
                     resample_smooth_save_df(df4data_source, path2save, args.resampling_string, args.halflife,
                                             resampling_method='mean')

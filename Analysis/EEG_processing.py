@@ -117,3 +117,5 @@ if __name__ == '__main__':
         df_met.set_index(['time'], inplace=True)
         filename = data_rename_dict[data_source][3]
         save2path(path2dir, filename, df_met)
+
+        os.remove(eeg_filepath)
