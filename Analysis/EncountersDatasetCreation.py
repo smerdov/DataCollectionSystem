@@ -30,14 +30,20 @@ matches = [match for match in os.listdir(matches_processed_folder) if match.star
 data_sources2use = [
     'gsr',
     'emg',
+    'spo2',
     'heart_rate',
     'imu_left_hand',
     'imu_right_hand',
     'imu_chair_seat',
     'imu_chair_back',
+    'imu_head',
     'keyboard',
     'mouse',
     'eye_tracker',
+    'facial_skin_temperature',
+    'eeg_band_power',
+    'eeg_metrics',
+    'environment',
 ]
 
 
@@ -78,7 +84,10 @@ for match in matches:
         # data_source = 'keyboard'
         # data_source = 'heart_rate'
         for data_source in data_sources2use:
-            path2data_source = os.path.join(matches_processed_folder, match, f'player_{player_id}', f'{data_source}.csv')
+            if data_source == 'environment':
+                path2data_source = os.path.join(matches_processed_folder, match, f'{data_source}.csv')
+            else:
+                path2data_source = os.path.join(matches_processed_folder, match, f'player_{player_id}', f'{data_source}.csv')
 
             if not os.path.exists(path2data_source):
                 # print(f'{path2data_source} doesn\'t exist')
@@ -90,6 +99,11 @@ for match in matches:
                 imu_suffix = data_source.split('imu')[1]
                 df4data_source.columns = [column + imu_suffix for column in df4data_source.columns]
 
+                # # Keeping only linaccel and gyro columns, converting to absolute values
+                # columns2keep = [column for column in df4data_source.columns if ((column.find('linaccel') != -1) or (column.find('gyro') != -1) or (column.find('rot') != -1))]
+                # df4data_source = df4data_source.loc[:, columns2keep]
+                # df4data_source = df4data_source.abs()
+
             df4player = df4player.join(df4data_source, how='outer')
             # print(data_source)
             # print(len(df4player))
@@ -100,7 +114,17 @@ for match in matches:
         df4player = df4player.interpolate('linear', limit_area='inside')
         df4player.fillna(df4player.median(), inplace=True)
 
+        # # mask_null = df4player.isnull()
+        # median = df4player.median()
+        # noise = median.copy()
+        # noise.loc[:] = np.random.randn(df4player.shape[1])
+        # df4player = df4player.fillna(median, inplace=False) * 0.2 + df4player.fillna(noise, inplace=False) * 0.8
+        # # df4player = (df4player.fillna(median, inplace=False) + df4player.fillna(noise, inplace=False) + \
+        # #     df4player.fillna(0, inplace=False)) / 3
+        # # df4player.loc[mask_null] = df4player.loc[mask_null] + (np.random.randn(df4player.shape[0], df4player.shape[1]) * 0.1)[mask_null]
+
         df4player_resampled = df4player.resample(args.time_step).mean()
+        print(df4player_resampled.shape)
 
         df_encounters = df4player_resampled.join(df_encounters, how='outer')['encounter_outcome']  # Trick
         df_encounters = df_encounters.fillna(-1).astype(int)
@@ -167,7 +191,14 @@ for team in teams:
                 df2append = matches_dict[match][player_id_team]['data']
                 player_train_list.append(df2append)
 
-        all_train_df = pd.concat(player_train_list, axis=0).loc[:, columns_order]
+
+
+        all_train_df = pd.concat(player_train_list, axis=0)
+        for column in columns_order:
+            if column not in all_train_df:
+                all_train_df[column] = None
+
+        all_train_df = all_train_df.loc[:, columns_order]
         ss.fit(all_train_df.values)
         # tmp.tail(100)
 
@@ -200,7 +231,6 @@ for team in teams:
 
             df4player_match_copy.loc[:, :] = ss.transform(df4player_match_copy.values)
             df4player_match_copy.fillna(0, inplace=True)
-
 
             output_folder = os.path.join(encounters_dataset_folder, match_type, match, f'player_{player_id}')
             if not os.path.exists(output_folder):

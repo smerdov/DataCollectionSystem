@@ -17,10 +17,11 @@ parser.add_argument('--margin', default=0.15, type=float)
 args = parser.parse_args()
 # args = parser.parse_args([])
 
-matches_folder = os.path.join(dataset_folder, 'matches')
+# matches_folder = os.path.join(dataset_folder, 'matches')
 matches_processed_folder = os.path.join(dataset_folder, 'matches_processed')
 
-matches = [match for match in os.listdir(matches_folder) if match.startswith('match')]
+# matches = [match for match in os.listdir(matches_folder) if match.startswith('match')]
+matches = [match for match in os.listdir(matches_processed_folder) if match.startswith('match')]
 # matches = sorted(matches)
 event_types = ['kill', 'death', 'assist']
 
@@ -55,8 +56,9 @@ class Encounter:
         self._parse_events(events, event_weights)
 
     def _parse_events(self, events, event_weights):
-        # self.events_weights = [event_weights[event.event_type] for event in events]
-        self.events_weights = [event_weights[event.event_type] / (1 + event.n_assistants) for event in events]
+        # # self.events_weights = [event_weights[event.event_type] for event in events]
+        # self.events_weights = [event_weights[event.event_type] / (1 + event.n_assistants) for event in events]
+        self.events_weights = [(event_weights[event.event_type] / (1 + event.n_assistants)) if (event.event_type != 'death') else -1 for event in events]
         self.outcome = self._weights2target(self.events_weights)
         self.time = events[0].time
         self.duration = events[-1].time - events[0].time
@@ -164,8 +166,10 @@ if __name__ == '__main__':
 
     # match = 'match_3'
     for match in matches:
-        path2replay_json = os.path.join(matches_folder, match, 'replay.json')
-        path2meta_info = os.path.join(matches_folder, match, 'meta_info.json')
+        # path2replay_json = os.path.join(matches_folder, match, 'replay.json')
+        # path2meta_info = os.path.join(matches_folder, match, 'meta_info.json')
+        path2replay_json = os.path.join(matches_processed_folder, match, 'replay.json')
+        path2meta_info = os.path.join(matches_processed_folder, match, 'meta_info.json')
         # events = []
         events4players = defaultdict(list)
         encounters4players = {}

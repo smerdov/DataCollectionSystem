@@ -25,6 +25,7 @@ parser.add_argument('--epochs', default=100, type=int)
 parser.add_argument('--hidden-size-list', nargs='+', default=(8,), type=int)
 parser.add_argument('--lstm-layers-list', nargs='+', default=(1,), type=int)
 parser.add_argument('--linear-layers-list', nargs='+', default=(1,), type=int)
+parser.add_argument('--arch', default='gru', type=str)
 parser.add_argument('--output-suffix', default='last', type=str, help='Suffix to append to results')
 parser.add_argument('--output-path', default='../Data/', type=str, help='Output directory')
 parser.add_argument('--data-suffix', default='last', type=str, help='Suffix for input data')
@@ -131,6 +132,10 @@ def get_scores(predictions, targets, scorers_dict, acc_thr):
     predictions_masked = predictions[mask]
     targets_masked = targets[mask]
 
+    if len(np.unique(targets_masked)) == 1:
+        print('Only one class is present')
+        return None
+
     if mask.sum() == 0:
         print('There is no encounters')
         return None
@@ -146,8 +151,10 @@ def get_scores(predictions, targets, scorers_dict, acc_thr):
             if len(targets_masked.unique()) > 1:
                 if scorer_name == 'auc':
                     score = scorer(targets_masked, predictions_masked)
-                else:
+                elif scorer_name.endswith('neg'):
                     score = scorer(1 - targets_masked, 1 - predictions_masked)
+                else:
+                    score = scorer(targets_masked, predictions_masked)
                     # score = scorer(targets_masked, predictions_masked, pos_label=pos_label)
                     # if scorer_name != 'ap_neg':
                     #     score = scorer(targets_masked, predictions_masked)
@@ -164,8 +171,10 @@ def get_scores(predictions, targets, scorers_dict, acc_thr):
 
             if scorer_name == 'acc':
                 score = scorer(targets_masked, predicts_binary)
-            else:
+            elif scorer_name.endswith('neg'):
                 score = scorer(1 - targets_masked, 1 - predicts_binary)
+            else:
+                score = scorer(targets_masked, predicts_binary)
                 # score = scorer(targets_masked, predicts_binary, pos_label=pos_label)
                 # score = scorer(targets_masked, predicts_binary)
             # if scorer_name.endswith('neg'):
@@ -198,7 +207,8 @@ def average_scores(predictions_dict, target_dict, scorers_dict, thrs_dict):
     scores4dataset = defaultdict(list)
 
     for key in predictions_dict.keys():
-        thr = thrs_dict.get(key, 0.5)
+        # thr = thrs_dict.get(key, 0.5)
+        thr = thrs_dict[key]
         scores = get_scores(predictions_dict[key], target_dict[key], scorers_dict, thr)
         if scores is not None:
             for score_name, score in scores.items():
@@ -210,17 +220,19 @@ def average_scores(predictions_dict, target_dict, scorers_dict, thrs_dict):
     return scores4dataset
 
 
-def evaluate(data_loaders_dict, model, scorers_dict, args, datasets):
+def evaluate(data_loaders_dict, model, scorers_dict, args, datasets, alg_name='alg'):
     if hasattr(model, 'eval'):
         model.eval()
 
     scores = defaultdict(dict)
     thrs_dict = {}
+    # predictions4datasets = {}
 
     with torch.no_grad():
         # for data_loader, dataset in zip(data_loaders, datasets):
         for dataset in datasets:
             data_loader = data_loaders_dict[dataset]
+            predictions_list = []
 
             predictions_dict = defaultdict(list)
             target_dict = defaultdict(list)
@@ -231,13 +243,13 @@ def evaluate(data_loaders_dict, model, scorers_dict, args, datasets):
 
                 if hasattr(model, 'reset_hidden'):
                     model.reset_hidden()
-                if hasattr(model, 'predict_proba'):
+                if hasattr(model, 'predict_proba'):  # or (alg_name == 'alg'):
                     predictions = model.predict_proba(data.reshape(-1, data.shape[2]).numpy())[:, 1]
                     predictions = predictions.reshape(5, -1)
                     predictions = torch.Tensor(predictions)
                     # raise NotImplementedError
                 else:
-                    predictions = model(data)
+                    predictions = model(data[:, :, :])
                     # if predictions.size(2) == 2:
                     #     predictions = predictions[:, :, 0]
                     predictions = predictions.squeeze()
@@ -257,10 +269,77 @@ def evaluate(data_loaders_dict, model, scorers_dict, args, datasets):
                     predictions_dict[key] = predictions_dict[key] + list(predictions4player_team_match.numpy())
                     target_dict[key] = target_dict[key] + list(targets4player_team_match.numpy())
 
+
+
+                # predictions_list.append(predictions_list.numpy())
+            # predictions4datasets[dataset] = predictions_list
+
+            for key in predictions_dict.keys():
+                if len(np.unique(target_dict[key])) == 1:  # One class instead of two
+                    del target_dict[key]
+                    del predictions_dict[key]
+
             # TODO: here I'm setting a thr for precision/recall
             if dataset == 'train':
-                # thrs_dict[key] = 0.5
-                thrs_dict[key] = args.acc_thr
+                for key in predictions_dict.keys():
+                    predictions = np.array(predictions_dict[key])
+                    targets = np.array(target_dict[key])
+
+                    # print(targets)
+                    # print(predictions)
+
+                    mask = targets != -1
+                    # print(f'mask.sum() = {mask.sum()}')
+                    predictions_masked = predictions[mask]
+                    targets_masked = targets[mask]
+
+                    # print(targets_masked)
+                    # print(predictions_masked)
+
+                    # precision, recall, thrs = precision_recall_curve(targets_masked, predictions_masked)
+                    precision, recall, thrs = precision_recall_curve(1 - targets_masked, 1 - predictions_masked)
+                    # precision, recall, thrs = precision_recall_curve(targets_masked, predictions_masked, pos_label=1)
+
+                    recall_needed = 0.4
+
+                    # print(precision)
+                    # print(recall)
+                    # print(thrs)
+
+                    # index_thr = np.min(np.nonzero(recall < recall_needed)[0]) - 1
+                    index_thr = np.max(np.nonzero(recall > recall_needed)[0])
+                    # print(f'len(thrs) = {len(thrs)}')
+                    # print(index_thr)
+                    thr4key = 1 - thrs[index_thr]
+                    thrs_dict[key] = thr4key
+            else:
+                for key in predictions_dict.keys():
+                    predictions = np.array(predictions_dict[key])
+                    targets = np.array(target_dict[key])
+                    mask = targets != -1
+                    # print(f'mask.sum() = {mask.sum()}')
+                    predictions_masked = predictions[mask]
+                    targets_masked = targets[mask]
+
+                    # precision, recall, thrs = precision_recall_curve(1 - targets_masked, 1 - predictions_masked)
+                    # precision, recall, thrs = precision_recall_curve(targets_masked, 1 - predictions_masked, pos_label=0)
+                    plot_pr_curve = False
+                    if plot_pr_curve:
+                        precision, recall, thrs = precision_recall_curve(1 - targets_masked, 1 - predictions_masked)
+                        fig, ax = plt.subplots(figsize=(8, 4.5))
+                        fontsize = 12
+                        ax.step(recall, precision, c='darkred')
+                        ax.set_xlabel('Recall', fontsize=fontsize)
+                        ax.set_ylabel('Precision', fontsize=fontsize)
+                        ax.set_title(alg_name, fontsize=fontsize+3)
+                        axes_margin = 0.03
+                        ax.set_xlim(-axes_margin, 1 + axes_margin)
+                        ax.set_ylim(-axes_margin, 1 + axes_margin)
+                        fig.tight_layout()
+                        fig.savefig(pic_folder + 'precision_recall_' + alg_name + '_' +  str(key) + '.pdf')
+                        plt.close()
+
+                # print(thrs_dict)
 
             # if dataset == 'test':
             #     for key in predictions_dict:
@@ -297,14 +376,15 @@ def evaluate(data_loaders_dict, model, scorers_dict, args, datasets):
             #         # # # tmp = get_scores(predictions4key, targets4key, scorers_dict, acc_thr)
             #         # # #### TMP BLOCK
 
-            print(thrs_dict)
+            # print(thrs_dict)
             scores4dataset = average_scores(predictions_dict, target_dict, scorers_dict, thrs_dict)
             for score_name in scores4dataset:
                 scores[score_name][dataset] = scores4dataset[score_name]
 
+    # return scores, predictions4datasets
     return scores
 
-def train_one_epoch(encounters_dataset_loader, model, opt, step_mode='each'):
+def train_one_epoch(encounters_dataset_loader, model, opt, step_mode='each', ablation_index=None):
     model.train()
 
     ### New VERSION FROM HERE
@@ -378,7 +458,7 @@ if __name__ == '__main__':
         n_epochs_with_no_improvement = 0
 
         # Model
-        model = Predictor(hidden_size=hidden_size, n_lstm_layers=n_lstm_layers, n_linear_layers=linear_layers, last_sigmoid=True, model='gru')
+        model = Predictor(hidden_size=hidden_size, n_lstm_layers=n_lstm_layers, n_linear_layers=linear_layers, last_sigmoid=True, model=args.arch)
         print(f'model={model}')
 
         opt = Adam(model.parameters(), lr=base_lr)
@@ -391,7 +471,7 @@ if __name__ == '__main__':
                 param_group['lr'] = lr
             train_one_epoch(data_loaders_dict['train'], model, opt)
             # data_loaders_list = [encounters_data_loader_train, encounters_data_loader_val, encounters_data_loader_test]
-            scores4epoch_dict = evaluate(data_loaders_dict, model, scorers_dict, args, datasets)
+            scores4epoch_dict = evaluate(data_loaders_dict, model, scorers_dict, args, datasets, alg_name='GRU')
 
             early_stopping_dataset = 'val' if args.add_val else 'test'
             if (best_scores4exp['auc'][early_stopping_dataset] is None) or (best_scores4exp['auc'][early_stopping_dataset] < scores4epoch_dict['auc'][early_stopping_dataset]):
