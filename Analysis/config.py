@@ -46,6 +46,27 @@ data_sources = [
     'eeg_band_power',
     # 'eeg_device_info',
     'eeg_metrics',
+    'environment',
+]
+
+data_sources_fixed = [
+    'emg',
+    'eye_tracker',
+    'gsr',
+    'heart_rate',
+    'imu_chair_back',
+    'imu_chair_seat',
+    'imu_left_hand',
+    'imu_right_hand',
+    'imu_head',
+    'keyboard',
+    'mouse',
+    'spo2',
+    'facial_skin_temperature',
+    'eeg_band_power',
+    # 'eeg_device_info',
+    'eeg_metrics',
+    'environment',
 ]
 
 summoner_name2player_id_dicts = {
@@ -158,20 +179,59 @@ class GameDay:
         }
 
 
-columns_order = ['gsr', 'emg_right_hand', 'emg_left_hand', 'heart_rate',
-       'linaccel_x_left_hand', 'linaccel_y_left_hand', 'linaccel_z_left_hand',
-       'gyro_x_left_hand', 'gyro_y_left_hand', 'gyro_z_left_hand',
-       'linaccel_x_right_hand', 'linaccel_y_right_hand',
-       'linaccel_z_right_hand', 'gyro_x_right_hand', 'gyro_y_right_hand',
-       'gyro_z_right_hand', 'linaccel_x_chair_seat', 'linaccel_y_chair_seat',
-       'linaccel_z_chair_seat', 'gyro_x_chair_seat', 'gyro_y_chair_seat',
-       'gyro_z_chair_seat', 'linaccel_x_chair_back', 'linaccel_y_chair_back',
-       'linaccel_z_chair_back', 'gyro_x_chair_back', 'gyro_y_chair_back',
-       'gyro_z_chair_back', 'button_pressed', 'mouse_movement',
-       'mouse_pressed', 'gaze_movement', 'pupil_diameter']
+columns_order = ['gsr', 'emg_right_hand', 'emg_left_hand', 'heart_rate'] + \
+        ['linaccel_x_left_hand', 'linaccel_y_left_hand', 'linaccel_z_left_hand',
+        'gyro_x_left_hand', 'gyro_y_left_hand', 'gyro_z_left_hand',
+        'linaccel_x_right_hand', 'linaccel_y_right_hand',
+        'linaccel_z_right_hand', 'gyro_x_right_hand', 'gyro_y_right_hand',
+        'gyro_z_right_hand', 'linaccel_x_chair_seat', 'linaccel_y_chair_seat',
+        'linaccel_z_chair_seat', 'gyro_x_chair_seat', 'gyro_y_chair_seat',
+        'gyro_z_chair_seat', 'linaccel_x_chair_back', 'linaccel_y_chair_back',
+        'linaccel_z_chair_back', 'gyro_x_chair_back', 'gyro_y_chair_back', 'gyro_z_chair_back'] + \
+                ['buttons_pressed', 'mouse_movement', 'mouse_clicks'] +\
+                ['gaze_movement', 'pupil_diameter'] + ['facial_skin_temperature'] + \
+                ['Engagement', 'Excitement', 'Stress', 'Relaxation', 'Interest', 'Focus'] + \
+         ["AF3/theta", "AF3/alpha", "AF3/betaL", "AF3/betaH", "AF3/gamma",
+         "T7/theta", "T7/alpha", "T7/betaL", "T7/betaH", "T7/gamma",
+         "Pz/theta", "Pz/alpha", "Pz/betaL", "Pz/betaH", "Pz/gamma",
+         "T8/theta", "T8/alpha", "T8/betaL", "T8/betaH", "T8/gamma",
+         "AF4/theta", "AF4/alpha", "AF4/betaL", "AF4/betaH", "AF4/gamma"] + \
+                ['rot_x_head', 'rot_y_head', 'rot_z_head'] + \
+    ['env_temperature', 'env_humidity', 'env_co2'] + ['spo2']
 
+groups = {
+    'GSR': ['gsr'],
+    'EMG': ['emg_right_hand', 'emg_left_hand'],
+    'HR': ['heart_rate'],
+    'IMU': ['linaccel_x_left_hand', 'linaccel_y_left_hand', 'linaccel_z_left_hand',
+        'gyro_x_left_hand', 'gyro_y_left_hand', 'gyro_z_left_hand',
+        'linaccel_x_right_hand', 'linaccel_y_right_hand',
+        'linaccel_z_right_hand', 'gyro_x_right_hand', 'gyro_y_right_hand',
+        'gyro_z_right_hand', 'linaccel_x_chair_seat', 'linaccel_y_chair_seat',
+        'linaccel_z_chair_seat', 'gyro_x_chair_seat', 'gyro_y_chair_seat',
+        'gyro_z_chair_seat', 'linaccel_x_chair_back', 'linaccel_y_chair_back',
+        'linaccel_z_chair_back', 'gyro_x_chair_back', 'gyro_y_chair_back',
+        'gyro_z_chair_back', 'rot_x_head', 'rot_y_head', 'rot_z_head'],
+    'Input': ['buttons_pressed', 'mouse_movement', 'mouse_clicks'],
+    'Eyetracker': ['gaze_movement', 'pupil_diameter'],
+    'Thermal': ['facial_skin_temperature'],
+    'EEG': ['Engagement', 'Excitement',
+        'Stress', 'Relaxation', 'Interest', 'Focus',
+         "AF3/theta", "AF3/alpha", "AF3/betaL", "AF3/betaH", "AF3/gamma",
+         "T7/theta", "T7/alpha", "T7/betaL", "T7/betaH", "T7/gamma",
+         "Pz/theta", "Pz/alpha", "Pz/betaL", "Pz/betaH", "Pz/gamma",
+         "T8/theta", "T8/alpha", "T8/betaL", "T8/betaH", "T8/gamma",
+         "AF4/theta", "AF4/alpha", "AF4/betaL", "AF4/betaH", "AF4/gamma"],
+    'Environment': ['env_temperature', 'env_humidity', 'env_co2'],
+    'spo2': ['spo2'],
+}
 
+def feature2group(feature, groups):
+    for group, group_features in groups.items():
+        if feature in group_features:
+            return group
 
+    return None
 
 
 

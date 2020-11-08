@@ -11,6 +11,7 @@ import json
 import tqdm
 import shutil
 from scipy.spatial.transform import Rotation as R
+from hr_spo2_lib import calc_hr_and_spo2
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--halflife', default=1, type=float, help='Smoothing parameter')
@@ -18,7 +19,31 @@ parser.add_argument('--resampling-string', default='500ms', type=str, help='Time
 parser.add_argument('--preresampling-string', default='100ms', type=str, help='Timestep for preresampling for mouse, '
                                                   'keyboard and eyetracker. These data sources have too many data.')
 parser.add_argument('--plot', action='store_true')
-parser.add_argument('--halflifes-in-window', default=3, type=float)
+parser.add_argument('--halflifes-in-window', default=5, type=float)
+
+def get_spo2_df(df):
+    ir_values = df['ir_value'].values
+    red_values = df['red_value'].values
+    timestamps = df.index.values
+    entries = []
+
+    step = 100
+    for i in range(len(ir_values) // step):
+        index_start = step * i
+        index_end = step * (i + 1)
+        timestamp = timestamps[index_end - 1]
+        hr, hr_valid, spo2, spo2_valid = calc_hr_and_spo2(ir_values[index_start:index_end], red_values[index_start:index_end])
+        if spo2_valid:
+            entry = {
+                'spo2': spo2,
+                'time': timestamp,
+            }
+            entries.append(entry)
+
+    df_spo2 = pd.DataFrame(entries)
+    df_spo2.set_index('time', inplace=True)
+
+    return df_spo2
 
 def time_ewa(series, halflife, mode):
     time_diffs = series.index / pd.Timedelta(seconds=1)
@@ -49,7 +74,6 @@ def plot_smoothed_values(df, halflives):
     plt.close()
     n_features = len(df.columns)
     fig, ax = plt.subplots(nrows=n_features, ncols=1, figsize=(12, 6 * n_features), sharex=True, squeeze=False)
-    # for halflife in [0, 1, 5, 30]:
     for halflife in tqdm.tqdm(halflives):
         if halflife == 0:
             df_smoothed = df
@@ -85,7 +109,7 @@ def extract_press_events(df):
                 print('Button released, but not pressed, looks strange.')
 
     df_key_pressed = pd.DataFrame.from_records(zip(press_events_times, np.ones_like(press_events_times)),
-                                               columns=['time', 'button_pressed'])
+                                               columns=['time', 'buttons_pressed'])
 
     df_key_pressed = df_key_pressed.drop_duplicates()
     df_key_pressed.set_index(['time'], inplace=True)
@@ -96,7 +120,7 @@ def save_df(df, path2save):
     df.index = df.index / one_second_unit
     df.to_csv(path2save)
 
-def resample_smooth_save_df(df, path2save, resampling_string, halflife, resampling_method='mean'):
+def resample_smooth_save_df(df, path2save, resampling_string, halflife, resampling_method='mean', smooth=True):
     df.index = df.index.floor(resampling_string)
     if resampling_method == 'mean':
         df = df.resample(resampling_string).mean()
@@ -107,13 +131,13 @@ def resample_smooth_save_df(df, path2save, resampling_string, halflife, resampli
     if resampling_method == 'mean':
         df = df.interpolate('linear', limit_area='inside')
 
-    df_smoothed = smooth_df(df, halflife, mode=resampling_method)
+    if smooth:
+        df_smoothed = smooth_df(df, halflife, mode=resampling_method)
+    else:
+        df_smoothed = df
     # df_smoothed.to_csv(path2save)
     save_df(df_smoothed, path2save)
 
-
-# data_sources = ['keyboard']
-# data_sources = []
 
 if __name__ == '__main__':
     # args = parser.parse_args([])
@@ -125,24 +149,54 @@ if __name__ == '__main__':
     one_second_unit = pd.Timedelta(seconds=1)
     print(f'Resampling with {args.resampling_string}')
 
-
     # match = 'match_9'  # TODO: comment
     for match in tqdm.tqdm(matches, 'Processing matches...'):
+        print(f'Processing match {match}')
         if not os.path.exists(os.path.join(matches_processed_folder, match)):
             os.makedirs(os.path.join(matches_processed_folder, match))
 
-        shutil.copy(os.path.join(matches_folder, match, 'meta_info.json'),
-                    os.path.join(matches_processed_folder, match, 'meta_info.json'))
+        # files2copy = ['meta_info.json', 'environment.csv', 'replay.json']
+        files2copy = ['meta_info.json', 'replay.json']
+
+        for file2copy in files2copy:
+            shutil.copy(os.path.join(matches_folder, match, file2copy),
+                        os.path.join(matches_processed_folder, match, file2copy))
 
         with open(os.path.join(matches_folder, match, 'meta_info.json')) as f:
             meta_info = json.load(f)
 
         match_duration = meta_info['match_duration']
 
+        df_env = pd.read_csv(os.path.join(matches_folder, match, 'environment.csv'), index_col='time')
+        df_env.rename(
+            columns={
+            'Temperature': 'env_temperature',
+            'Humidity': 'env_humidity',
+            'CO2': 'env_co2',
+            'Pressure': 'env_pressure',
+            'Altitude': 'altitude',
+        }, inplace=True
+        )
+        df_env.index = pd.TimedeltaIndex(df_env.index, unit='s')
+        resample_smooth_save_df(
+            df_env,
+            os.path.join(matches_processed_folder, match, 'environment.csv'),
+            args.resampling_string,
+            args.halflife,
+            resampling_method=None,
+            smooth=False)
+
         # player_id = 3  # TODO: comment
         for player_id in tqdm.tqdm(player_ids, 'Processing players...'):
             path2player_data_src = os.path.join(matches_folder, match, f'player_{player_id}')
-            # path2player_data_dst = os.path.join(matches_processed_folder, match, f'player_{player_id}')
+            path2player_data_dst = os.path.join(matches_processed_folder, match, f'player_{player_id}')
+
+            if not os.path.exists(path2player_data_dst):
+                os.makedirs(path2player_data_dst)
+
+            if os.path.exists(os.path.join(path2player_data_src, 'player_report.json')):
+                shutil.copy(os.path.join(path2player_data_src, 'player_report.json'),
+                            os.path.join(path2player_data_dst, 'player_report.json'))
 
             # data_source = 'gsr'  # TODO: comment
             # data_source = 'emg'  # TODO: comment
@@ -162,7 +216,9 @@ if __name__ == '__main__':
                 path2save = os.path.join(matches_processed_folder, match, f'player_{player_id}', f'{data_source}.csv')
 
                 if not os.path.exists(path2data_source):
-                    print(f'{path2data_source} doesn\'t exist')
+                    if data_source != 'environment':
+                        print(f'{path2data_source} doesn\'t exist')
+
                     continue
 
                 df4data_source = pd.read_csv(path2data_source, index_col='time')
@@ -176,7 +232,6 @@ if __name__ == '__main__':
                     resample_smooth_save_df(df4data_source, path2save, args.resampling_string, args.halflife)
 
                 if data_source == 'emg':
-
                     reference_levels = df4data_source.median()  # TODO: we use data from the future a little bit
                     df4data_source = df4data_source - reference_levels
                     df4data_source = df4data_source.abs()
@@ -189,15 +244,6 @@ if __name__ == '__main__':
                     resample_smooth_save_df(df4data_source, path2save, args.resampling_string, args.halflife)
 
                 if data_source == 'heart_rate':
-                    # median_heart_rate = df4data_source['heart_rate'].median()
-                    # match_start_time = pd.Timedelta(seconds=0)
-                    # match_end_time = pd.Timedelta(seconds=match_duration - 1, milliseconds=999)
-                    #
-                    # if match_start_time not in df4data_source.index:
-                    #     df4data_source.loc[match_start_time, 'heart_rate'] = median_heart_rate
-                    # if match_end_time not in df4data_source.index:
-                    #     df4data_source.loc[match_end_time, 'heart_rate'] = median_heart_rate
-
                     if args.plot:
                         halflives = [0, 1, 5, 30]
                         plot_smoothed_values(df4data_source, halflives)
@@ -222,8 +268,6 @@ if __name__ == '__main__':
                     resample_smooth_save_df(df4data_source, path2save, args.resampling_string, args.halflife)
 
                 if data_source == 'imu_head':
-
-
                     df_quat = df4data_source[['q0', 'q1', 'q2', 'q3']].diff()
                     mask = df_quat.sum(axis=1) != 0
                     df_quat = df_quat.loc[mask, :]
@@ -243,9 +287,9 @@ if __name__ == '__main__':
                     df_key_pressed = extract_press_events(df4data_source)
 
                     print(match, player_id)
-                    df_key_pressed.loc[pd.Timedelta(seconds=0), 'button_pressed'] = 0
+                    df_key_pressed.loc[pd.Timedelta(seconds=0), 'buttons_pressed'] = 0
                     # df_key_pressed.loc[pd.Timedelta(seconds=match_duration - 1, milliseconds=999), 'button_pressed'] = 0
-                    df_key_pressed.loc[pd.Timedelta(seconds=match_duration), 'button_pressed'] = 0
+                    df_key_pressed.loc[pd.Timedelta(seconds=match_duration), 'buttons_pressed'] = 0
                     df_key_pressed.index = df_key_pressed.index.floor(args.preresampling_string)
                     df_key_pressed = df_key_pressed.resample(args.preresampling_string).sum()
 
@@ -262,19 +306,19 @@ if __name__ == '__main__':
                     df4data_source['mouse_movement'] = (df4data_source['dx'] ** 2 + df4data_source['dy'] ** 2) ** 0.5
 
                     mask_pressed = df4data_source['event'].isin(['mp'])
-                    df4data_source['mouse_pressed'] = 0
-                    df4data_source.loc[mask_pressed, 'mouse_pressed'] = 1
+                    df4data_source['mouse_clicks'] = 0
+                    df4data_source.loc[mask_pressed, 'mouse_clicks'] = 1
 
                     mask_scroll = df4data_source['event'].isin(['ms'])
                     df4data_source['mouse_scroll'] = 0
                     df4data_source.loc[mask_scroll, 'mouse_scroll'] = 1  # I'm currently ommiting this feature
 
-                    df4data_source = df4data_source[['mouse_movement', 'mouse_pressed']]
+                    df4data_source = df4data_source[['mouse_movement', 'mouse_clicks']]
                     # TODO: I might be dropping important information here (when 2 events occur at the same time but in different rows)
                     df4data_source = df4data_source.reset_index().drop_duplicates(['time']).set_index(['time'])  # Dropping index duplicates
-                    df4data_source.loc[pd.Timedelta(seconds=0), ['mouse_movement', 'mouse_pressed']] = (0, 0)
-                    # df4data_source.loc[pd.Timedelta(seconds=match_duration - 1, milliseconds=999), ['mouse_movement', 'mouse_pressed']] = 0
-                    df4data_source.loc[pd.Timedelta(seconds=match_duration - 1), ['mouse_movement', 'mouse_pressed']] = 0
+                    df4data_source.loc[pd.Timedelta(seconds=0), ['mouse_movement', 'mouse_clicks']] = (0, 0)
+                    # df4data_source.loc[pd.Timedelta(seconds=match_duration - 1, milliseconds=999), ['mouse_movement', 'mouse_clicks']] = 0
+                    df4data_source.loc[pd.Timedelta(seconds=match_duration - 1), ['mouse_movement', 'mouse_clicks']] = 0
                     df4data_source.index = df4data_source.index.floor(args.preresampling_string)
                     df4data_source = df4data_source.resample(args.preresampling_string).sum()
 
@@ -310,24 +354,16 @@ if __name__ == '__main__':
                     raise ValueError(f'data_source cannot be equal to {data_source}')
 
                 if data_source == 'eeg_band_power':
-                    # df4data_source
                     values_min, values_max = np.percentile(df4data_source, [5, 95], axis=0)
                     df4data_source = df4data_source.clip(values_min, values_max, axis=1)
                     plt.close()
-                    # df4data_source.plot()
 
                     resample_smooth_save_df(df4data_source, path2save, args.resampling_string, args.halflife,
                                             resampling_method='mean')
 
                 if data_source == 'eeg_metrics':
-                    # df4data_source
                     df4data_source = df4data_source[['Engagement', 'Excitement',# 'Long term excitement',
                                                      'Stress', 'Relaxation', 'Interest', 'Focus']]
-
-                    # values_min, values_max = np.percentile(df4data_source, [5, 95], axis=0)
-                    # df4data_source = df4data_source.clip(values_min, values_max, axis=1)
-                    # plt.close()
-                    # df4data_source.plot()
 
                     resample_smooth_save_df(df4data_source, path2save, args.resampling_string, args.halflife,
                                             resampling_method='mean')
@@ -335,35 +371,14 @@ if __name__ == '__main__':
                 if data_source == 'face_temperature':
                     df4data_source['thermal_data'] = df4data_source['thermal_data'].apply(lambda x: json.loads(x))
                     df4data_source['thermal_data'] = df4data_source['thermal_data'].apply(lambda x: np.percentile(x, 95))
-                    # df4data_source['thermal_data_95'] = df4data_source['thermal_data'].apply(lambda x: np.percentile(x, 95))
-                    # df4data_source['thermal_data_90'] = df4data_source['thermal_data'].apply(lambda x: np.percentile(x, 90))
-                    # df4data_source['thermal_data_85'] = df4data_source['thermal_data'].apply(lambda x: np.percentile(x, 85))
-                    # df4data_source['thermal_data_100'] = df4data_source['thermal_data'].apply(lambda x: np.percentile(x, 100))
-
-                    # df4data_source[['thermal_data_100', 'thermal_data_95', 'thermal_data_90', 'thermal_data_85']].plot()
-
-                    # plt.imshow(np.array(df4data_source.iloc[0, 0]).reshape(64, 48))
-
-                    # tmp = np.array(df4data_source.iloc[0, 0])
-                    # np.percentile(tmp, [0, 25, 50, 75, 90, 95, 97, 100])
+                    path2save = os.path.join(os.path.dirname(path2save), 'facial_skin_temperature.csv')
+                    df4data_source.rename(columns={'thermal_data': 'facial_skin_temperature'}, inplace=True)
 
                     resample_smooth_save_df(df4data_source, path2save, args.resampling_string, args.halflife, resampling_method='mean')
 
+                if data_source == 'particle_sensor':
+                    df_spo2 = get_spo2_df(df4data_source)
+                    path2save = os.path.join(os.path.dirname(path2save), 'spo2.csv')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    resample_smooth_save_df(df_spo2, path2save, args.resampling_string, args.halflife)
 

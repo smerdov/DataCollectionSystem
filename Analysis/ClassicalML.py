@@ -15,7 +15,7 @@ import torch.nn as nn
 import torch
 from torch.optim import Adam, SGD
 from RNN import evaluate, get_data_loaders
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, Lasso
 from sklearn.metrics import log_loss, roc_auc_score, accuracy_score
 from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
@@ -70,11 +70,12 @@ if __name__ == '__main__':
 
     alg_dict = {
         'lr': LogisticRegression(),
-        'svm': SVC(probability=True),
+        # 'lasso': Lasso(),
+        # 'svm': SVC(probability=True),
         'knn_96': KNeighborsClassifier(n_neighbors=96),
         # 'knn_64': KNeighborsClassifier(n_neighbors=64),
         # 'rf_16': RandomForestClassifier(n_estimators=16),
-        'rf_24': RandomForestClassifier(n_estimators=32, max_depth=5),
+        # 'rf_24': RandomForestClassifier(n_estimators=32, max_depth=5),
     }
 
     # # Comment from here
@@ -91,6 +92,11 @@ if __name__ == '__main__':
     # for alg in alg_list:
     for alg_name, alg in alg_dict.items():
         alg.fit(prepared_data['train']['data'], prepared_data['train']['target'])
+
+        if alg_name == 'lr':
+            lr_weights = alg.coef_
+            joblib.dump(lr_weights, data_folder + 'lr_coef_new_2')
+
         # alg_name = alg.__class__.__name__  # Comment
 
         alg_score = evaluate(data_loaders_dict, alg, scorers_dict, args, datasets)
