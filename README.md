@@ -5,7 +5,7 @@ The code collects data from the following sensors:
 1. Electromyography sensor (EMG) _Grove EMG Sensor v1.1_ (captures muscle activity).
 1. Galvanic skin response sensor (GSR) _Grove GSR Sensor v1.2_ (captures stress level).
 1. Inertial measurement unit (IMU) _Bosch BNO055_ (captures movements).
-1. Environmental atmosphere sensor _Bosch BME280_ (captures temperature, humidity, etc).
+1. Environmental atmosphere sensor _Bosch BME280_ (captures temperature, humidity, etc.).
 1. CO2 sensor _MH-Z19B_.
 1. Eye tracker Tobii 4C (captures eye movements, pupil diameter).
 1. Electroencephalography (EEG) headset _Emotiv Insight_ (captures brain activity).
