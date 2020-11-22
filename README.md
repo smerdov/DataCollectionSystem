@@ -14,6 +14,22 @@ The code collects data from the following sensors:
 1. Pulse-oximeter sensor _Maxim MAX30102_ (captures oxygen saturation level).
 1. Keyboard and mouse activity.
 
+
+The code organized into directories as follows:
+
+
+* `FLIROneSDKBundle` &mdash; Android app for data collection from infrared camera.
+* `ArduinoCode` &mdash; C/C++ libraries for data collection from Arduino board (16 devices recorded simultaneously).
+* `PolarDataCollection` &mdash; code for data collection from Polar OH 1 heart rate monitors.
+* `InputLogger` &mdash; code for data collection from mouse/keyboard.
+* `EEG` &mdash; code for async data collection from EEG headsets with Bluetooth and Emotiv API. 
+* `Server` &mdash; GUI program for server for data collection.
+* `Analysis` &mdash; scripts for analysis of experimental results.
+* `ExperimentalProtocol` &mdash; a protocol describing data collection process.
+* `Misc` &mdash; auxiliary ad-hoc code.
+
+
+
 The dataset collected using this code is described in [this paper](https://arxiv.org/abs/2011.00958).
 If you find the code or the paper interesting, please feel free to cite it as:
 
